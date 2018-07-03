@@ -4,7 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { ListCameraPage } from '../pages/list-camera/list-camera'
 import { ListPage } from '../pages/list/list';
+
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,15 +19,17 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Inicio', component: HomePage },
+      { title: 'Camaras', component: ListCameraPage },
+      { title: 'Configuracion', component: ListPage }
     ];
 
+    this.initTranslate();
   }
 
   initializeApp() {
@@ -34,6 +39,18 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  initTranslate() {
+    // Set the default language for translation strings, and the current language.
+    this.translate.setDefaultLang('es');
+    const browserLang = this.translate.getBrowserLang();
+
+    if (browserLang) {
+      this.translate.use(this.translate.getBrowserLang());
+    } else {
+      this.translate.use('es');
+    }
   }
 
   openPage(page) {

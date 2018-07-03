@@ -1,0 +1,35 @@
+{
+  "HOME_TITLE": "SIVA",
+
+  "BACK_BUTTON_TEXT": "Atras",
+  "NEXT_BUTTON_TEXT": "Siguiente",
+  "CANCEL_BUTTON_TEXT": "Cancelar",
+  "DONE_BUTTON_TEXT": "Aceptar",
+  "ADD_BUTTON_TEXT": "Añadir",
+  
+  "NAME": "Nombre",
+  "IP": "IP",
+  "PORT": "Puerto",
+  "USER": "Usuario",
+  "PASSWORD": "Contraseña",
+
+  "NAME_PLACEHOLDER": "Camara 1",
+  "IP_PLACEHOLDER": "192.168.1.108",
+  "PORT_PLACEHOLDER": "554",
+  "USER_PLACEHOLDER": "user",
+  "PASSWORD_PLACEHOLDER": "password",
+
+  "TAB1_TITLE": "Items",
+  "TAB2_TITLE": "Buscar",
+  "TAB3_TITLE": "Ajustes",
+
+  "SETTINGS_TITLE": "Ajustes",
+  "SETTINGS_OPTION1": "Opción 1",
+  "SETTINGS_OPTION2": "Opción 2",
+  "SETTINGS_OPTION3": "Opción 3",
+  "SETTINGS_OPTION4": "Opción 4",
+
+  "LIST_CAMERA_TITLE": "Camaras registradas",
+
+  "CAMERA_ADD_TITLE": "Agregar camara"
+}

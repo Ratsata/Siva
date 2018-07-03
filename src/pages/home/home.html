@@ -3,16 +3,135 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title style="color: white">{{ 'HOME_TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content id="main">
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <!-- <canvas id="video-canvas"></canvas>
+    <script>
+      console.log("123");
+      $(document).ready(function () {
+        var canvas = document.getElementById('video-canvas');
+		    var url = 'ws://192.168.137.100:8083/';
+        var player = new JSMpeg.Player(url, {canvas: canvas});
+        console.log("123");
+      });
+    </script> -->
+  <!-- <video controls="controls" src="http://192.168.1.28:8080/hls/stream.m3u8" width="300" height="140" name="Video Name" ></video> -->
+  <!-- <canvas id="video-canvas"></canvas>
+	<script type="text/javascript" src="assets/jsmpeg.min.js"></script>
+	<script type="text/javascript">
+		var canvas = document.getElementById('video-canvas');
+		var url = 'ws://192.168.137.112:8083/';
+		var player = new JSMpeg.Player(url, {canvas: canvas});
+	</script> -->
+
+  <ion-grid style="padding: 5px">
+    <ion-row>
+      <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
+        <div class="camara">
+          <!-- <div id="myMediaDiv1">Cargando contenido...</div> -->
+          <button ion-button color="light" clear icon-only (click)="addCamera();">
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          </button>
+        </div>
+      </ion-col>
+      <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=2)?'invisib':'visib',(selected!=2)?'noselected':'selected']" (click)="camSelect(2);" (dblclick)="camResize(2)">
+        <div class="camara">
+          <!-- <div id="myMediaDiv2">Cargando contenido...</div> -->
+          <!-- <button ion-button color="light" clear icon-only>
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          </button> -->
+          2
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=3)?'invisib':'visib',(selected!=3)?'noselected':'selected']" (click)="camSelect(3);" (dblclick)="camResize(3)">
+        <div class="camara">
+          <!-- <div id="myMediaDiv3">Cargando contenido...</div> -->
+          <!-- <button ion-button color="light" clear icon-only>
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          </button> -->
+          3
+        </div>
+      </ion-col>
+      <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=4)?'invisib':'visib',(selected!=4)?'noselected':'selected']" (click)="camSelect(4);" (dblclick)="camResize(4)">
+        <div class="camara">
+          <!-- <div id="myMediaDiv4">Cargando contenido...</div> -->
+          <!-- <button ion-button color="light" clear icon-only>
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          </button> -->
+          4
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <div (click)="someAction();">
+    <video width="300" height="140" controls>
+      <source controls src="http://192.168.1.28:8080/hls/stream.m3u8"/> 
+    </video>
+  </div> -->
+  <!-- justify-content-center  -->
+  <ion-grid>
+    <ion-row>
+      <ion-col [class.invisib]="columnaCamera=='col12'" align-self-start>
+        <p padding-left>
+          <b>Conexiones: 4<br></b>
+          <b>En linea: 2<br></b>
+        </p>
+      </ion-col>
+      <ion-col>&nbsp;</ion-col>
+      <ion-col>
+        <div [class.invisib]="columnaCamera=='col6'" id="joystick" style="width:50%">
+          <svg width="180%" height="50%" viewBox="0 0 100 100">
+              <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:rgb(240,240,240);stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:rgb(240,240,240);stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:rgb(168,168,168);stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:rgb(239,239,239);stop-opacity:1" />
+                  </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="50" fill="url(#grad1)" />
+              <circle cx="50" cy="50" r="47" fill="url(#grad2)" stroke="black" stroke-width="1.5px" />
+              <circle cx="50" cy="50" r="44" fill="url(#grad3)" />
+              <circle cx="50" cy="50" r="20" fill="#cccccc" stroke="black" stroke-width="1px" />
+              <line x1="30" y1="50" x2="70" y2="50" stroke="black" />
+
+              <svg viewBox="0 0 60 60">
+                  <a (press)="pressZoom();" (touchend)="dontpress();">
+                    <text x="50%" y="48%" text-anchor="middle" stroke="#0000">+</text>
+                  </a>
+                  <a (press)="pressWide();" (touchend)="dontpress();">
+                    <text x="50%" y="68%" text-anchor="middle" stroke="#0000">-</text>
+                  </a>
+              </svg>
+              <a id="buttonUp"    (press)="pressUp();" (touchend)="dontpress();">   <path d="M50,7 60,25 40,25Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonDown"  (press)="pressDown();" (touchend)="dontpress();"> <path d="M50,93 60,75 40,75Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonLeft"  (press)="pressLeft();" (touchend)="dontpress();"> <path d="M7,50 25,60 25,40Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonRight" (press)="pressRight();" (touchend)="dontpress();"><path d="M93,50 75,60 75,40Z" fill="rgba(0,0,0,0.8)" /></a>
+          </svg>
+      </div>
+</ion-col>
+</ion-row>
+</ion-grid>
+
+  
+
+  <ion-grid>
+    <ion-row justify-content-center align-items-center>
+      <!-- <button class="red-button" (press)="someAction()" (touchend)="someAction2()" ion-button round color="red">Enviar audio</button> -->
+      <button class="red-button" (click)="someAction()" ion-button round color="red">Enviar audio</button>
+    </ion-row>
+  </ion-grid>
 </ion-content>

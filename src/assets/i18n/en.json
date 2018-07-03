@@ -1,0 +1,21 @@
+{
+  "BACK_BUTTON_TEXT": "Back",
+  "NEXT_BUTTON_TEXT": "Next",
+
+  "NAME": "Name",
+  "IP": "IP",
+
+  "TAB1_TITLE": "Items",
+  "TAB2_TITLE": "Search",
+  "TAB3_TITLE": "Settings",
+
+  "SETTINGS_TITLE": "Settings",
+  "SETTINGS_OPTION1": "Option 1",
+  "SETTINGS_OPTION2": "Option 2",
+  "SETTINGS_OPTION3": "Option 3",
+  "SETTINGS_OPTION4": "Option 4",
+
+  "LIST_MASTER_TITLE": "Items",
+
+  "CAMERA_ADD_TITLE": "Add Camera"
+}

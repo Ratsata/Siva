@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'LIST_CAMERA_TITLE' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="addCamera();" strong>
+        <span color="primary" showWhen="ios">
+          {{ 'ADD_BUTTON_TEXT' | translate }}
+        </span>
+        <ion-icon style="font-size: 40px" name="md-add" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h2>Lista de camaras</h2>
+  <ion-list>
+    <!-- <ion-item-sliding *ngFor="let expense of expenses; let i=index"> -->
+    <ion-item-sliding>
+      <ion-item nopadding>
+        <ion-icon name="videocam" item-start></ion-icon>
+        <h2>Camera 1</h2>
+        <p item-end>IP: 192.168.1.1</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="editData(expense.rowid)">
+          <ion-icon name="paper"></ion-icon>
+        </button>
+        <button ion-button color="danger" (click)="deleteData(expense.rowid)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item nopadding>
+        <ion-icon name="videocam" item-start></ion-icon>
+        <h2>Camera 2</h2>
+        <p item-end>IP: 192.168.1.2</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="editData(expense.rowid)">
+          <ion-icon name="paper"></ion-icon>
+        </button>
+        <button ion-button color="danger" (click)="deleteData(expense.rowid)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item nopadding>
+        <ion-icon name="videocam" item-start></ion-icon>
+        <h2>Camera 3</h2>
+        <p item-end>IP: 192.168.1.3</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="editData(expense.rowid)">
+          <ion-icon name="paper"></ion-icon>
+        </button>
+        <button ion-button color="danger" (click)="deleteData(expense.rowid)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+    <!-- </ion-item-sliding> -->
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let expense of camara; let i=index">
+      <ion-item nopadding>
+        <p>
+          <span>{{expense.id_camara}}</span><br>
+          Type: {{expense.ds_nombre}}<br>
+          {{expense.ds_ip}}
+        </p>
+        <h3 item-end>
+          Amount: ${{expense.ds_imagen}}
+        </h3>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="editData(expense.id_camara)">
+          <ion-icon name="paper"></ion-icon>
+        </button>
+        <button ion-button color="danger" (click)="deleteData(expense.id_camara)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

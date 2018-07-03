@@ -14,3 +14,44 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+#main{
+    background-color: #333;
+    color: rgb(216, 216, 216);
+}
+
+.toolbar-background {
+    background-color: rgb(37, 37, 37);
+}
+
+.toolbar-title.toolbar-title-md{
+    color: white;
+}
+
+.red-button{
+    background-color: #a7253f;
+    display: block;
+    vertical-align: middle;
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 4px #999;
+    border-radius: 50%;
+}
+
+.red-button:active {
+    background-color: #7d1c2f;
+    box-shadow: 0 3px #666;
+    transform: translateY(4px);
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 1s;
+}
+
+@keyframes example {
+    from {background-color: #a7253f;}
+    to {background-color: #7d1c2f;}
+}
+
+ion-icon{
+    font-size: 40px;
+}

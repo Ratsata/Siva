@@ -31,5 +31,6 @@
 
   "LIST_CAMERA_TITLE": "Camaras registradas",
 
-  "CAMERA_ADD_TITLE": "Agregar camara"
+  "CAMERA_ADD_TITLE": "Agregar camara",
+  "CAMERA_UPDATE_TITLE": "Modificar camara"
 }

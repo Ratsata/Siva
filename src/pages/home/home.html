@@ -27,8 +27,8 @@
 		var canvas = document.getElementById('video-canvas');
 		var url = 'ws://192.168.137.112:8083/';
 		var player = new JSMpeg.Player(url, {canvas: canvas});
-	</script> -->
-
+  </script> -->
+  {{DataService.data}}q
   <ion-grid style="padding: 5px">
     <ion-row>
       <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">

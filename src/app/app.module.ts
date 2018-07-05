@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
+import { DataServiceProvider } from '../providers/data-service/data-service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
-    Toast
+    Toast,
+    DataServiceProvider
   ]
 })
 export class AppModule {}

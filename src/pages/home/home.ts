@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController,
 		ToastController,
-		ModalController } from 'ionic-angular';
+		ModalController,
+		AlertController } from 'ionic-angular';
 //import { Http, Jsonp } from '@angular/http';
 import { MediaPlayerService } from '../services/MediaPlayerService';
-		
+import { DataServiceProvider } from '../../providers/data-service/data-service';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [MediaPlayerService]
+  providers: [MediaPlayerService, DataServiceProvider]
 })
 
 export class HomePage {
@@ -21,13 +23,40 @@ export class HomePage {
 	private columnaCamera : string  = 'col6';
 	private visible : number = 1;
 	private selected : number = 1;
+	camara: any;
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController) {
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider) {
+		this.camara = this.DataService.getData();
 	}
 
 	addCamera() {
-		const modal = this.modalCtrl.create('NewCameraPage');
-		modal.present();
+		console.log("Data:"+JSON.stringify(this.camara));
+		//const modal = this.modalCtrl.create('SelectCameraPage');
+		//modal.present();
+		let alert = this.alertCtrl.create();
+		alert.setTitle('Seleccione una camara');
+
+		alert.addInput({
+			type: 'radio',
+			label: 'Camara 1',
+			value: '1',
+			checked: true
+		});
+		alert.addInput({
+			type: 'radio',
+			label: 'Camara 2',
+			value: '2',
+			checked: false
+		});
+		
+		alert.addButton('Cancelar');
+		alert.addButton({
+		text: 'Aceptar',
+		handler: data => {
+			console.log(data);
+		}
+		});
+		alert.present();
 	}
 
 	pressUp(){}

@@ -28,9 +28,16 @@
 		var url = 'ws://192.168.137.112:8083/';
 		var player = new JSMpeg.Player(url, {canvas: canvas});
   </script> -->
-  {{DataService.data}}q
+    
   <ion-grid style="padding: 5px">
     <ion-row>
+      <ion-col [ngClass]="[columnaCamera,noselected]">
+        <div class="camara">
+          <button ion-button color="light" clear icon-only (click)="addCamera();">
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          </button>
+        </div>
+      </ion-col>
       <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
         <div class="camara">
           <!-- <div id="myMediaDiv1">Cargando contenido...</div> -->

@@ -23,40 +23,57 @@ export class HomePage {
 	private columnaCamera : string  = 'col6';
 	private visible : number = 1;
 	private selected : number = 1;
+	private videoActive1 : boolean = false;
+	private videoActive2 : boolean = false;
+	private videoActive3 : boolean = false;
+	private videoActive4 : boolean = false;
 	camara: any;
 
 	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider) {
-		this.camara = this.DataService.getData();
+		this.camara = [];
+		/* this.camara = this.DataService.camara;
+		this. */
 	}
 
-	addCamera() {
-		console.log("Data:"+JSON.stringify(this.camara));
-		//const modal = this.modalCtrl.create('SelectCameraPage');
-		//modal.present();
+	listData(data){
+		this.camara = data;
+
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
+		for (let x = 0; x < this.camara.length; x++) {
+			let check = (x==0)?true:false;
+			alert.addInput({
+				type: 'radio',
+				label: this.camara[x].ds_nombre,
+				value: this.camara[x].ds_ip,
+				checked: check
+			});
+		}
 
-		alert.addInput({
-			type: 'radio',
-			label: 'Camara 1',
-			value: '1',
-			checked: true
-		});
-		alert.addInput({
-			type: 'radio',
-			label: 'Camara 2',
-			value: '2',
-			checked: false
-		});
-		
 		alert.addButton('Cancelar');
 		alert.addButton({
 		text: 'Aceptar',
 		handler: data => {
-			console.log(data);
+			if (data){
+
+				this.mplayer.loadMedia({"url":data,
+				"Title":"Test","id":"myMediaDiv1"},true);
+			}
 		}
 		});
 		alert.present();
+	}
+
+	addCamera() {
+		this.DataService.select().then((data) => 
+			//this.camara = data
+			this.listData(data)
+		);
+
+		/* console.log("Data:"+(this.camara)); */
+		//const modal = this.modalCtrl.create('SelectCameraPage');
+		//modal.present();
+		
 	}
 
 	pressUp(){}

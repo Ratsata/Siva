@@ -12,6 +12,8 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { HTTP } from '@ionic-native/http';
 
+import {Md5} from 'ts-md5/dist/md5';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -111,37 +113,44 @@ export class HomePage {
 
 	someAction(){
 		let url = 'http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0';
-		let headers = new HttpHeaders();
-		console.log("GET");
-		/* this.http.get('https://api.github.com/users/seeschweiler').subscribe(data => {
-      		console.log(JSON.stringify(data));
-		}); */
-		this.httpadvance.get(url, {}, {})
-		.then(data => {
+		
+		this.httpadvance.get(url, {}, {}).then(data => {
 			console.log("success");
-			console.log(data.status);
-			console.log(data.data); // data received by server
-			console.log(data.headers);
-		})
-		.catch(error => {
-			let response = error.headers["www-authenticate"];
-			response += ', username="admin"';
-			console.log(response);
+		}).catch(error => {
+			//console.log(JSON.stringify(error));
+			let request = error.headers["www-authenticate"];
+			let data = request.split(",");
+			let nonce = data[2].slice(8,data[2].length-1);
+			//let nonce = "19016791";
+			let opaque = data[3].slice(9,data[3].length-1)
+			//let opaque = "a2a14c59272e8bf51644424b28a1ea6f1bbe774f";
+			let nc = 0o1;
+			let cnonce = "8RqcCQCC";
+			let qop = 'auth';
 
-			//'username="admin", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", nc=00000001, cnonce="FzXaxXzY", response="534233be13e1c1dd8e5f0661bfe884bb"
-			Digest realm="Login to 3K00CE2PAJ00081", qop="auth", nonce="322296991", opaque="a2a14c59272e8bf51644424b28a1ea6f1bbe774f"
-			/* let httpOptions = {
-				headers: new HttpHeaders().set('Authorization',response)
-			}; */
-			/* this.http.get(url, httpOptions).subscribe(data => {
-      			console.log(JSON.stringify(data));
-			}); */
-			/* console.log(JSON.stringify(error));
-			console.log(error.status);
-			console.log(error.error); */
-			
+			let HA1 = Md5.hashStr('admin:Login to 3K00CE2PAJ00081:cleanvoltage2018');
+			let HA2 = Md5.hashStr('GET:/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
+			let foo = HA1+':'+nonce+':00000001:'+cnonce+':'+qop+':'+HA2;
+			let response = Md5.hashStr(foo);
+			//let response = "9a17fe97983804050ca1b6ba0a405d28";
+			request = 'Digest username="admin", realm="Login to 3K00CE2PAJ00081", nonce="'+nonce+'", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", qop=auth, nc=00000001, cnonce="'+cnonce+'", response="'+response+'", opaque="'+opaque+'"';
+			//console.log(request);
+			let headers = new HttpHeaders();
+			let httpOptions = {
+				headers: new HttpHeaders().set('Authorization',request)
+			};
+			let head = {
+				'Authorization': request
+			};
+			//console.log(request);
+			this.httpadvance.get(url, {}, head).then(data => {
+				console.log(JSON.stringify(data));
+			}).catch(error => {
+				console.log("ERROR"+JSON.stringify(error));
+			//this.http.get(url, httpOptions).subscribe(data => {
+				  //console.log(JSON.stringify(data));
+			});
 		});
-		console.log("---");
 	}
 
 	/*someAction(){

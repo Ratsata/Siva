@@ -19,6 +19,8 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { DataServiceProvider } from '../providers/data-service/data-service';
 
+import {Md5} from 'ts-md5/dist/md5';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -56,7 +58,8 @@ export function createTranslateLoader(http: HttpClient) {
     SQLite,
     Toast,
     DataServiceProvider,
-    HTTP
+    HTTP,
+    Md5
   ]
 })
 export class AppModule {}

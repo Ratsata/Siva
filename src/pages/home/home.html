@@ -28,51 +28,45 @@
 		var url = 'ws://192.168.137.112:8083/';
 		var player = new JSMpeg.Player(url, {canvas: canvas});
   </script> -->
-    
+  <a href="http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0">Data</a>
   <ion-grid style="padding: 5px">
     <ion-row>
-      <ion-col [ngClass]="[columnaCamera,noselected]">
+      <!-- CUADRO 1 -->
+      <ion-col  [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
         <div class="camara">
-          <button ion-button color="light" clear icon-only (click)="addCamera();">
+          <button [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(1);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
+          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" id="myMediaDiv1">Cargando contenido...</div>
         </div>
       </ion-col>
-      <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
-        <div class="camara">
-          <!-- <div id="myMediaDiv1">Cargando contenido...</div> -->
-          <button ion-button color="light" clear icon-only (click)="addCamera();">
-            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
-          </button>
-        </div>
-      </ion-col>
+      <!-- CUADRO 2 -->
       <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=2)?'invisib':'visib',(selected!=2)?'noselected':'selected']" (click)="camSelect(2);" (dblclick)="camResize(2)">
         <div class="camara">
-          <!-- <div id="myMediaDiv2">Cargando contenido...</div> -->
-          <!-- <button ion-button color="light" clear icon-only>
+          <button [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
-          </button> -->
-          2
+          </button>
+          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
         </div>
       </ion-col>
     </ion-row>
     <ion-row>
+      <!-- CUADRO 3 -->
       <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=3)?'invisib':'visib',(selected!=3)?'noselected':'selected']" (click)="camSelect(3);" (dblclick)="camResize(3)">
         <div class="camara">
-          <!-- <div id="myMediaDiv3">Cargando contenido...</div> -->
-          <!-- <button ion-button color="light" clear icon-only>
+          <button [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
-          </button> -->
-          3
+          </button>
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
         </div>
       </ion-col>
+      <!-- CUADRO 4 -->
       <ion-col [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=4)?'invisib':'visib',(selected!=4)?'noselected':'selected']" (click)="camSelect(4);" (dblclick)="camResize(4)">
         <div class="camara">
-          <!-- <div id="myMediaDiv4">Cargando contenido...</div> -->
-          <!-- <button ion-button color="light" clear icon-only>
+          <button [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
-          </button> -->
-          4
+          </button>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
         </div>
       </ion-col>
     </ion-row>

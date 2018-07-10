@@ -6,6 +6,8 @@ import { NavController,
 //import { Http, Jsonp } from '@angular/http';
 import { MediaPlayerService } from '../services/MediaPlayerService';
 import { DataServiceProvider } from '../../providers/data-service/data-service';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'page-home',
@@ -29,13 +31,13 @@ export class HomePage {
 	private videoActive4 : boolean = false;
 	camara: any;
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider) {
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient) {
 		this.camara = [];
 		/* this.camara = this.DataService.camara;
 		this. */
 	}
 
-	listData(data){
+	listCameras(id,data){
 		this.camara = data;
 
 		let alert = this.alertCtrl.create();
@@ -45,35 +47,39 @@ export class HomePage {
 			alert.addInput({
 				type: 'radio',
 				label: this.camara[x].ds_nombre,
-				value: this.camara[x].ds_ip,
+				value: x.toString(),
 				checked: check
 			});
 		}
-
 		alert.addButton('Cancelar');
 		alert.addButton({
 		text: 'Aceptar',
 		handler: data => {
+			console.log(data);
 			if (data){
-
-				this.mplayer.loadMedia({"url":data,
-				"Title":"Test","id":"myMediaDiv1"},true);
+				if (id==0){
+					this.videoActive1 = true;
+					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+				}else if (id==1){
+					this.videoActive2 = true;
+					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+				}else if (id==2){
+					this.videoActive3 = true;
+					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+				}else if (id==3){
+					this.videoActive4 = true;
+					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+				}
 			}
 		}
 		});
 		alert.present();
 	}
 
-	addCamera() {
+	getCameras(id) {
 		this.DataService.select().then((data) => 
-			//this.camara = data
-			this.listData(data)
-		);
-
-		/* console.log("Data:"+(this.camara)); */
-		//const modal = this.modalCtrl.create('SelectCameraPage');
-		//modal.present();
-		
+			this.listCameras(id,data)
+		);		
 	}
 
 	pressUp(){}
@@ -86,17 +92,6 @@ export class HomePage {
 
 	ionViewDidLoad() {
 		let url = "htp://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8";
-		/* this.mplayer.loadMedia({"url":url,
-								"Title":"Test","id":"myMediaDiv1"},true);
-		this.mplayer.loadMedia({"url":url,
-								"Title":"Test","id":"myMediaDiv2"},true);
-		this.mplayer.loadMedia({"url":url,
-								"Title":"Test","id":"myMediaDiv3"},true);
-		this.mplayer.loadMedia({"url":url,
-								"Title":"Test","id":"myMediaDiv4"},true); */
-	}
-	someAction(){
-		console.log("dale");
 	}
 
 	camSelect(id=1){
@@ -109,6 +104,31 @@ export class HomePage {
 		this.columnaCamera = (this.columnaCamera == 'col6')?'col12':'col6';
 		this.visible = id;
 	}
+	
+
+	someAction(){
+		let url = 'http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0';
+		let headers = new HttpHeaders();
+		const httpOptions = {
+			headers: new HttpHeaders().set('Authorization','Digest username="admin", realm="Login to 3K00CE2PAJ00081", nonce="1742515337", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", qop=auth, nc=00000001, cnonce="FzXaxXzY", response="534233be13e1c1dd8e5f0661bfe884bb", opaque="a2a14c59272e8bf51644424b28a1ea6f1bbe774f"')
+		  };
+		console.log("GET");
+		/* this.http.get('https://api.github.com/users/seeschweiler').subscribe(data => {
+      		console.log(JSON.stringify(data));
+		}); */
+		let call = this.http.get(url, httpOptions).subscribe(data => {
+			  /* console.log(JSON.stringify(data));
+			  console.log(this); */
+			  console.log("success");
+		},
+		(error: any) => {
+			//console.log(error);
+			console.log(status, headers);
+		});
+		console.log("---");
+		console.log(call);
+	}
+
 	/*someAction(){
 		if(this.activeButton) return true;
 		if (this.timeStart == 0) this.timeStart = new Date().getTime();

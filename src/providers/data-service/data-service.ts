@@ -17,8 +17,31 @@ export class DataServiceProvider {
         .then((data) => {
           let retorno = [];
           for(var i =0; i< data.rows.length;i++){
-            //retorno += data.rows.item(i).ds_nombre;
-              retorno.push({id_camara:data.rows.item(i).id_camara,
+            retorno.push({id_camara:data.rows.item(i).id_camara,
+              ds_nombre:data.rows.item(i).ds_nombre,
+              ds_ip:data.rows.item(i).ds_ip,
+              ds_port:data.rows.item(i).ds_port,
+              ds_usuario:data.rows.item(i).ds_usuario,
+              ds_hash:data.rows.item(i).ds_hash,
+              ds_imagen:data.rows.item(i).ds_imagen,
+              st_estado:data.rows.item(i).st_estado
+            })
+          }
+          resolve(retorno);
+        })
+      });
+    });
+  }
+
+  saveState(id_cuadro, id_camara){
+    return new Promise((resolve, reject) => {
+      this.open().then((teste) => {
+        teste.executeSql('UPDATE SV_DASHBOARD SET id_cuadro = ?,id_camara = ?',
+        [id_cuadro,id_camara])
+        .then((data) => {
+          let retorno = [];
+          for(var i =0; i< data.rows.length;i++){
+            retorno.push({id_camara:data.rows.item(i).id_camara,
               ds_nombre:data.rows.item(i).ds_nombre,
               ds_ip:data.rows.item(i).ds_ip,
               ds_port:data.rows.item(i).ds_port,
@@ -36,31 +59,12 @@ export class DataServiceProvider {
 
   open(){
     return this.sqlite.create({name: 'ionicdb.db', location: 'default'});
+    /* return this.sqlite.create({name: 'ionicdb.db', location: 'default'}).then((db: SQLiteObject) => {
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_USUARIO(id_usuario INTEGER PRIMARY KEY, ds_nombre TEXT, ds_correo TEXT, ds_fono TEXT, ds_user, ds_hash, st_estado INT)', {});
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, ds_imagen TEXT, st_estado INT)', {});
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_USUARIO_CAMARA(id_usuario_camara INTEGER PRIMARY KEY, id_usuario INTEGER, id_camara INTEGER)', {});
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT, ds_cuadros INTEGER)', {});
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_DASHBOARD(id_cuadro INTEGER PRIMARY KEY, id_camara INTEGER PRIMARY KEY)', {});
+    }); */
   }
-
-  /* getData(id=1) {
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT * FROM SV_CAMARA WHERE id_camara = ? ', [id])
-      .then(res => {
-        this.camara = [];
-        for(var i=0; i<res.rows.length; i++) {
-          this.camara.push({id_camara:res.rows.item(i).id_camara,
-            ds_nombre:res.rows.item(i).ds_nombre,
-            ds_ip:res.rows.item(i).ds_ip,
-            ds_port:res.rows.item(i).ds_port,
-            ds_usuario:res.rows.item(i).ds_usuario,
-            ds_hash:res.rows.item(i).ds_hash,
-            ds_imagen:res.rows.item(i).ds_imagen,
-            st_estado:res.rows.item(i).st_estado
-          });
-          console.log(JSON.stringify(this.camara));
-        }
-      })
-      .catch(e => console.log("1x: "+JSON.stringify(e)));
-    }).catch(e => console.log("2x: "+JSON.stringify(e)));
-  } */
-
 }

@@ -22,6 +22,7 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/core": "4.7.0",
+    "@ionic-native/http": "^4.9.0",
     "@ionic-native/splash-screen": "4.7.0",
     "@ionic-native/sqlite": "^4.9.0",
     "@ionic-native/status-bar": "4.7.0",
@@ -32,8 +33,10 @@
     "arduino": "0.2.3",
     "cordova-android": "7.0.0",
     "cordova-ios": "4.5.4",
+    "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-audio-recorder-api": "0.0.6",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -62,7 +65,8 @@
       "cordova-plugin-x-toast": {},
       "cordova-sqlite-storage": {},
       "cordova-plugin-audio-recorder-api": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-advanced-http": {}
     },
     "platforms": [
       "android",

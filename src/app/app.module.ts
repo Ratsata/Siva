@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -54,7 +55,8 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     Toast,
-    DataServiceProvider
+    DataServiceProvider,
+    HTTP
   ]
 })
 export class AppModule {}

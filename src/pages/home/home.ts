@@ -6,8 +6,11 @@ import { NavController,
 //import { Http, Jsonp } from '@angular/http';
 import { MediaPlayerService } from '../services/MediaPlayerService';
 import { DataServiceProvider } from '../../providers/data-service/data-service';
+
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+
+import { HTTP } from '@ionic-native/http';
 
 @Component({
   selector: 'page-home',
@@ -31,7 +34,7 @@ export class HomePage {
 	private videoActive4 : boolean = false;
 	camara: any;
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient) {
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP) {
 		this.camara = [];
 		/* this.camara = this.DataService.camara;
 		this. */
@@ -109,24 +112,36 @@ export class HomePage {
 	someAction(){
 		let url = 'http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0';
 		let headers = new HttpHeaders();
-		const httpOptions = {
-			headers: new HttpHeaders().set('Authorization','Digest username="admin", realm="Login to 3K00CE2PAJ00081", nonce="1742515337", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", qop=auth, nc=00000001, cnonce="FzXaxXzY", response="534233be13e1c1dd8e5f0661bfe884bb", opaque="a2a14c59272e8bf51644424b28a1ea6f1bbe774f"')
-		  };
 		console.log("GET");
 		/* this.http.get('https://api.github.com/users/seeschweiler').subscribe(data => {
       		console.log(JSON.stringify(data));
 		}); */
-		let call = this.http.get(url, httpOptions).subscribe(data => {
-			  /* console.log(JSON.stringify(data));
-			  console.log(this); */
-			  console.log("success");
-		},
-		(error: any) => {
-			//console.log(error);
-			console.log(status, headers);
+		this.httpadvance.get(url, {}, {})
+		.then(data => {
+			console.log("success");
+			console.log(data.status);
+			console.log(data.data); // data received by server
+			console.log(data.headers);
+		})
+		.catch(error => {
+			let response = error.headers["www-authenticate"];
+			response += ', username="admin"';
+			console.log(response);
+
+			//'username="admin", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", nc=00000001, cnonce="FzXaxXzY", response="534233be13e1c1dd8e5f0661bfe884bb"
+			Digest realm="Login to 3K00CE2PAJ00081", qop="auth", nonce="322296991", opaque="a2a14c59272e8bf51644424b28a1ea6f1bbe774f"
+			/* let httpOptions = {
+				headers: new HttpHeaders().set('Authorization',response)
+			}; */
+			/* this.http.get(url, httpOptions).subscribe(data => {
+      			console.log(JSON.stringify(data));
+			}); */
+			/* console.log(JSON.stringify(error));
+			console.log(error.status);
+			console.log(error.error); */
+			
 		});
 		console.log("---");
-		console.log(call);
 	}
 
 	/*someAction(){

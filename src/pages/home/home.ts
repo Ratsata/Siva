@@ -53,7 +53,7 @@ export class HomePage {
 	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio) {
 		this.camara = [];
 		this.toolbarActive = 'mic';
-		this.nativeAudio.preloadSimple('uniqueId1', 'sound.wav').then(
+		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(
 			function (e){console.log(JSON.stringify(e))}, function (e){console.log(JSON.stringify(e))});
 		/* this.camara = this.DataService.camara;
 		this. */

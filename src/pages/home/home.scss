@@ -1,8 +1,62 @@
 page-home {
+    .socket {
+        width: 120px;
+        height: 120px;
+        border-radius: 100%;
+        border: 4px solid #f3f3f3;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        //display: block;
+    }
+    .socket .button {
+        width: 90%;
+        height: 90%;
+        background: red;
+        border-radius: 100%;
+        //position: absolute;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 6px;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        transition-timing-function: cubic-bezier(0.05, 0.58, 0.32, 1.35);
+        -webkit-transition-timing-function: cubic-bezier(0.05, 0.58, 0.32, 1.35);
+        cursor: pointer;
+    }
+    .socket .button.active {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        top: 30px;
+    }
+
+    .socket.active {
+        animation-name: pulse;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+    @keyframes pulse{
+	    0%{
+		    box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+	    }
+	    65%{
+            box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+        }
+        90%{
+            box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+        }
+    }
+    
+        
     div.camara{
         background-color: black;
         width: 100%;
-        height: 150px;
+        height: 100%;
         text-align: center;
         vertical-align: middle;
         line-height: 140px;
@@ -10,6 +64,7 @@ page-home {
 
     .col6 {
         width: 50%;
+        height: 150;
         padding: 0px;
         margin: 1px;
         border: 1px;
@@ -27,6 +82,7 @@ page-home {
 
     .col12 {
         width: 100%;
+        height: 300px;
         padding: 0px;
         border: 1px;
         border-color: gray;
@@ -53,6 +109,33 @@ page-home {
 
     .class3{
         background-color: yellow;
+    }
+
+
+    .rec{
+        animation-name: pulse;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+    
+    @keyframes pulse{
+        0%{
+            box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+        }
+        65%{
+            box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+        }
+        90%{
+            box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+        }
+    }
+
+    .toolbar{
+        background-color: rgba(0, 0, 0, 0.205);
+    }
+    .toolbar.active{
+        background-color: rgba(0, 0, 0, 0.397);
     }
 }
 

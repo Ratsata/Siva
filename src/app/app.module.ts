@@ -15,11 +15,16 @@ import { HTTP } from '@ionic-native/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import {Md5} from 'ts-md5/dist/md5';
 import { SQLite } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { DataServiceProvider } from '../providers/data-service/data-service';
 
-import {Md5} from 'ts-md5/dist/md5';
+import { Media } from '@ionic-native/media';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+
+import { NativeAudio } from '@ionic-native/native-audio';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -59,7 +64,11 @@ export function createTranslateLoader(http: HttpClient) {
     Toast,
     DataServiceProvider,
     HTTP,
-    Md5
+    Md5,
+    Media,
+    File,
+    Transfer,
+    NativeAudio
   ]
 })
 export class AppModule {}

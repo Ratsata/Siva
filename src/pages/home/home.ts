@@ -14,6 +14,12 @@ import { HTTP } from '@ionic-native/http';
 
 import {Md5} from 'ts-md5/dist/md5';
 
+import { Media, MediaObject } from '@ionic-native/media';
+import { File } from '@ionic-native/file';
+import { Transfer, TransferObject } from '@ionic-native/transfer';
+
+import { NativeAudio } from '@ionic-native/native-audio';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -34,20 +40,32 @@ export class HomePage {
 	private videoActive2 : boolean = false;
 	private videoActive3 : boolean = false;
 	private videoActive4 : boolean = false;
+	private buttonActive : boolean = false;
+	private toolbarActive : string;
 	camara: any;
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP) {
+	recording: boolean = false;
+	filePath: string;
+	fileName: string;
+	audio: MediaObject;
+	audioList: any[] = [];
+
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio) {
 		this.camara = [];
+		this.toolbarActive = 'mic';
+		this.nativeAudio.preloadSimple('uniqueId1', 'sound.wav').then(
+			function (e){console.log(JSON.stringify(e))}, function (e){console.log(JSON.stringify(e))});
 		/* this.camara = this.DataService.camara;
 		this. */
 	}
 
-	listCameras(id,data){
-		this.camara = data;
-
+	listCameras(id,json){
+		console.log("ID:"+id);
+		this.camara = json;
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
 		for (let x = 0; x < this.camara.length; x++) {
+			console.log("x:"+x);
 			let check = (x==0)?true:false;
 			alert.addInput({
 				type: 'radio',
@@ -60,18 +78,17 @@ export class HomePage {
 		alert.addButton({
 		text: 'Aceptar',
 		handler: data => {
-			console.log(data);
 			if (data){
-				if (id==0){
+				if (id==1){
 					this.videoActive1 = true;
 					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
-				}else if (id==1){
+				}else if (id==2){
 					this.videoActive2 = true;
 					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
-				}else if (id==2){
+				}else if (id==3){
 					this.videoActive3 = true;
 					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
-				}else if (id==3){
+				}else if (id==4){
 					this.videoActive4 = true;
 					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
 				}
@@ -82,18 +99,49 @@ export class HomePage {
 	}
 
 	getCameras(id) {
+		console.log("getcameras:"+id);
 		this.DataService.select().then((data) => 
 			this.listCameras(id,data)
 		);		
 	}
 
-	pressUp(){}
-	pressDown(){}
-	pressLeft(){}
-	pressRight(){}
-	pressZoom(){console.log("1");}
-	pressWide(){console.log("3");}
-	dontpress(){console.log("2");}
+	pressUp(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
+	}
+	pressDown(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
+	}
+	pressLeft(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
+	}
+	pressRight(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
+	}
+
+	clickUp(){
+		console.log("click");
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
+	}
+	clickDown(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
+	}
+	clickLeft(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+	}
+	clickRight(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=1000&arg3=0');
+	}
+
+	pressZoom(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
+	}
+	pressWide(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
+	}
+
+	dontpress(){
+		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
+	}
 
 	ionViewDidLoad() {
 		let url = "htp://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8";
@@ -106,51 +154,89 @@ export class HomePage {
 	}
 
 	camResize(id=1){
+		console.log("ID. :"+id);
 		this.columnaCamera = (this.columnaCamera == 'col6')?'col12':'col6';
 		this.visible = id;
 	}
 	
+	ionViewWillEnter() {
+		/* this.getAudioList(); */
+	}
 
-	someAction(){
-		let url = 'http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0';
+	getAudioList() {
+		if(localStorage.getItem("audiolist")) {
+			this.audioList = JSON.parse(localStorage.getItem("audiolist"));
+			console.log(JSON.stringify(this.audioList));
+		}
+	}
+
+	toggleClass (){
+		this.nativeAudio.play('uniqueId1', () => console.log('uniqueId1 is done playing'));
+		this.buttonActive = !this.buttonActive;
+		console.log(this.buttonActive);
+	}
+	
+	startRecord() {
+		this.toggleClass();
+		//this.fileName = 'record'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()+'.mp3';
+		this.fileName = 'voiceTemp.mp3';
+		this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
+		this.audio = this.media.create(this.filePath);
 		
-		this.httpadvance.get(url, {}, {}).then(data => {
-			console.log("success");
-		}).catch(error => {
-			//console.log(JSON.stringify(error));
-			let request = error.headers["www-authenticate"];
-			let data = request.split(",");
-			let nonce = data[2].slice(8,data[2].length-1);
-			//let nonce = "19016791";
-			let opaque = data[3].slice(9,data[3].length-1)
-			//let opaque = "a2a14c59272e8bf51644424b28a1ea6f1bbe774f";
-			let nc = 0o1;
-			let cnonce = "8RqcCQCC";
-			let qop = 'auth';
+		this.audio.startRecord();
+		this.recording = true;
+		console.log("startRecording");
+	}
 
-			let HA1 = Md5.hashStr('admin:Login to 3K00CE2PAJ00081:cleanvoltage2018');
-			let HA2 = Md5.hashStr('GET:/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
-			let foo = HA1+':'+nonce+':00000001:'+cnonce+':'+qop+':'+HA2;
-			let response = Md5.hashStr(foo);
-			//let response = "9a17fe97983804050ca1b6ba0a405d28";
-			request = 'Digest username="admin", realm="Login to 3K00CE2PAJ00081", nonce="'+nonce+'", uri="/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0", algorithm="MD5", qop=auth, nc=00000001, cnonce="'+cnonce+'", response="'+response+'", opaque="'+opaque+'"';
-			//console.log(request);
-			let headers = new HttpHeaders();
-			let httpOptions = {
-				headers: new HttpHeaders().set('Authorization',request)
-			};
-			let head = {
-				'Authorization': request
-			};
-			//console.log(request);
-			this.httpadvance.get(url, {}, head).then(data => {
-				console.log(JSON.stringify(data));
-			}).catch(error => {
-				console.log("ERROR"+JSON.stringify(error));
-			//this.http.get(url, httpOptions).subscribe(data => {
-				  //console.log(JSON.stringify(data));
-			});
-		});
+	stopRecord() {
+		if (this.recording){
+		this.audio.stopRecord();
+		console.log("stopRecording");
+		/* let data = { filename: this.fileName };
+		this.audioList.push(data);
+		localStorage.setItem("audiolist", JSON.stringify(this.audioList)); */
+		this.recording = false;
+		//this.getAudioList();
+		this.sendRecord();
+		this.toggleClass();
+		}else{
+			this.startRecord();
+		}
+	}
+
+	sendRecord() {
+		let url = "http://192.168.1.26/upload/upload.php";
+		this.fileName = 'voiceTemp.mp3';
+		let targetPath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
+ 
+  		let options = {
+    		fileKey: "file",
+    		fileName: this.fileName,
+    		chunkedMode: false,
+    		mimeType: "multipart/form-data",
+    		params : {'fileName': this.fileName}
+  		};
+ 
+  		const fileTransfer: TransferObject = this.transfer.create();
+ 
+  		/* this.loading = this.loadingCtrl.create({
+    		content: 'Uploading...',
+  		});
+		this.loading.present(); */
+		  
+  		fileTransfer.upload(targetPath, url, options).then(data => {
+			console.log("SUCCESS:"+JSON.stringify(data));
+    		/* this.loading.dismissAll()
+    		this.presentToast('Image succesful uploaded.'); */
+  		}, err => {
+			console.log(JSON.stringify(err));
+    		/* this.loading.dismissAll()
+    		this.presentToast('Error while uploading file.'); */
+  		});
+	}
+
+	toolbar(data){
+		this.toolbarActive = data;
 	}
 
 	/*someAction(){
@@ -194,5 +280,36 @@ export class HomePage {
 		let bStr = Number(b < 0 || isNaN(b)) ? '0' : ((b > 255) ? 255 : b).toString(16); if (bStr.length == 1) bStr = '0' + bStr;
 		return "#" + rStr + gStr + bStr;
 	} */
+
+	callHTTP(ip,uri){
+		this.httpadvance.get(ip+uri, {}, {}).then(data => {
+			return true;
+		}).catch(error => {
+			try{
+				let request = error.headers["www-authenticate"].split(",");
+				let nonce = request[2].slice(8,request[2].length-1);
+				let opaque = request[3].slice(9,request[3].length-1);
+				const cnonce = "8RqcCQCC";
+				const cn = "00000001";
+				const qop = 'auth';
+
+				const HA1 = Md5.hashStr('admin:Login to 3K00CE2PAJ00081:cleanvoltage2018');
+				let HA2 = Md5.hashStr('GET:'+uri);
+				let response = Md5.hashStr(HA1+':'+nonce+':'+cn+':'+cnonce+':'+qop+':'+HA2);
+				
+				request = 'Digest username="admin", realm="Login to 3K00CE2PAJ00081", nonce="'+nonce+'", uri="'+uri+'", algorithm="MD5", qop=auth, nc=00000001, cnonce="'+cnonce+'", response="'+response+'", opaque="'+opaque+'"';
+				let headers = {
+					'Authorization': request
+				};
+				this.httpadvance.get(ip+uri, {}, headers).then(data => {
+					return true;
+				}).catch(error => {
+					console.log(JSON.stringify(error));
+				});
+			}catch (e){
+				return ;
+			}
+		});
+	}
 
 }

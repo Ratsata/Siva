@@ -28,14 +28,14 @@
 		var url = 'ws://192.168.137.112:8083/';
 		var player = new JSMpeg.Player(url, {canvas: canvas});
   </script> -->
-  <a href="http://192.168.1.108/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0">Data</a>
+  
   <ion-grid style="padding: 5px">
     <ion-row>
       <!-- CUADRO 1 -->
       <ion-col  [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
         <div class="camara">
-          <button [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(1);">
-            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          <button style="height: 100%"  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(1);">
+            <ion-icon style="font-size: 40px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
           <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" id="myMediaDiv1">Cargando contenido...</div>
         </div>
@@ -71,24 +71,47 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <!-- TOOLBAR -->
+  <ion-grid [ngClass]="(columnaCamera=='col6')?'invisib':'visib'" no-padding>
+      <ion-row padding-horizontal>
+        <ion-col text-center>
+          <button class="toolbar" [class.active]="toolbarActive=='mic'" ion-button icon-only (click)="toolbar('mic');">
+            <ion-icon style="font-size: 40px" name="mic"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col text-center margin-horizontal>
+          <button class="toolbar" [class.active]="toolbarActive=='move'" ion-button icon-only (click)="toolbar('move');">
+            <ion-icon style="font-size: 40px" name="move"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col text-center>
+          <button class="toolbar" [class.active]="toolbarActive=='camera'" ion-button icon-only (click)="toolbar('camera');">
+            <ion-icon style="font-size: 40px" name="camera"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
   <!-- <div (click)="someAction();">
     <video width="300" height="140" controls>
       <source controls src="http://192.168.1.28:8080/hls/stream.m3u8"/> 
     </video>
   </div> -->
   <!-- justify-content-center  -->
-  <ion-grid>
+  <ion-grid [class.invisib]="columnaCamera=='col12'">
     <ion-row>
-      <ion-col [class.invisib]="columnaCamera=='col12'" align-self-start>
+      <ion-col align-self-start>
         <p padding-left>
           <b>Conexiones: 4<br></b>
           <b>En linea: 2<br></b>
         </p>
       </ion-col>
-      <ion-col>&nbsp;</ion-col>
-      <ion-col>
-        <div [class.invisib]="columnaCamera=='col6'" id="joystick" style="width:50%">
-          <svg width="180%" height="50%" viewBox="0 0 100 100">
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visib':'invisib'">
+      <ion-row justify-content-center>
+        <div id="joystick" style="width:160px;">
+          <svg width="100%" height="100%" viewBox="0 0 100 100">
               <defs>
                   <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
                       <stop offset="0%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
@@ -110,29 +133,29 @@
               <line x1="30" y1="50" x2="70" y2="50" stroke="black" />
 
               <svg viewBox="0 0 60 60">
-                  <a (press)="pressZoom();" (touchend)="dontpress();">
+                  <a (click)="pressZoom();" (touchend)="dontpress();">
                     <text x="50%" y="48%" text-anchor="middle" stroke="#0000">+</text>
                   </a>
-                  <a (press)="pressWide();" (touchend)="dontpress();">
+                  <a (click)="pressWide();" (touchend)="dontpress();">
                     <text x="50%" y="68%" text-anchor="middle" stroke="#0000">-</text>
                   </a>
               </svg>
-              <a id="buttonUp"    (press)="pressUp();" (touchend)="dontpress();">   <path d="M50,7 60,25 40,25Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonDown"  (press)="pressDown();" (touchend)="dontpress();"> <path d="M50,93 60,75 40,75Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonLeft"  (press)="pressLeft();" (touchend)="dontpress();"> <path d="M7,50 25,60 25,40Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonRight" (press)="pressRight();" (touchend)="dontpress();"><path d="M93,50 75,60 75,40Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonUp"    (click)="clickUp();" (press)="pressUp();" (touchend)="dontpress();">   <path d="M50,7 60,25 40,25Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonDown"  (click)="clickDown();" (press)="pressDown();" (touchend)="dontpress();"> <path d="M50,93 60,75 40,75Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonLeft"  (click)="clickLeft();" (press)="pressLeft();" (touchend)="dontpress();"> <path d="M7,50 25,60 25,40Z" fill="rgba(0,0,0,0.8)" /></a>
+              <a id="buttonRight" (click)="clickRight();" (press)="pressRight();" (touchend)="dontpress();"><path d="M93,50 75,60 75,40Z" fill="rgba(0,0,0,0.8)" /></a>
           </svg>
       </div>
-</ion-col>
-</ion-row>
-</ion-grid>
-
-  
-
-  <ion-grid>
-    <ion-row justify-content-center align-items-center>
-      <!-- <button class="red-button" (press)="someAction()" (touchend)="someAction2()" ion-button round color="red">Enviar audio</button> -->
-      <button class="red-button" (click)="someAction()" ion-button round color="red">Enviar audio</button>
     </ion-row>
   </ion-grid>
+
+
+  <ion-grid [ngClass]="(columnaCamera=='col6' || toolbarActive=='mic')?'visib':'invisib'">
+    <ion-row>
+      <div class="socket" [class.active]="buttonActive">
+        <div class="button" [class.active]="buttonActive" (press)="startRecord()" (touchend)="stopRecord()"></div>
+      </div>
+    </ion-row>
+  </ion-grid>
+  
 </ion-content>

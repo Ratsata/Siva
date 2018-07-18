@@ -3,7 +3,7 @@
     <name>siva</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.137:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -90,6 +90,15 @@
     <plugin name="cordova-plugin-x-toast" spec="^2.6.2" />
     <plugin name="cordova-plugin-advanced-http" spec="^1.11.1" />
     <allow-navigation href="http://192.168.1.137:8100" />
+    <allow-navigation href="http://192.168.1.24:8100" />
+    <plugin name="cordova-plugin-media" spec="^5.0.2">
+        <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
+    </plugin>
+    <allow-navigation href="http://192.168.1.26:8100" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <allow-navigation href="http://192.168.1.28:8100" />
     <engine name="android" spec="7.0.0" />
     <engine name="ios" spec="4.5.4" />
+    <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
 </widget>

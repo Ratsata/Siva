@@ -35,7 +35,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "arduino": "0.2.3",
-    "cordova-android": "7.0.0",
+    "cordova-android": "^7.0.0",
     "cordova-ios": "4.5.4",
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-audio-recorder-api": "0.0.6",
@@ -59,7 +59,8 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.1.10",
+    "@angular/cli": "^6.1.0-rc.3",
+    "@ionic/app-scripts": "^3.1.11",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",

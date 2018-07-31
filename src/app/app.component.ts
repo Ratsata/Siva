@@ -5,7 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListCameraPage } from '../pages/list-camera/list-camera'
-import { ListPage } from '../pages/list/list';
+//import { ListPage } from '../pages/list/list';
+import { AlarmPage } from '../pages/alarm/alarm';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -26,7 +27,8 @@ export class MyApp {
     this.pages = [
       { title: 'Inicio', component: HomePage },
       { title: 'Camaras', component: ListCameraPage },
-      { title: 'Configuracion', component: ListPage }
+      { title: 'Alarma', component: AlarmPage }
+      //{ title: 'Configuracion', component: ListPage }
     ];
 
     this.initTranslate();

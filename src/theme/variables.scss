@@ -39,7 +39,15 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  red:		  #a7253f
+  red:		  #a7253f,
+  darkness: (
+    base: #333,
+    contrast: rgb(216, 216, 216)
+  ),
+  lightest: (
+    base: rgb(216, 216, 216),
+    contrast: #333
+  )
 );
 
 
@@ -71,7 +79,7 @@ $colors: (
 // so that the above variables are used and Ionic's
 // default are overridden.
 
-@import "ionic.theme.default";
+//@import "ionic.theme.default";
 
 
 // Ionicons

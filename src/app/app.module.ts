@@ -4,8 +4,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListCameraPage } from '../pages/list-camera/list-camera'
-import { ListPage } from '../pages/list/list';
+import { ListCameraPage } from '../pages/list-camera/list-camera';
+//import { ListPage } from '../pages/list/list';
+import { AlarmPage } from '../pages/alarm/alarm';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,7 +16,7 @@ import { HTTP } from '@ionic-native/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
 import { SQLite } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { DataServiceProvider } from '../providers/data-service/data-service';
@@ -35,7 +36,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
-    ListPage
+    AlarmPage
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
-    ListPage
+    AlarmPage
   ],
   providers: [
     StatusBar,

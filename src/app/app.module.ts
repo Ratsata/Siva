@@ -27,6 +27,8 @@ import { Transfer } from '@ionic-native/transfer';
 
 import { NativeAudio } from '@ionic-native/native-audio';
 
+import { FCM } from '@ionic-native/fcm';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -69,7 +71,8 @@ export function createTranslateLoader(http: HttpClient) {
     Media,
     File,
     Transfer,
-    NativeAudio
+    NativeAudio,
+    FCM
   ]
 })
 export class AppModule {}

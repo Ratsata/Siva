@@ -10,6 +10,8 @@ import { AlarmPage } from '../pages/alarm/alarm';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { FCM } from '@ionic-native/fcm';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -20,7 +22,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -36,6 +38,23 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
+      //Notifications
+      this.fcm.subscribeToTopic('all');
+      this.fcm.getToken().then(token=>{
+          console.log(token);
+      })
+      this.fcm.onNotification().subscribe(data=>{
+        if(data.wasTapped){
+          console.log("Received in background");
+        } else {
+          console.log("Received in foreground");
+        };
+      })
+      this.fcm.onTokenRefresh().subscribe(token=>{
+        console.log(token);
+      });
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

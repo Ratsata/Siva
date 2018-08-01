@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "932136569407",
+    "firebase_url": "https://siva-7cd7e.firebaseio.com",
+    "project_id": "siva-7cd7e",
+    "storage_bucket": "siva-7cd7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932136569407:android:08fb3eae32cb0dd8",
+        "android_client_info": {
+          "package_name": "sv.cleanvoltage.siva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932136569407-m6s08cv3vle7pnk6batrrf406bfr7kjl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUH1i4pPbDojA-TwhOJ1vlfKmvNiGJ_yA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

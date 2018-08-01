@@ -19,8 +19,12 @@ Se puede enviar audios a todas las cámaras como también a una en específico p
 
 ## Dispositivos
 
-|Dispositivo|IP|Usuario|Contraseña|
-|----------------|-------------------------------|-----------------------------|
-|Camara|192.168.1.108|admin |`cleanvoltage2018`|
-|Raspberry Pi|192.168.0.192|pi |`toor`
-|Correo|---|lab.electronica@cleanvoltage.cl|`cleanvoltage2018`|
+### Camara
+*IP:* `192.168.1.108`
+*User:* `admin`
+*Pass:* `cleanvoltage2018`
+
+### Raspberry Pi
+*IP:* `192.168.0.192`
+*User:* `pi`
+*Pass:* `toor`

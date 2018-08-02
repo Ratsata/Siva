@@ -17,6 +17,7 @@
 </ion-header>
 
 <ion-content padding>
+  
   <h2>Lista de camaras</h2>
   <ion-list>
     <ion-item-sliding *ngFor="let item of camara; let i=index">
@@ -36,29 +37,5 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-
-  <!-- <ion-list>
-    <ion-item-sliding *ngFor="let item of camara; let i=index">
-      <ion-item nopadding>
-        <p>
-          ID: {{item.id_camara}}<br>
-          Nombre: {{item.ds_nombre}}<br>
-          IP: {{item.ds_ip}}<br>
-          port: {{item.ds_port}}<br>
-          usuario: {{item.ds_usuario}}<br>
-          hash: {{item.ds_hash}}<br>
-          imagen: {{item.ds_imagen}}<br>
-          estado: {{item.st_estado}}<br>
-        </p>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary" (click)="editData(item.id_camara)">
-          <ion-icon name="paper"></ion-icon>
-        </button>
-        <button ion-button color="danger" (click)="deleteData(item.id_camara)">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list> -->
+  
 </ion-content>

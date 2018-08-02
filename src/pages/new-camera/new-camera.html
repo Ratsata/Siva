@@ -25,6 +25,7 @@
 
 <ion-content>
   <!-- <form *ngIf="id == 'new'" [formGroup]="form" (ngSubmit)="action? saveData() : updateData()"> -->
+  <div style="display: none">
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="id=='new' ? saveData() : updateData(id)">
     <ion-list>
       <ion-item>
@@ -55,4 +56,6 @@
       <button ion-button type="submit" [disabled]="!isReadyToSave" strong block>Guardar</button>
     </ion-list> 
   </form>
+  </div>
+  <button ion-button strong block (click)="showQr()">QR</button>
 </ion-content>

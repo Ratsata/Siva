@@ -25,7 +25,19 @@
 
 <ion-content>
   <!-- <form *ngIf="id == 'new'" [formGroup]="form" (ngSubmit)="action? saveData() : updateData()"> -->
-  <div style="display: none">
+      <!-- <button ion-button strong block (click)="vis(true)">QrActiveTrue</button>
+      <button ion-button strong block (click)="vis(false)">QrActiveFalse</button>
+      <ion-badge>{{qrActive}}</ion-badge> -->
+  <div id="dib" [class.invisib]="qrActive">
+    <ion-grid>
+      <ion-row>
+        <ion-col offset-8>
+          <button ion-button strong block (click)="showQr()">
+              QR&nbsp;<ion-icon name="qr-scanner"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="id=='new' ? saveData() : updateData(id)">
     <ion-list>
       <ion-item>
@@ -57,5 +69,4 @@
     </ion-list> 
   </form>
   </div>
-  <button ion-button strong block (click)="showQr()">QR</button>
 </ion-content>

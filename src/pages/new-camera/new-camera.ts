@@ -4,8 +4,10 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
+import { ToastController } from 'ionic-angular';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { ReflectionCapabilities } from '@angular/core/src/reflection/reflection_capabilities';
 
 @IonicPage()
 @Component({
@@ -21,7 +23,7 @@ export class NewCameraPage {
   id: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder,
-    private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner) {
+    private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController) {
     this.form = formBuilder.group({
       ds_nombre: ['', Validators.required],
       ds_ip: ['', Validators.compose([
@@ -167,64 +169,48 @@ export class NewCameraPage {
   cancel() {
     this.viewCtrl.dismiss();
   }
-
-  /* ionViewWillEnter(){
-    this.qrScanner.prepare()
-      .then((status: QRScannerStatus) => {
-        if (status.authorized) {
-          console.log('Camera Permission Given');
-          let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            console.log('Scanned something', text);
-   
-            this.qrScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
-          });
   
-          this.qrScanner.show();
-        } else if (status.denied) {
-          console.log('Camera permission denied');
-        } else {
-          console.log('Permission denied for this runtime.');
-        }
-      })
-      .catch((e: any) => console.log('Error is', e));
-  } */
+  ionViewWillLeave(){
+    this.hideCamera(); 
+  }
 
   showQr() {
     this.qrScanner.prepare().then((status: QRScannerStatus) => {
-      this.toast.show('Otorgue los permisos necesarios para escanear QR', '5000', 'center').subscribe(
-        toast => {
-          this.qrScanner.openSettings();
-        }
-      );
       if (status.authorized) {
         this.qrScanner.show();
         this.showCamera();
         let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-          console.log('Scanned something', text);
+          this.refill(text);
           this.qrScanner.hide();
           this.hideCamera();
           scanSub.unsubscribe();
         });
-
       } else if (status.denied) {
-        this.toast.show('Otorgue los permisos necesarios para escanear QR', '5000', 'center').subscribe(
-          toast => {
-            this.qrScanner.openSettings();
-          }
-        );
-      } else {
-        // permission was denied, but not permanently. You can ask for permission again at a later time.
+        let toast = this.toastCtrl.create({
+          message: 'Otorgue los permisos necesarios para escanear el código QR',
+          duration: 5000,
+          position: 'bottom'
+        });
+        toast.onDidDismiss(() => {
+          this.qrScanner.openSettings();
+        });
+        toast.present();
       }
     })
-    .catch((e: any) => console.log('Error is', e));
+    .catch((e: any) => console.log('Error is',JSON.stringify(e)));
   }
   
   showCamera() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
+    (window.document.querySelector('#dib') as HTMLElement).classList.add('invisib');
   }
   
   hideCamera() {
+    (window.document.querySelector('#dib') as HTMLElement).classList.remove('invisib');
     (window.document.querySelector('ion-app') as HTMLElement).classList.remove('cameraView');
+  }
+
+  refill(data){
+    console.log(data["ip"]);
   }
 }

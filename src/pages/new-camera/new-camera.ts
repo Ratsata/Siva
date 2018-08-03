@@ -7,7 +7,6 @@ import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-import { ReflectionCapabilities } from '@angular/core/src/reflection/reflection_capabilities';
 
 @IonicPage()
 @Component({
@@ -197,7 +196,7 @@ export class NewCameraPage {
         toast.present();
       }
     })
-    .catch((e: any) => console.log('Error is',JSON.stringify(e)));
+    .catch((e: any) => console.log('Error is', e));
   }
   
   showCamera() {
@@ -211,6 +210,12 @@ export class NewCameraPage {
   }
 
   refill(data){
-    console.log(data["ip"]);
+    console.log(data);
+    let obj = JSON.parse(data);
+    this.form.get('ds_ip').setValue(obj.ip);
+    this.form.get('ds_port').setValue(obj.port);
+    this.form.get('ds_usuario').setValue(obj.user);
+    this.form.get('ds_hash').setValue(obj.pass);
+    this.form.get('ds_imagen').setValue(obj.port);
   }
 }

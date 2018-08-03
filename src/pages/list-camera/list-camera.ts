@@ -98,11 +98,10 @@ export class ListCameraPage {
 
   cameraModal(id="new") {
     let addModal = this.modalCtrl.create('NewCameraPage', { id: id });
+    (window.document.querySelector('.inviseable') as HTMLElement).classList.add('invisib');
     addModal.present();
     addModal.onDidDismiss(item => {
-      /* if (item) {
-        this.camara.push(item);
-      } */
+      (window.document.querySelector('.inviseable') as HTMLElement).classList.remove('invisib');
       this.getData();
     })
 	}

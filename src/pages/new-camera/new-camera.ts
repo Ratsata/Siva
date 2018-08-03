@@ -196,21 +196,20 @@ export class NewCameraPage {
         toast.present();
       }
     })
-    .catch((e: any) => console.log('Error is', e));
+    .catch((e: any) => console.log('Error is', JSON.stringify(e)));
   }
   
   showCamera() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
-    (window.document.querySelector('#dib') as HTMLElement).classList.add('invisib');
+    (window.document.querySelector('#formCamera') as HTMLElement).classList.add('invisib');
   }
   
   hideCamera() {
-    (window.document.querySelector('#dib') as HTMLElement).classList.remove('invisib');
+    (window.document.querySelector('#formCamera') as HTMLElement).classList.remove('invisib');
     (window.document.querySelector('ion-app') as HTMLElement).classList.remove('cameraView');
   }
 
   refill(data){
-    console.log(data);
     let obj = JSON.parse(data);
     this.form.get('ds_ip').setValue(obj.ip);
     this.form.get('ds_port').setValue(obj.port);

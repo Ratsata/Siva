@@ -7,9 +7,7 @@
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint",
-    "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "lint": "ionic-app-scripts lint"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -22,7 +20,6 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/core": "4.7.0",
-    "@ionic-native/fcm": "^4.11.0",
     "@ionic-native/file": "^4.9.1",
     "@ionic-native/http": "^4.9.1",
     "@ionic-native/media": "^4.9.1",
@@ -37,8 +34,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "arduino": "0.2.3",
-    "cordova-android": "^7.0.0",
-    "cordova-ios": "4.5.4",
+    "cordova-android": "7.0.0",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-audio-recorder-api": "0.0.6",
@@ -65,7 +61,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^6.1.0-rc.3",
-    "@ionic/app-scripts": "^3.1.11",
+    "@ionic/app-scripts": "3.1.11",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",
@@ -87,12 +83,11 @@
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-nativeaudio": {},
-      "cordova-plugin-fcm": {},
-      "cordova-plugin-qrscanner": {}
+      "cordova-plugin-qrscanner": {},
+      "cordova-plugin-fcm": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "android"
     ]
   }
 }

@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
+import { SQLite } from '@ionic-native/sqlite';
 
 @Injectable()
 export class DataServiceProvider {
 
-  constructor(public http: HttpClient,private sqlite: SQLite, private toast: Toast) {
+  constructor(public http: HttpClient,private sqlite: SQLite) {
     // this.getData();
   }
 

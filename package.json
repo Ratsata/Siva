@@ -20,6 +20,7 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/core": "4.7.0",
+    "@ionic-native/fcm": "^4.11.0",
     "@ionic-native/file": "^4.9.1",
     "@ionic-native/http": "^4.9.1",
     "@ionic-native/media": "^4.9.1",
@@ -86,8 +87,6 @@
       "cordova-plugin-qrscanner": {},
       "cordova-plugin-fcm": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

@@ -41,9 +41,10 @@ export class MyApp {
 
       //Notifications
       this.fcm.subscribeToTopic('all');
-      this.fcm.getToken().then(token=>{
+      this.fcm.subscribeToTopic('mac');
+      /* this.fcm.getToken().then(token=>{
           console.log(token);
-      })
+      }) */
       this.fcm.onNotification().subscribe(data=>{
         if(data.wasTapped){
           console.log("Received in background");

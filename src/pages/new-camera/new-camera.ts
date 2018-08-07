@@ -25,14 +25,14 @@ export class NewCameraPage {
     private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController) {
     this.form = formBuilder.group({
       ds_nombre: ['', Validators.required],
+      ds_id: ['', Validators.required],
       ds_ip: ['', Validators.compose([
         Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/),
         Validators.required
       ])],
       ds_port: ['554', Validators.required],
       ds_usuario: ['admin', Validators.required],
-      ds_hash: ['cleanvoltage2018', Validators.required],
-      ds_imagen: ['554', Validators.required]
+      ds_hash: ['cleanvoltage2018', Validators.required]
     });
     this.id = navParams.get('id');
     if (this.id == 'new'){
@@ -62,11 +62,11 @@ export class NewCameraPage {
       db.executeSql('SELECT * FROM SV_CAMARA WHERE id_camara = ? AND st_estado = 1', [id])
       .then(res => {
         this.form.get('ds_nombre').setValue(res.rows.item(0).ds_nombre);
+        this.form.get('ds_id').setValue(res.rows.item(0).ds_id);
         this.form.get('ds_ip').setValue(res.rows.item(0).ds_ip);
         this.form.get('ds_port').setValue(res.rows.item(0).ds_port);
         this.form.get('ds_usuario').setValue(res.rows.item(0).ds_usuario);
         this.form.get('ds_hash').setValue(res.rows.item(0).ds_hash);
-        this.form.get('ds_imagen').setValue(res.rows.item(0).ds_imagen);
       })
       .catch(e => console.log(e));
     }).catch(e => console.log(e));
@@ -85,11 +85,11 @@ export class NewCameraPage {
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?)',[this.form.value.ds_nombre,
+                                                                        this.form.value.ds_id,
                                                                         this.form.value.ds_ip,
                                                                         this.form.value.ds_port,
                                                                         this.form.value.ds_usuario,
                                                                         this.form.value.ds_hash,
-                                                                        this.form.value.ds_imagen,
                                                                         1])
         .then(res => {
           console.log(res);
@@ -130,13 +130,13 @@ export class NewCameraPage {
       name: 'ionicdb.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE SV_CAMARA SET ds_nombre = ?,ds_ip = ?,ds_port = ?,ds_usuario = ?,ds_hash = ?,ds_imagen = ? WHERE id_camara = ?',
+      db.executeSql('UPDATE SV_CAMARA SET ds_nombre = ?,ds_id = ?,ds_ip = ?,ds_port = ?,ds_usuario = ?,ds_hash = ? WHERE id_camara = ?',
                                         [this.form.value.ds_nombre,
+                                          this.form.value.ds_id,
                                           this.form.value.ds_ip,
                                           this.form.value.ds_port,
                                           this.form.value.ds_usuario,
                                           this.form.value.ds_hash,
-                                          this.form.value.ds_imagen,
                                         id])
         .then(res => {
           console.log(res);
@@ -211,10 +211,10 @@ export class NewCameraPage {
 
   refill(data){
     let obj = JSON.parse(data);
+    this.form.get('ds_id').setValue(obj.id);
     this.form.get('ds_ip').setValue(obj.ip);
     this.form.get('ds_port').setValue(obj.port);
     this.form.get('ds_usuario').setValue(obj.user);
     this.form.get('ds_hash').setValue(obj.pass);
-    this.form.get('ds_imagen').setValue(obj.port);
   }
 }

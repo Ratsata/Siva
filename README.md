@@ -28,3 +28,23 @@ Se puede enviar audios a todas las cámaras como también a una en específico p
 *IP:* `192.168.0.192`
 *User:* `pi`
 *Pass:* `toor`
+
+## Nota
+Se edito el siguiente archivo para la funcionalidad de FCM
+> plugins/cordova-plugin-fcm/scripts/fcm_config_files_process.js
+
+ 
+
+    // Cambiar
+    var strings = fs.readFileSync("platforms/android/res/values/strings.xml").toString();
+    // a
+    var strings = fs.readFileSync("platforms/android/app/src/main/res/values/strings.xml").toString();
+        
+    //Cambiar
+    fs.writeFileSync("platforms/android/res/values/strings.xml", strings);
+    //a
+    fs.writeFileSync("platforms/android/app/src/main/res/values/strings.xml", strings);
+
+*Agregar siguientes Rutas*
+> -   platforms/android/google-services.json
+> -   platforms/android/app/google-services.json

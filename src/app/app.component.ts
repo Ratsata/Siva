@@ -11,6 +11,7 @@ import { AlarmPage } from '../pages/alarm/alarm';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
+import { ENV } from '@app/env';
 
 @Component({
   templateUrl: 'app.html'
@@ -40,8 +41,10 @@ export class MyApp {
     this.platform.ready().then(() => {
 
       //Notifications
-      this.fcm.subscribeToTopic('all');
-      this.fcm.subscribeToTopic('mac');
+      for (let data in ENV.topics){
+        if (ENV.topics[data] != "") this.fcm.subscribeToTopic(ENV.topics[data]);
+      }
+      //this.fcm.subscribeToTopic('mac');
       /* this.fcm.getToken().then(token=>{
           console.log(token);
       }) */

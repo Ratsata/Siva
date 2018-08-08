@@ -17,6 +17,9 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 import { NativeAudio } from '@ionic-native/native-audio';
 
+import { FCM } from '@ionic-native/fcm';
+import { ENV } from '@app/env';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -41,11 +44,18 @@ export class HomePage {
 	audio: MediaObject;
 	audioList: any[] = [];
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio) {
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public fcm: FCM) {
 		this.camara = [];
 		this.toolbarActive = 'mic';
 		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(
 			function (e){console.log(JSON.stringify(e))}, function (e){console.log(JSON.stringify(e))});
+		console.log(JSON.stringify(ENV));
+	}
+
+	someAction(){
+		ENV.topics[0] = "maq"
+		this.fcm.unsubscribeFromTopic("");
+		//this.fcm.subscribeToTopic(ENV.topics[0]);
 	}
 
 	listCameras(id,json){

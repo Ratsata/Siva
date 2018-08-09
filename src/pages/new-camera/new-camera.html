@@ -46,7 +46,7 @@
       </ion-item>
       <ion-item>
         <ion-label col-6>{{ 'ID' | translate }}</ion-label>
-        <ion-input type="text" placeholder="{{ 'ID_PLACEHOLDER' | translate }}" formControlName="ds_id"></ion-input>
+        <ion-input type="text" placeholder="{{ 'ID_PLACEHOLDER' | translate }}" formControlName="ds_id" [disabled]="id!='new'"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label col-6>{{ 'IP' | translate }}</ion-label>

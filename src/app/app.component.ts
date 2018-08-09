@@ -41,7 +41,6 @@ export class MyApp {
 
       //Notifications
       this.fcm.subscribeToTopic('all');
-      this.fcm.subscribeToTopic('mac');
       /* this.fcm.getToken().then(token=>{
           console.log(token);
       }) */

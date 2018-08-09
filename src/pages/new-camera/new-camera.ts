@@ -7,6 +7,8 @@ import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { FCM } from '@ionic-native/fcm';
+import { HTTP } from '@ionic-native/http';
 
 @IonicPage()
 @Component({
@@ -22,7 +24,8 @@ export class NewCameraPage {
   id: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder,
-    private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController) {
+    private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController, private fcm: FCM,
+    private httpadvance: HTTP) {
     this.form = formBuilder.group({
       ds_nombre: ['', Validators.required],
       ds_id: ['', Validators.required],
@@ -92,7 +95,12 @@ export class NewCameraPage {
                                                                         this.form.value.ds_hash,
                                                                         1])
         .then(res => {
-          console.log(res);
+          this.fcm.subscribeToTopic(this.form.value.ds_id);
+          this.httpadvance.post('http://'+this.form.value.ds_ip+'/upload/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
+            console.log("POST");
+          }).catch(error => {
+            console.log("ERROR POST");
+          });
           this.toast.show('Creación Exitosa!', '5000', 'center').subscribe(
             toast => {
               //this.navCtrl.popToRoot();

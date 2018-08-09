@@ -6,6 +6,8 @@ import { IonicPage,
         AlertController } from 'ionic-angular';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { FCM } from '@ionic-native/fcm';
+import { HTTP } from '@ionic-native/http';
 
 @IonicPage()
 @Component({
@@ -17,7 +19,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 export class ListCameraPage {
   private camara : any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private sqlite: SQLite,public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private sqlite: SQLite,public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP) {
     this.camara = [];
   }
 
@@ -57,7 +59,7 @@ export class ListCameraPage {
     }).catch(e => console.log(JSON.stringify(e)));
   }
 
-  deleteConfirm(id,nombre) {
+  deleteConfirm(id,nombre,ip) {
     const confirm = this.alertCtrl.create({
       title: 'Eliminar camara',
       message: 'Esta seguro que quiere eliminar la camara: '+nombre+'?',
@@ -71,7 +73,7 @@ export class ListCameraPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.deleteData(id);
+            this.deleteData(id,ip);
           }
         }
       ]
@@ -79,21 +81,21 @@ export class ListCameraPage {
     confirm.present();
   }
   
-  deleteData(id) {
-    console.log("1");
-    console.log(id);
-    console.log("2");
+  deleteData(id,ip) {
     this.sqlite.create({
       name: 'ionicdb.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      //db.executeSql('UPDATE SV_CAMARA SET st_estado = 0 WHERE id_camara = ?',[id])
-      db.executeSql('DELETE FROM SV_CAMARA WHERE id_camara = ?',[id])
+      db.executeSql('DELETE FROM SV_CAMARA WHERE ds_id = ?',[id])
       .then(res => {
-        console.log(JSON.stringify(res));
+        this.fcm.unsubscribeFromTopic(id);
+        this.httpadvance.post('http://'+ip+'/upload/upload.php?action=remove&id='+id, {}, {}).then(data => {
+            console.log("POST");
+          }).catch(error => {
+            console.log("ERROR POST");
+        });
         this.getData();
-      })
-      .catch(e => console.log(JSON.stringify(e)));
+      }).catch(e => console.log(JSON.stringify(e)));
     }).catch(e => console.log(JSON.stringify(e)));
   }
 

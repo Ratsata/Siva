@@ -25,13 +25,12 @@
         <ion-icon name="videocam" item-start></ion-icon>
         <h2>{{item.ds_nombre}}</h2>
         <ion-badge item-end>IP: {{item.ds_ip}}</ion-badge>
-        <!-- <p item-end>IP: {{item.ds_ip}}</p> -->
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="primary" (click)="cameraModal(item.id_camara)">
           <ion-icon name="paper"></ion-icon>
         </button>
-        <button ion-button color="danger" (click)="deleteConfirm(item.id_camara,item.ds_nombre)">
+        <button ion-button color="danger" (click)="deleteConfirm(item.ds_id,item.ds_nombre,item.ds_ip)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>

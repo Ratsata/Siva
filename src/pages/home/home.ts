@@ -181,7 +181,7 @@ export class HomePage {
 	}
 
 	sendRecord() {
-		let url = "http://192.168.0.192/upload/upload.php?action=voice";
+		let url = "http://192.168.0.142/upload/upload.php?action=voice";
 		this.fileName = 'voiceTemp.mp3';
 		let targetPath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
  

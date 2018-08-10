@@ -8,6 +8,7 @@ import { IonicPage,
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ import { HTTP } from '@ionic-native/http';
 export class ListCameraPage {
   private camara : any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private sqlite: SQLite,public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private sqlite: SQLite,public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP, public loadingCtrl: LoadingController) {
     this.camara = [];
   }
 
@@ -100,13 +101,20 @@ export class ListCameraPage {
   }
 
   cameraModal(id="new") {
+    const loader = this.loadingCtrl.create({
+      content: "Cargando...",
+      duration: 500
+    });
+    loader.present();
     let addModal = this.modalCtrl.create('NewCameraPage', { id: id });
-    (window.document.querySelector('.inviseable') as HTMLElement).classList.add('invisib');
-    addModal.present();
+    loader.onWillDismiss(item => {
+      addModal.present();
+      (window.document.querySelector('.inviseable') as HTMLElement).classList.add('invisib');
+    });
     addModal.onDidDismiss(item => {
       (window.document.querySelector('.inviseable') as HTMLElement).classList.remove('invisib');
       this.getData();
-    })
+    });
 	}
 
 }

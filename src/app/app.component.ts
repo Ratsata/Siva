@@ -11,6 +11,8 @@ import { AlarmPage } from '../pages/alarm/alarm';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
+import { Toast } from '@ionic-native/toast';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,10 +21,11 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
-
   pages: Array<{title: string, component: any}>;
+  current: any;
+  public counter=0;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -57,9 +60,21 @@ export class MyApp {
         console.log(token);
       });
 
+      this.platform.registerBackButtonAction(() => {
+        console.log("click");
+        if (this.counter == 0) {
+          this.counter++;
+          this.presentToast();
+          setTimeout(() => { this.counter = 0 }, 3000)
+        } else {
+          this.platform.exitApp();
+        }
+      }, 0)
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      this.current = this.nav.getActive();
       this.splashScreen.hide();
     });
   }
@@ -76,9 +91,18 @@ export class MyApp {
     }
   }
 
+  presentToast() {
+    this.toast.show('Presione nuevamente para salir', '5000', 'bottom').subscribe(
+      toast => {
+        console.log("back to exit");
+      }
+    );
+  }
+
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.current = this.nav.getActive();
+    if(page.component != this.current.component){
+      this.nav.push(page.component);
+    }
   }
 }

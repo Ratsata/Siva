@@ -48,12 +48,17 @@ export class MyApp {
           console.log(token);
       }) */
       this.fcm.onNotification().subscribe(data=>{
-        if(data.wasTapped){
-          console.log("Received in background");
-          console.log(JSON.stringify(data));
+        if (data.type == "ip"){
+          console.log("IP: "+data.ip);
+        }else{
+          console.log("Notification"+JSON.stringify(data));
+        }
+        if(data.wasTapped){ 
+          //console.log("Received in background");
+          //console.log(JSON.stringify(data));
         } else {
-          console.log("Received in foreground");
-          console.log(JSON.stringify(data));
+          //console.log("Received in foreground");
+          //console.log(JSON.stringify(data));
         };
       })
       this.fcm.onTokenRefresh().subscribe(token=>{

@@ -237,4 +237,19 @@ export class HomePage {
 		});
 	}
 
+	check(){
+		let data = this.DataService.select();
+		console.log(data);
+	}
+
+	ping(url="http://192.168.0.142/upload"){
+		this.httpadvance.setRequestTimeout(5);
+		console.log(this.httpadvance.getRequestTimeout());
+		this.httpadvance.get(url, {}, {}).then(data => {
+			console.log(data.data);
+		}).catch(error => {
+			console.log(JSON.stringify(error));
+		});
+	}
+
 }

@@ -46,7 +46,9 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
+          <div class="unclickeable">
+            <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
+          </div>
         </div>
       </ion-col>
     </ion-row>
@@ -57,7 +59,9 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
+          <div class="unclickeable">
+            <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
+          </div>
         </div>
       </ion-col>
       <!-- CUADRO 4 -->
@@ -66,7 +70,9 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
+          <div class="unclickeable">
+            <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
+          </div>
         </div>
       </ion-col>
     </ion-row>
@@ -84,11 +90,11 @@
             <ion-icon style="font-size: 40px" name="move"></ion-icon>
           </button>
         </ion-col>
-        <ion-col text-center>
+        <!-- <ion-col text-center>
           <button class="toolbar" [class.active]="toolbarActive=='camera'" ion-button icon-only (click)="toolbar('camera');">
             <ion-icon style="font-size: 40px" name="camera"></ion-icon>
           </button>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
   </ion-grid>
   <!-- <div (click)="someAction();">
@@ -149,7 +155,6 @@
     </ion-row>
   </ion-grid>
   <br>
-  <button (click)="check();">dale</button>
   <!-- REC BUTTON -->
   <ion-grid [ngClass]="(columnaCamera=='col6' || toolbarActive=='mic')?'visib':'invisib'">
     <ion-row>

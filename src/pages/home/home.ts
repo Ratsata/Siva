@@ -40,21 +40,23 @@ export class HomePage {
 	fileName: string;
 	audio: MediaObject;
 	audioList: any[] = [];
+	dataSel: any = "del";
 
 	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio) {
 		this.camara = [];
 		this.toolbarActive = 'mic';
-		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(
-			function (e){console.log(JSON.stringify(e))}, function (e){console.log(JSON.stringify(e))});
+		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
+			console.log(JSON.stringify(e));
+		}, function (e){
+			console.log(JSON.stringify(e));
+		});
 	}
 
 	listCameras(id,json){
-		console.log("ID:"+id);
 		this.camara = json;
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
 		for (let x = 0; x < this.camara.length; x++) {
-			console.log("x:"+x);
 			let check = (x==0)?true:false;
 			alert.addInput({
 				type: 'radio',
@@ -68,6 +70,7 @@ export class HomePage {
 		text: 'Aceptar',
 		handler: data => {
 			if (data){
+				console.log(JSON.stringify(this.camara[data]));
 				if (id==1){
 					this.videoActive1 = true;
 					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
@@ -88,7 +91,6 @@ export class HomePage {
 	}
 
 	getCameras(id) {
-		console.log("getcameras:"+id);
 		this.DataService.select().then((data) => 
 			this.listCameras(id,data)
 		);		
@@ -108,7 +110,6 @@ export class HomePage {
 	}
 
 	clickUp(){
-		console.log("click");
 		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
 	clickDown(){
@@ -135,11 +136,9 @@ export class HomePage {
 	camSelect(id=1){
 		if (this.selected == id) id = null;
 		this.selected = id;
-		console.log(this.selected);
 	}
 
 	camResize(id=1){
-		console.log("ID. :"+id);
 		this.columnaCamera = (this.columnaCamera == 'col6')?'col12':'col6';
 		this.visible = id;
 	}
@@ -154,7 +153,6 @@ export class HomePage {
 	toggleClass (){
 		this.nativeAudio.play('uniqueId1', () => console.log('uniqueId1 is done playing'));
 		this.buttonActive = !this.buttonActive;
-		console.log(this.buttonActive);
 	}
 	
 	startRecord() {
@@ -238,8 +236,10 @@ export class HomePage {
 	}
 
 	check(){
-		let data = this.DataService.select();
-		console.log(data);
+		this.DataService.select().then(data => {
+			this.dataSel = data[0].ds_nombre;
+    		console.log(JSON.stringify(data));
+  		});
 	}
 
 	ping(url="http://192.168.0.142/upload"){

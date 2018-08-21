@@ -16,8 +16,9 @@ export class MediaPlayerService
 
     var cfg = {
       "autostart": true,
+      "controls" : true,
       "playbackRateControls" : true,
-      //"file":  "http://192.168.1.28:8080/hls/stream.m3u8",
+      //"file":  "http://192.168.0.117:8080/hls/stream.m3u8",
       "file" : media.url,
       //"file":  "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
       //"image": "https://thumb1.shutterstock.com/display_pic_with_logo/1026019/113930149/stock-photo-online-and-internet-concept-present-by-green-internet-url-arrow-around-the-blue-world-isolated-on-113930149.jpg",
@@ -32,14 +33,14 @@ export class MediaPlayerService
     };
 
     return Promise.resolve(
-      jwplayer(media.id).setup(cfg))
-      .then(
-        playerInstance => {     if (isAutoPlay) {
-          setTimeout(() => {
-            return playerInstance.play();
-          }, 500);
-        }    }
+      jwplayer(media.id).setup(cfg)).then(
+        playerInstance => {
+          if (isAutoPlay) {
+            setTimeout(() => {
+              return playerInstance.play();
+            }, 10);
+          }
+        }
       );
-  }
-
+    }
 }

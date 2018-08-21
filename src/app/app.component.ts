@@ -65,6 +65,8 @@ export class MyApp {
         console.log(token);
       });
 
+      this.network.onDisconnect()
+
       this.platform.registerBackButtonAction(() => {
         console.log("click");
         if (this.counter == 0) {

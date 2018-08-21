@@ -37,14 +37,14 @@ export class ListCameraPage {
       name: 'ionicdb.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT)', {})
+      //db.executeSql('DROP TABLE SV_CAMARA', {}).then(res => console.log("borrado")).catch(e => console.log(JSON.stringify(e)));
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT, ds_ipDynamic TEXT)', {})
       .then(res => console.log('Executed SQL'))
       .catch(e => console.log(e));
       db.executeSql('SELECT * FROM SV_CAMARA  ORDER BY id_camara ASC', {})
       .then(res => {
         this.camara = [];
         for(var i=0; i<res.rows.length; i++) {
-          console.log(JSON.stringify(res.rows.item(i)));
           this.camara.push({id_camara:res.rows.item(i).id_camara,
                             ds_nombre:res.rows.item(i).ds_nombre,
                             ds_id:res.rows.item(i).ds_id,

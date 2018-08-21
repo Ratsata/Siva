@@ -37,7 +37,8 @@
           <button style="height: 100%"  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(1);">
             <ion-icon style="font-size: 40px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" id="myMediaDiv1">Cargando contenido...</div>
+          <div style="height: 100%" [ngClass]="[(!videoActive1)?'invisib':'visibl']" id="myMediaDiv1">Cargando contenido...</div>
+          <!-- &nbsp; -->
         </div>
       </ion-col>
       <!-- CUADRO 2 -->
@@ -46,9 +47,8 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div class="unclickeable">
-            <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
-          </div>
+          <div style="height: 100%" [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
+          &nbsp;
         </div>
       </ion-col>
     </ion-row>
@@ -59,9 +59,8 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div class="unclickeable">
-            <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
-          </div>
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
+          &nbsp;
         </div>
       </ion-col>
       <!-- CUADRO 4 -->
@@ -70,9 +69,8 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div class="unclickeable">
-            <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
-          </div>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
+          &nbsp;
         </div>
       </ion-col>
     </ion-row>

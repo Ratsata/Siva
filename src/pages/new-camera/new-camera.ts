@@ -87,7 +87,7 @@ export class NewCameraPage {
       name: 'ionicdb.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?)',[this.form.value.ds_nombre,
+      db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?,NULL)',[this.form.value.ds_nombre,
                                                                         this.form.value.ds_id,
                                                                         this.form.value.ds_ip,
                                                                         this.form.value.ds_port,
@@ -103,13 +103,12 @@ export class NewCameraPage {
           });
           this.toast.show('Creación Exitosa!', '5000', 'center').subscribe(
             toast => {
-              //this.navCtrl.popToRoot();
               this.viewCtrl.dismiss(this.form.value);
             }
           );
         })
         .catch(e => {
-          console.log(e);
+          e = JSON.stringify(e);
           this.toast.show(e, '5000', 'center').subscribe(
             toast => {
               console.log(toast);
@@ -117,7 +116,7 @@ export class NewCameraPage {
           );
         });
     }).catch(e => {
-      console.log(e);
+      e = JSON.stringify(e);
       this.toast.show(e, '5000', 'center').subscribe(
         toast => {
           console.log(toast);
@@ -147,10 +146,8 @@ export class NewCameraPage {
                                           this.form.value.ds_hash,
                                         id])
         .then(res => {
-          console.log(res);
           this.toast.show('Guardado exitoso!', '5000', 'center').subscribe(
             toast => {
-              //this.navCtrl.popToRoot();
               this.viewCtrl.dismiss(this.form.value);
             }
           );
@@ -164,7 +161,7 @@ export class NewCameraPage {
           );
         });
     }).catch(e => {
-      console.log(e);
+      e = JSON.stringify(e);
       this.toast.show(e, '5000', 'center').subscribe(
         toast => {
           console.log(toast);

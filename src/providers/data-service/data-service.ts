@@ -23,7 +23,8 @@ export class DataServiceProvider {
               ds_port:data.rows.item(i).ds_port,
               ds_usuario:data.rows.item(i).ds_usuario,
               ds_hash:data.rows.item(i).ds_hash,
-              st_estado:data.rows.item(i).st_estado
+              st_estado:data.rows.item(i).st_estado,
+              ds_ipDynamic:data.rows.item(i).ds_ipDynamic
             })
           }
           resolve(retorno);

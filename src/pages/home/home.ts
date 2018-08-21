@@ -57,6 +57,7 @@ export class HomePage {
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
 		for (let x = 0; x < this.camara.length; x++) {
+			console.log(this.camara[x].ds_ipDynamic);
 			let check = (x==0)?true:false;
 			alert.addInput({
 				type: 'radio',
@@ -91,7 +92,7 @@ export class HomePage {
 	}
 
 	getCameras(id) {
-		this.DataService.select().then((data) => 
+		this.DataService.select().then((data) =>
 			this.listCameras(id,data)
 		);		
 	}

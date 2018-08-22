@@ -16,6 +16,7 @@ import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 import { NativeAudio } from '@ionic-native/native-audio';
+import { Network } from '@ionic-native/network';
 
 @Component({
   selector: 'page-home',
@@ -42,7 +43,7 @@ export class HomePage {
 	audioList: any[] = [];
 	dataSel: any = "del";
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio) {
+	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, private network: Network) {
 		this.camara = [];
 		this.toolbarActive = 'mic';
 		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
@@ -51,6 +52,16 @@ export class HomePage {
 			console.log(JSON.stringify(e));
 		});
 	}
+
+	/* ionViewDidEnter() {
+		this.network.onConnect().subscribe(data => {
+		  console.log(data)
+		}, error => console.error(error));
+	   
+		this.network.onDisconnect().subscribe(data => {
+		  console.log(data)
+		}, error => console.error(error));
+	  } */
 
 	listCameras(id,json){
 		this.camara = json;

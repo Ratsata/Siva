@@ -7,12 +7,14 @@ import { HomePage } from '../pages/home/home';
 import { ListCameraPage } from '../pages/list-camera/list-camera'
 //import { ListPage } from '../pages/list/list';
 import { AlarmPage } from '../pages/alarm/alarm';
+import { DataServiceProvider } from '../providers/data-service/data-service';
 
 import { TranslateService } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
 import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
+import { Network } from '@ionic-native/network';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +27,7 @@ export class MyApp {
   current: any;
   public counter=0;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -44,12 +46,11 @@ export class MyApp {
 
       //Notifications
       this.fcm.subscribeToTopic('all');
-      /* this.fcm.getToken().then(token=>{
-          console.log(token);
-      }) */
       this.fcm.onNotification().subscribe(data=>{
         if (data.type == "ip"){
-          console.log("IP: "+data.ip);
+          this.DataService.updateIp(data.topic,data.ip).then(res => {
+              console.log("New ip dynamic: "+data.ip);
+          });
         }else{
           console.log("Notification"+JSON.stringify(data));
         }
@@ -65,7 +66,19 @@ export class MyApp {
         console.log(token);
       });
 
-      this.network.onDisconnect()
+      let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+        console.log('network was disconnected :-(');
+      });
+      let connectSubscription = this.network.onConnect().subscribe(() => {
+        console.log('network connected!');
+        setTimeout(() => {
+          if (this.network.type === 'wifi') {
+            console.log('wifi');
+          }else{
+            console.log('not wifi - 3g');
+          }
+        }, 3000);
+      });
 
       this.platform.registerBackButtonAction(() => {
         console.log("click");

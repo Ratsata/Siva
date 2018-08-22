@@ -57,6 +57,20 @@ export class DataServiceProvider {
     });
   }
 
+  updateIp(id, ipDynamic){
+    return new Promise((resolve, reject) => {
+      this.open().then((teste) => {
+        teste.executeSql('UPDATE SV_CAMARA SET ds_ipDynamic = ? WHERE ds_id = ?',
+        [ipDynamic,
+          id
+        ])
+        .then((data) => {
+          resolve(data);
+        })
+      });
+    });
+  }
+
   open(){
     return this.sqlite.create({name: 'ionicdb.db', location: 'default'});
     /* return this.sqlite.create({name: 'ionicdb.db', location: 'default'}).then((db: SQLiteObject) => {

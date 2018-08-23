@@ -16,7 +16,8 @@ export class MediaPlayerService
 
     var cfg = {
       "autostart": true,
-      "controls" : true,
+      "controls" : false, //P
+      //"controls" : true, //D
       "playbackRateControls" : true,
       //"file":  "http://192.168.0.117:8080/hls/stream.m3u8",
       "file" : media.url,

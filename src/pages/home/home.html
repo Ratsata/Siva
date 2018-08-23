@@ -37,7 +37,7 @@
           <button style="height: 100%"  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(1);">
             <ion-icon style="font-size: 40px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div style="height: 100%" [ngClass]="[(!videoActive1)?'invisib':'visibl']" id="myMediaDiv1">Cargando contenido...</div>
+          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv1">Cargando contenido...</div></div>
           <!-- &nbsp; -->
         </div>
       </ion-col>
@@ -47,7 +47,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div style="height: 100%" [ngClass]="[(!videoActive2)?'invisib':'visibl']" id="myMediaDiv2">Cargando contenido...</div>
+          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv2">Cargando contenido...</div></div>
           &nbsp;
         </div>
       </ion-col>
@@ -59,7 +59,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" id="myMediaDiv3">Cargando contenido...</div>
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv3">Cargando contenido...</div></div>
           &nbsp;
         </div>
       </ion-col>
@@ -69,7 +69,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="getCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" id="myMediaDiv4">Cargando contenido...</div>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv4">Cargando contenido...</div></div>
           &nbsp;
         </div>
       </ion-col>
@@ -88,11 +88,11 @@
             <ion-icon style="font-size: 40px" name="move"></ion-icon>
           </button>
         </ion-col>
-        <!-- <ion-col text-center>
-          <button class="toolbar" [class.active]="toolbarActive=='camera'" ion-button icon-only (click)="toolbar('camera');">
-            <ion-icon style="font-size: 40px" name="camera"></ion-icon>
+        <ion-col text-center>
+          <button class="toolbar" [class.active]="toolbarActive=='trash'" ion-button icon-only (click)="deleteButtonToolbar()">
+            <ion-icon style="font-size: 40px" name="trash"></ion-icon>
           </button>
-        </ion-col> -->
+        </ion-col>
       </ion-row>
   </ion-grid>
   <!-- <div (click)="someAction();">

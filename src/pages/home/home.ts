@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController,
-		ToastController,
 		ModalController,
-		AlertController } from 'ionic-angular';
+		AlertController, 
+		LoadingController} from 'ionic-angular';
+
 import { MediaPlayerService } from '../services/MediaPlayerService';
 import { DataServiceProvider } from '../../providers/data-service/data-service';
 
@@ -16,7 +17,7 @@ import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 import { NativeAudio } from '@ionic-native/native-audio';
-import { Network } from '@ionic-native/network';
+import { Toast } from '@ionic-native/toast';
 
 @Component({
   selector: 'page-home',
@@ -25,6 +26,7 @@ import { Network } from '@ionic-native/network';
 })
 
 export class HomePage {
+	[x: string]: any;
 	
 	private columnaCamera : string  = 'col6';
 	private selected : number = 1;
@@ -43,7 +45,7 @@ export class HomePage {
 	audioList: any[] = [];
 	dataSel: any = "del";
 
-	constructor(public navCtrl: NavController, public toastCtrl: ToastController, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, private network: Network) {
+	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController) {
 		this.camara = [];
 		this.toolbarActive = 'mic';
 		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
@@ -68,7 +70,6 @@ export class HomePage {
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
 		for (let x = 0; x < this.camara.length; x++) {
-			console.log(this.camara[x].ds_ipDynamic);
 			let check = (x==0)?true:false;
 			alert.addInput({
 				type: 'radio',
@@ -81,20 +82,44 @@ export class HomePage {
 		alert.addButton({
 		text: 'Aceptar',
 		handler: data => {
+			let ip = null;
 			if (data){
-				console.log(JSON.stringify(this.camara[data]));
+				const loader = this.loadingCtrl.create({
+					spinner: "dots",
+					content: "Conectando"
+				});
+				loader.present();
+				this.ping(this.camara[data].ds_ip,2).then((res) =>{
+					if(res["status"]=="nok"){
+						this.ping(this.camara[data].ds_ipDynamic,2).then((res) =>{
+							if(res["status"]=="nok"){
+								this.toast.showLongBottom("No se encuentra en linea").subscribe(
+									toast => { console.log("ERROR IP"); loader.dismiss();}
+								);
+							}else{
+								ip = res["ip"];
+								console.log("ipDynamic: "+ip);
+							}
+							loader.dismiss();
+						});
+					}else{
+						ip = res["ip"];
+						console.log("ip: "+ip);
+						loader.dismiss();
+					}
+				});
 				if (id==1){
 					this.videoActive1 = true;
-					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
 				}else if (id==2){
 					this.videoActive2 = true;
-					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
 				}else if (id==3){
 					this.videoActive3 = true;
-					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
 				}else if (id==4){
 					this.videoActive4 = true;
-					this.mplayer.loadMedia({"url":'http://'+this.camara[data].ds_ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
 				}
 			}
 		}
@@ -216,6 +241,40 @@ export class HomePage {
 		this.toolbarActive = data;
 	}
 
+	deleteButtonToolbar(){
+		const confirm = this.alertCtrl.create({
+			title: 'Quitar camara',
+			message: 'Esta seguro que desea quitar la camara de la lista?',
+			buttons: [{
+				text: 'Cancelar',
+				handler: () => {
+					return;
+				}
+			},{
+				text: 'Eliminar',
+				handler: () => {
+					document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
+					this.camResize(this.visible);
+					switch (this.visible) {
+						case 1:
+							this.videoActive1 = !this.videoActive1;
+							break;
+						case 2:
+							this.videoActive2 = !this.videoActive2;
+							break;
+						case 3:
+							this.videoActive3 = !this.videoActive3;
+							break;
+						case 4:
+							this.videoActive4 = !this.videoActive4;
+							break;
+					}
+				}
+			}]
+		});
+		confirm.present();
+	}
+
 	callHTTP(ip,uri){
 		this.httpadvance.get(ip+uri, {}, {}).then(data => {
 			return true;
@@ -254,13 +313,15 @@ export class HomePage {
   		});
 	}
 
-	ping(url="http://192.168.0.142/upload"){
-		this.httpadvance.setRequestTimeout(5);
-		console.log(this.httpadvance.getRequestTimeout());
-		this.httpadvance.get(url, {}, {}).then(data => {
-			console.log(data.data);
-		}).catch(error => {
-			console.log(JSON.stringify(error));
+	ping(url,tiempo = 5){
+		return new Promise((resolve, reject) => {
+			if (url.substring(0, 4) != "http") url = "http://"+url;
+			this.httpadvance.setRequestTimeout(tiempo);
+			this.httpadvance.get(url, {}, {}).then(data => {
+				resolve ({"ip":url,"status":"ok"});
+			}).catch(error => {
+				resolve ({"ip":url,"status":"nok"});
+			});
 		});
 	}
 

@@ -63,7 +63,7 @@ export class ListCameraPage {
   deleteConfirm(id,nombre,ip) {
     const confirm = this.alertCtrl.create({
       title: 'Eliminar camara',
-      message: 'Esta seguro que quiere eliminar la camara: '+nombre+'?',
+      message: 'Esta seguro que desea eliminar la camara: '+nombre+'?',
       buttons: [
         {
           text: 'Cancelar',

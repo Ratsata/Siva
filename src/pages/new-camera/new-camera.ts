@@ -73,50 +73,27 @@ export class NewCameraPage {
   saveData() {
     if (!this.form.valid) { return; }
     if (!this.validateIP(this.form.value.ds_ip)){
-      this.toast.show('IP Incorrecta, ingrese una valida', '5000', 'center').subscribe(
-        toast => { console.log("ERROR IP"); }
-      );
+      this.toast.show('IP Incorrecta, ingrese una valida', '5000', 'center').subscribe(toast => { 
+        console.log("ERROR IP"); 
+      });
       return;
     }
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?,NULL)',[this.form.value.ds_nombre,
-                                                                        this.form.value.ds_id,
-                                                                        this.form.value.ds_ip,
-                                                                        this.form.value.ds_port,
-                                                                        this.form.value.ds_usuario,
-                                                                        this.form.value.ds_hash,
-                                                                        1])
-        .then(res => {
-          this.fcm.subscribeToTopic(this.form.value.ds_id);
-          this.httpadvance.post('http://'+this.form.value.ds_ip+'/upload/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
-            console.log("POST");
-          }).catch(error => {
-            console.log("ERROR POST");
-          });
-          this.toast.show('Creación Exitosa!', '5000', 'center').subscribe(
-            toast => {
-              this.viewCtrl.dismiss(this.form.value);
-            }
-          );
-        })
-        .catch(e => {
-          e = JSON.stringify(e);
-          this.toast.show(e, '5000', 'center').subscribe(
-            toast => {
-              console.log(toast);
-            }
-          );
-        });
+    this.DataService.insertCamara(this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash).
+    then(res => {
+      this.fcm.subscribeToTopic(this.form.value.ds_id);
+      this.httpadvance.post('http://'+this.form.value.ds_ip+'/upload/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
+        console.log("POST");
+      }).catch(error => {
+        console.log("ERROR POST");
+      });
+      this.toast.show('Creación Exitosa!', '5000', 'center').subscribe(toast => {
+        this.viewCtrl.dismiss(this.form.value);
+      });
     }).catch(e => {
       e = JSON.stringify(e);
-      this.toast.show(e, '5000', 'center').subscribe(
-        toast => {
-          console.log(toast);
-        }
-      );
+      this.toast.show(e, '5000', 'center').subscribe(toast => {
+        console.log(toast);
+      });
     });
   }
 

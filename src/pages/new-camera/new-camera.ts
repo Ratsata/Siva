@@ -6,6 +6,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
 
+import { DataServiceProvider } from '../../providers/data-service/data-service';
+
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
@@ -25,7 +27,7 @@ export class NewCameraPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder,
     private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController, private fcm: FCM,
-    private httpadvance: HTTP) {
+    private httpadvance: HTTP, private DataService: DataServiceProvider) {
     this.form = formBuilder.group({
       ds_nombre: ['', Validators.required],
       ds_id: ['', Validators.required],
@@ -58,21 +60,14 @@ export class NewCameraPage {
   }
 
   getData(id) {
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT * FROM SV_CAMARA WHERE id_camara = ? AND st_estado = 1', [id])
-      .then(res => {
-        this.form.get('ds_nombre').setValue(res.rows.item(0).ds_nombre);
-        this.form.get('ds_id').setValue(res.rows.item(0).ds_id);
-        this.form.get('ds_ip').setValue(res.rows.item(0).ds_ip);
-        this.form.get('ds_port').setValue(res.rows.item(0).ds_port);
-        this.form.get('ds_usuario').setValue(res.rows.item(0).ds_usuario);
-        this.form.get('ds_hash').setValue(res.rows.item(0).ds_hash);
-      })
-      .catch(e => console.log(e));
-    }).catch(e => console.log(e));
+    this.DataService.selectCamara(id).then(res => {
+      this.form.get('ds_nombre').setValue(res[0].ds_nombre);
+      this.form.get('ds_id').setValue(res[0].ds_id);
+      this.form.get('ds_ip').setValue(res[0].ds_ip);
+      this.form.get('ds_port').setValue(res[0].ds_port);
+      this.form.get('ds_usuario').setValue(res[0].ds_usuario);
+      this.form.get('ds_hash').setValue(res[0].ds_hash);
+    }).catch(e => console.log(JSON.stringify(e)));
   }
 
   saveData() {
@@ -133,40 +128,16 @@ export class NewCameraPage {
       );
       return;
     }
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE SV_CAMARA SET ds_nombre = ?,ds_id = ?,ds_ip = ?,ds_port = ?,ds_usuario = ?,ds_hash = ? WHERE id_camara = ?',
-                                        [this.form.value.ds_nombre,
-                                          this.form.value.ds_id,
-                                          this.form.value.ds_ip,
-                                          this.form.value.ds_port,
-                                          this.form.value.ds_usuario,
-                                          this.form.value.ds_hash,
-                                        id])
-        .then(res => {
-          this.toast.show('Guardado exitoso!', '5000', 'center').subscribe(
-            toast => {
-              this.viewCtrl.dismiss(this.form.value);
-            }
-          );
-        })
-        .catch(e => {
-          e = JSON.stringify(e);
-          this.toast.show(e, '5000', 'center').subscribe(
-            toast => {
-              console.log(toast);
-            }
-          );
-        });
+    this.DataService.updateCamara(id,this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash,)
+    .then(res => {
+      this.toast.show('Guardado exitoso!', '5000', 'center').subscribe(toast => {
+        this.viewCtrl.dismiss(this.form.value);
+      });
     }).catch(e => {
       e = JSON.stringify(e);
-      this.toast.show(e, '5000', 'center').subscribe(
-        toast => {
-          console.log(toast);
-        }
-      );
+      this.toast.show(e, '5000', 'center').subscribe(toast => {
+        console.log(toast);
+      });
     });
   }
 

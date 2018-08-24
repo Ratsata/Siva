@@ -5,7 +5,8 @@ import { IonicPage,
         ModalController,
         AlertController } from 'ionic-angular';
 
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { DataServiceProvider } from '../../providers/data-service/data-service';
+
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
 import { LoadingController } from 'ionic-angular';
@@ -20,7 +21,7 @@ import { LoadingController } from 'ionic-angular';
 export class ListCameraPage {
   private camara : any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private sqlite: SQLite,public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP, public loadingCtrl: LoadingController, private DataService: DataServiceProvider) {
     this.camara = [];
   }
 
@@ -33,71 +34,7 @@ export class ListCameraPage {
   }
   
   getData() {
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      //db.executeSql('DROP TABLE SV_CAMARA', {}).then(res => console.log("borrado")).catch(e => console.log(JSON.stringify(e)));
-      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT, ds_ipDynamic TEXT)', {})
-      .then(res => console.log('Executed SQL'))
-      .catch(e => console.log(e));
-      db.executeSql('SELECT * FROM SV_CAMARA  ORDER BY id_camara ASC', {})
-      .then(res => {
-        this.camara = [];
-        for(var i=0; i<res.rows.length; i++) {
-          this.camara.push({id_camara:res.rows.item(i).id_camara,
-                            ds_nombre:res.rows.item(i).ds_nombre,
-                            ds_id:res.rows.item(i).ds_id,
-                            ds_ip:res.rows.item(i).ds_ip,
-                            ds_port:res.rows.item(i).ds_port,
-                            ds_usuario:res.rows.item(i).ds_usuario,
-                            ds_hash:res.rows.item(i).ds_hash,
-                            st_estado:res.rows.item(i).st_estado
-          })
-        }
-      })
-      .catch(e => console.log(JSON.stringify(e)));
-    }).catch(e => console.log(JSON.stringify(e)));
-  }
-
-  deleteConfirm(id,nombre,ip) {
-    const confirm = this.alertCtrl.create({
-      title: 'Eliminar camara',
-      message: 'Esta seguro que desea eliminar la camara: '+nombre+'?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: () => {
-            return;
-          }
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.deleteData(id,ip);
-          }
-        }
-      ]
-    });
-    confirm.present();
-  }
-  
-  deleteData(id,ip) {
-    this.sqlite.create({
-      name: 'ionicdb.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('DELETE FROM SV_CAMARA WHERE ds_id = ?',[id])
-      .then(res => {
-        this.fcm.unsubscribeFromTopic(id);
-        this.httpadvance.post('http://'+ip+'/upload/upload.php?action=remove&id='+id, {}, {}).then(data => {
-            console.log("POST");
-          }).catch(error => {
-            console.log("ERROR POST");
-        });
-        this.getData();
-      }).catch(e => console.log(JSON.stringify(e)));
-    }).catch(e => console.log(JSON.stringify(e)));
+    this.DataService.selectCamaras().then((data) => this.camara = data);
   }
 
   cameraModal(id="new") {
@@ -116,5 +53,32 @@ export class ListCameraPage {
       this.getData();
     });
 	}
+
+  deleteConfirm(id,nombre,ip) {
+    const confirm = this.alertCtrl.create({
+      title: 'Eliminar camara',
+      message: 'Esta seguro que desea eliminar la camara: '+nombre+'?',
+      buttons: [{
+        text: 'Cancelar',
+        handler: () => {
+          return;
+        }
+      },{
+        text: 'Eliminar',
+        handler: () => {
+          this.DataService.deleteCamara(id).then(res => {
+            this.fcm.unsubscribeFromTopic(id);
+            this.httpadvance.post('http://'+ip+'/upload/upload.php?action=remove&id='+id, {}, {}).then(data => {
+              console.log("POST");
+            }).catch(error => {
+              console.log("ERROR POST");
+            });
+            this.getData();
+          }).catch(e => console.log(JSON.stringify(e)));
+        }
+      }]
+    });
+    confirm.present();
+  }
 
 }

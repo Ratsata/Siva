@@ -26,7 +26,6 @@ import { Toast } from '@ionic-native/toast';
 })
 
 export class HomePage {
-	[x: string]: any;
 	
 	private columnaCamera : string  = 'col6';
 	private selected : number = 1;
@@ -38,6 +37,7 @@ export class HomePage {
 	videoActive4 : boolean = false;
 	toolbarActive : string;
 	camara: any;
+	dashboard: any;
 	recording: boolean = false;
 	filePath: string;
 	fileName: string;
@@ -47,6 +47,7 @@ export class HomePage {
 
 	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController) {
 		this.camara = [];
+		this.dashboard = [];
 		this.toolbarActive = 'mic';
 		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
 			console.log(JSON.stringify(e));
@@ -55,18 +56,24 @@ export class HomePage {
 		});
 	}
 
-	/* ionViewDidEnter() {
-		this.network.onConnect().subscribe(data => {
-		  console.log(data)
-		}, error => console.error(error));
-	   
-		this.network.onDisconnect().subscribe(data => {
-		  console.log(data)
-		}, error => console.error(error));
-	  } */
+	ionViewDidEnter() {
+		this.DataService.selectDashboard().then(data_dashboard => {
+			this.dashboard = data_dashboard;
+			this.DataService.selectCamaras().then((data_camara) =>{
+				this.camara = data_camara;
+				
+				for (let x = 0; x < this.dashboard.length; x++) {
+					for (let i = 0; i < this.camara.length; i++) {
+						if(this.dashboard[x].id_camara == this.camara[i].id_camara){
+							this.assignCameras(this.dashboard[x].id_cuadro,i);
+						}
+					}
+				}
+			});
+		})
+	}
 
-	listCameras(id,json){
-		this.camara = json;
+	alertCameras(id){
 		let alert = this.alertCtrl.create();
 		alert.setTitle('Seleccione una camara');
 		for (let x = 0; x < this.camara.length; x++) {
@@ -80,57 +87,57 @@ export class HomePage {
 		}
 		alert.addButton('Cancelar');
 		alert.addButton({
-		text: 'Aceptar',
-		handler: data => {
-			let ip = null;
-			if (data){
-				const loader = this.loadingCtrl.create({
-					spinner: "dots",
-					content: "Conectando"
-				});
-				loader.present();
-				this.ping(this.camara[data].ds_ip,2).then((res) =>{
-					if(res["status"]=="nok"){
-						this.ping(this.camara[data].ds_ipDynamic,2).then((res) =>{
-							if(res["status"]=="nok"){
-								this.toast.showLongBottom("No se encuentra en linea").subscribe(
-									toast => { console.log("ERROR IP"); loader.dismiss();}
-								);
-							}else{
-								ip = res["ip"];
-								console.log("ipDynamic: "+ip);
-							}
-							loader.dismiss();
-						});
-					}else{
-						ip = res["ip"];
-						console.log("ip: "+ip);
-						loader.dismiss();
-					}
-				});
-				if (id==1){
-					this.videoActive1 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
-				}else if (id==2){
-					this.videoActive2 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
-				}else if (id==3){
-					this.videoActive3 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
-				}else if (id==4){
-					this.videoActive4 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
-				}
+			text: 'Aceptar',
+			handler: data => {
+				this.DataService.insertDashboard(id, this.camara[data].id_camara)
+					.then(res => console.log(JSON.stringify(res)));
+				this.assignCameras(id,data);
 			}
-		}
 		});
 		alert.present();
 	}
 
-	getCameras(id) {
-		this.DataService.select().then((data) =>
-			this.listCameras(id,data)
-		);		
+	assignCameras(id_cuadro,index_cam){
+		let ip = null;
+		if (index_cam!=null){
+			const loader = this.loadingCtrl.create({
+				spinner: "dots",
+				content: "Conectando"
+			});
+			loader.present();
+			this.ping(this.camara[index_cam].ds_ip,2).then((res) =>{
+				if(res["status"]=="nok"){
+					this.ping(this.camara[index_cam].ds_ipDynamic,2).then((res) =>{
+						if(res["status"]=="nok"){
+							this.toast.showLongBottom("No se encuentra en linea").subscribe(
+								toast => { console.log("ERROR IP"); loader.dismiss();}
+							);
+						}else{
+							ip = res["ip"];
+							console.log("ipDynamic: "+ip);
+						}
+						loader.dismiss();
+					});
+				}else{
+					ip = res["ip"];
+					console.log("ip: "+ip);
+					loader.dismiss();
+				}
+			});
+			if (id_cuadro==1){
+				this.videoActive1 = true;
+				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+			}else if (id_cuadro==2){
+				this.videoActive2 = true;
+				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+			}else if (id_cuadro==3){
+				this.videoActive3 = true;
+				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+			}else if (id_cuadro==4){
+				this.videoActive4 = true;
+				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+			}
+		}
 	}
 
 	pressUp(){
@@ -169,6 +176,7 @@ export class HomePage {
 	dontpress(){
 		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
 	}
+
 
 	camSelect(id=1){
 		if (this.selected == id) id = null;
@@ -253,6 +261,8 @@ export class HomePage {
 			},{
 				text: 'Eliminar',
 				handler: () => {
+					this.DataService.deleteDashboard(this.visible)
+						.then(res => console.log(res));
 					document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
 					this.camResize(this.visible);
 					switch (this.visible) {
@@ -304,13 +314,6 @@ export class HomePage {
 				return ;
 			}
 		});
-	}
-
-	check(){
-		this.DataService.select().then(data => {
-			this.dataSel = data[0].ds_nombre;
-    		console.log(JSON.stringify(data));
-  		});
 	}
 
 	ping(url,tiempo = 5){

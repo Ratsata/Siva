@@ -10,6 +10,9 @@ export class DataServiceProvider {
       //db.executeSql('DROP TABLE SV_CAMARA', {});
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT, ds_ipDynamic TEXT)', []);
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_DASHBOARD(id_dashboard INTEGER PRIMARY KEY, id_cuadro INTEGER, id_camara INTEGER)', []);
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT)', []).then(res =>{
+        db.executeSql('INSERT INTO SV_CONFIG(id_config,ds_idioma,ds_tema) VALUES (1,"esp","dark_theme")');
+      });
     });
   }
 
@@ -159,6 +162,39 @@ export class DataServiceProvider {
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
         db.executeSql('DELETE FROM SV_DASHBOARD WHERE id_cuadro = ?', [id_cuadro])
+        .then((data) => {
+          resolve(data);
+        });
+      });
+    });
+  }
+
+  /* CONFIG */
+  selectConfig(){
+    return new Promise((resolve, reject) => {
+      this.open().then((db) => {
+        db.executeSql("SELECT * FROM SV_CONFIG", [])
+          .then((data) => {
+            let retorno = [];
+            for(var i =0; i< data.rows.length;i++){
+              retorno.push({id_config:data.rows.item(i).id_config,
+                ds_idioma:data.rows.item(i).ds_idioma,
+                ds_tema:data.rows.item(i).ds_tema
+              });
+            }
+            resolve(retorno);
+          });
+      });
+    });
+  }
+
+  updateConfig(ds_idioma,ds_tema,id=1){
+    return new Promise((resolve, reject) => {
+      this.open().then((db) => {
+        db.executeSql('UPDATE SV_CONFIG SET ds_idioma = ?,ds_tema = ? WHERE id_config = ?',
+            [ds_idioma,
+            ds_tema,
+            id])
         .then((data) => {
           resolve(data);
         });

@@ -5,8 +5,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListCameraPage } from '../pages/list-camera/list-camera';
-//import { ListPage } from '../pages/list/list';
 import { AlarmPage } from '../pages/alarm/alarm';
+import { ConfigPage } from '../pages/config/config';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -40,7 +40,8 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
-    AlarmPage
+    AlarmPage,
+    ConfigPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +60,8 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
-    AlarmPage
+    AlarmPage,
+    ConfigPage
   ],
   providers: [
     StatusBar,

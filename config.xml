@@ -3,7 +3,7 @@
     <name>Siva</name>
     <description>Project "SIVA" is a mobile app for security cameras developed by CleanVoltage.</description>
     <author email="lab-electronica@cleanvoltage.cl" href="http://cleanvoltage.cl/">Clean Voltage</author>
-    <content original-src="index.html" src="http://192.168.0.186:8104" />
+    <content original-src="index.html" src="http://192.168.0.186:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -127,4 +127,9 @@
     <allow-navigation href="http://192.168.0.186:8107" />
     <plugin name="cordova-sqlite-storage" spec="^2.3.3" />
     <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
+    <allow-navigation href="http://192.168.0.186:8108" />
+    <allow-navigation href="http://192.168.0.186:8109" />
+    <allow-navigation href="http://192.168.0.186:8110" />
+    <allow-navigation href="http://192.168.0.186:8111" />
+    <allow-navigation href="http://192.168.0.186:8112" />
 </widget>

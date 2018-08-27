@@ -4,9 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListCameraPage } from '../pages/list-camera/list-camera'
-//import { ListPage } from '../pages/list/list';
+import { ListCameraPage } from '../pages/list-camera/list-camera';
 import { AlarmPage } from '../pages/alarm/alarm';
+import { ConfigPage } from '../pages/config/config';
 import { DataServiceProvider } from '../providers/data-service/data-service';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -34,8 +34,8 @@ export class MyApp {
     this.pages = [
       { title: 'Inicio', component: HomePage },
       { title: 'Camaras', component: ListCameraPage },
-      { title: 'Alarma', component: AlarmPage }
-      //{ title: 'Configuracion', component: ListPage }
+      { title: 'Alarma', component: AlarmPage },
+      { title: 'Configuración', component: ConfigPage }
     ];
 
     this.initTranslate();

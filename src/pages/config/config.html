@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Configuracion</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card>
+    <ion-list>
+      <ion-list-header>Idioma</ion-list-header>
+      <ion-item>
+        <ion-label>Lenguaje</ion-label>
+        <ion-select [(ngModel)]="languaje">
+          <ion-option value="spanish">Español</ion-option>
+          <ion-option value="english">Ingles</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-list>
+      <ion-list-header>Interfaz</ion-list-header>
+      <ion-item>
+        <ion-label>Tema</ion-label>
+        <ion-select [(ngModel)]="theme">
+          <ion-option value="light">Claro</ion-option>
+          <ion-option value="dark">Oscuro</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-list>
+      <ion-list-header>Información</ion-list-header>
+      <ion-item-divider>
+        <ion-label item-start>Numero Modelo</ion-label>
+        <ion-label item-end style="color:black">Siva A602101</ion-label>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-label item-start>Version SW</ion-label>
+        <ion-label item-end style="color:black">Ver. 1.0</ion-label>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-label item-start>Version HW</ion-label>
+        <ion-label item-end style="color:black">Ver. 1.0</ion-label>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-label item-start>Derechos</ion-label>
+        <ion-label item-end style="color:black">CleanVoltage ®</ion-label>
+      </ion-item-divider>
+    </ion-list>
+  </ion-card>
+
+  
+</ion-content>

@@ -44,11 +44,16 @@ export class HomePage {
 	audio: MediaObject;
 	audioList: any[] = [];
 	dataSel: any = "del";
+	conexion: number;
+	enLinea: number;
+
 
 	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController) {
 		this.camara = [];
 		this.dashboard = [];
 		this.toolbarActive = 'mic';
+		this.conexion = 0;
+		this.enLinea = 0;
 		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
 			console.log(JSON.stringify(e));
 		}, function (e){
@@ -57,6 +62,8 @@ export class HomePage {
 	}
 
 	ionViewDidEnter() {
+		this.conexion = 0;
+		this.enLinea = 0;
 		this.DataService.selectDashboard().then(data_dashboard => {
 			this.dashboard = data_dashboard;
 			this.DataService.selectCamaras().then((data_camara) =>{
@@ -65,6 +72,7 @@ export class HomePage {
 				for (let x = 0; x < this.dashboard.length; x++) {
 					for (let i = 0; i < this.camara.length; i++) {
 						if(this.dashboard[x].id_camara == this.camara[i].id_camara){
+							this.conexion ++;
 							this.assignCameras(this.dashboard[x].id_cuadro,i);
 						}
 					}
@@ -109,12 +117,13 @@ export class HomePage {
 				if(res["status"]=="nok"){
 					this.ping(this.camara[index_cam].ds_ipDynamic,2).then((res) =>{
 						if(res["status"]=="nok"){
-							this.toast.showLongBottom("No se encuentra en linea").subscribe(
+							this.toast.showLongBottom("La camara "+this.camara[index_cam].ds_nombre+" no se encuentra en linea").subscribe(
 								toast => { console.log("ERROR IP"); loader.dismiss();}
 							);
 						}else{
 							ip = res["ip"];
 							console.log("ipDynamic: "+ip);
+							this.enLinea++;
 						}
 						loader.dismiss();
 					});
@@ -122,6 +131,7 @@ export class HomePage {
 					ip = res["ip"];
 					console.log("ip: "+ip);
 					loader.dismiss();
+					this.enLinea++;
 				}
 			});
 			if (id_cuadro==1){
@@ -318,13 +328,17 @@ export class HomePage {
 
 	ping(url,tiempo = 5){
 		return new Promise((resolve, reject) => {
-			if (url.substring(0, 4) != "http") url = "http://"+url;
-			this.httpadvance.setRequestTimeout(tiempo);
-			this.httpadvance.get(url, {}, {}).then(data => {
-				resolve ({"ip":url,"status":"ok"});
-			}).catch(error => {
+			if (url != null){
+				if (url.substring(0, 4) != "http") url = "http://"+url;
+				this.httpadvance.setRequestTimeout(tiempo);
+				this.httpadvance.get(url, {}, {}).then(data => {
+					resolve ({"ip":url,"status":"ok"});
+				}).catch(error => {
+					resolve ({"ip":url,"status":"nok"});
+				});
+			}else{
 				resolve ({"ip":url,"status":"nok"});
-			});
+			}
 		});
 	}
 

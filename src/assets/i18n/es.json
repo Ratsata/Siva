@@ -6,6 +6,9 @@
   "CANCEL_BUTTON_TEXT": "Cancelar",
   "DONE_BUTTON_TEXT": "Aceptar",
   "ADD_BUTTON_TEXT": "Añadir",
+
+  "LABEL_CONEXION": "Conexiones",
+  "LABEL_ONLINE": "En línea",
   
   "NAME": "Nombre",
   "ID": "N. Serie",

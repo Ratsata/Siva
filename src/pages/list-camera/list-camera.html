@@ -18,23 +18,27 @@
 
 <ion-content padding>
   <div class="inviseable">
-  <h2>Lista de camaras</h2>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of camara; let i=index">
-      <ion-item nopadding>
-        <ion-icon name="videocam" item-start></ion-icon>
-        <h2>{{item.ds_nombre}}</h2>
-        <ion-badge item-end>IP: {{item.ds_ip}}</ion-badge>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary" (click)="cameraModal(item.id_camara)">
-          <ion-icon name="paper"></ion-icon>
-        </button>
-        <button ion-button color="danger" (click)="deleteConfirm(item.ds_id,item.ds_nombre,item.ds_ip)">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <!-- <h2>Lista de camaras</h2>
+  <ion-list> -->
+    <ion-card>
+      <ion-list>
+        <ion-list-header>Lista de camaras</ion-list-header>
+        <ion-item-sliding *ngFor="let item of camara; let i=index">
+          <ion-item nopadding>
+            <ion-icon name="videocam" item-start></ion-icon>
+            <h2>{{item.ds_nombre}}</h2>
+            <ion-badge item-end>IP: {{item.ds_ip}}</ion-badge>
+          </ion-item>
+          <ion-item-options side="right">
+            <button ion-button color="primary" (click)="cameraModal(item.id_camara)">
+              <ion-icon name="paper"></ion-icon>
+            </button>
+            <button ion-button color="danger" (click)="deleteConfirm(item.ds_id,item.ds_nombre,item.ds_ip)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card>
   </div>
 </ion-content>

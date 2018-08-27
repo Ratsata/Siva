@@ -30,6 +30,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { FCM } from '@ionic-native/fcm';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { Network } from '@ionic-native/network';
+import { SettingsProvider } from '../providers/settings/settings';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -78,7 +79,8 @@ export function createTranslateLoader(http: HttpClient) {
     NativeAudio,
     FCM,
     QRScanner,
-    Network
+    Network,
+    SettingsProvider
   ]
 })
 export class AppModule {}

@@ -8,6 +8,7 @@ import { ListCameraPage } from '../pages/list-camera/list-camera';
 import { AlarmPage } from '../pages/alarm/alarm';
 import { ConfigPage } from '../pages/config/config';
 import { DataServiceProvider } from '../providers/data-service/data-service';
+import { SettingsProvider } from './../providers/settings/settings';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,11 +24,14 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
+  selectedTheme: String;
   pages: Array<{title: string, component: any}>;
   current: any;
   public counter=0;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider, public settings: SettingsProvider) {
+    this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+    
     this.initializeApp();
 
     // used for an example of ngFor and navigation

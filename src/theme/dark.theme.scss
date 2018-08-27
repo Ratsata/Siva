@@ -1,7 +1,7 @@
 .dark-theme {
     ion-content {
-      background-color: #090f2f;
-      color: #fff;
+      background-color: #333;
+      color: rgb(216, 216, 216);
     }
    
     .toolbar-title {
@@ -9,7 +9,7 @@
     }
    
     .header .toolbar-background {
-      border-color: #ff0fff;
-      background-color: #090f2f;
+      border-color: rgb(61, 61, 61);
+      background-color: rgb(37, 37, 37);
     }
 }  

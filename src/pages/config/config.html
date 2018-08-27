@@ -27,9 +27,9 @@
       <ion-list-header>Interfaz</ion-list-header>
       <ion-item>
         <ion-label>Tema</ion-label>
-        <ion-select [(ngModel)]="theme">
-          <ion-option value="light">Claro</ion-option>
-          <ion-option value="dark">Oscuro</ion-option>
+        <ion-select [(ngModel)]="selectedTheme" (ionChange)="toggleAppTheme($event)">
+          <ion-option value="light-theme">Claro</ion-option>
+          <ion-option value="dark-theme">Oscuro</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -56,6 +56,5 @@
       </ion-item-divider>
     </ion-list>
   </ion-card>
-
   
 </ion-content>

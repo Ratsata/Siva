@@ -3,20 +3,33 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Configuracion</ion-title>
+    <ion-title>{{ 'CONFIG_TITLE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-card>
+    <ion-list>
+      <ion-list-header>{{ 'CONFIG_HEADER1' | translate }}</ion-list-header>
+      <ion-item>
+        <ion-label>{{ 'CONFIG_LANGUAJE' | translate }}</ion-label>
+        <ion-select [(ngModel)]="selectedLang" (ionChange)="saveState()">
+          <ion-option value="es">{{ 'CONFIG_LANGUAJE_VAL1' | translate }}</ion-option>
+          <ion-option value="en">{{ 'CONFIG_LANGUAJE_VAL2' | translate }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card>
   
   <ion-card>
     <ion-list>
-      <ion-list-header>Idioma</ion-list-header>
+      <ion-list-header>{{ 'CONFIG_HEADER2' | translate }}</ion-list-header>
       <ion-item>
-        <ion-label>Lenguaje</ion-label>
-        <ion-select [(ngModel)]="languaje">
-          <ion-option value="spanish">Español</ion-option>
-          <ion-option value="english">Ingles</ion-option>
+        <ion-label>{{ 'CONFIG_THEME' | translate }}</ion-label>
+        <ion-select [(ngModel)]="selectedTheme" (ionChange)="saveState()">
+          <ion-option value="light-theme">{{ 'CONFIG_THEME_VAL1' | translate }}</ion-option>
+          <ion-option value="dark-theme">{{ 'CONFIG_THEME_VAL2' | translate }}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -24,34 +37,21 @@
 
   <ion-card>
     <ion-list>
-      <ion-list-header>Interfaz</ion-list-header>
-      <ion-item>
-        <ion-label>Tema</ion-label>
-        <ion-select [(ngModel)]="selectedTheme" (ionChange)="toggleAppTheme($event)">
-          <ion-option value="light-theme">Claro</ion-option>
-          <ion-option value="dark-theme">Oscuro</ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
-  <ion-card>
-    <ion-list>
-      <ion-list-header>Información</ion-list-header>
+      <ion-list-header>{{ 'CONFIG_HEADER3' | translate }}</ion-list-header>
       <ion-item-divider>
-        <ion-label item-start>Numero Modelo</ion-label>
+        <ion-label item-start>{{ 'CONFIG_MODEL' | translate }}</ion-label>
         <ion-label item-end style="color:black">Siva A602101</ion-label>
       </ion-item-divider>
       <ion-item-divider>
-        <ion-label item-start>Version SW</ion-label>
+        <ion-label item-start>{{ 'CONFIG_VER_SW' | translate }}</ion-label>
         <ion-label item-end style="color:black">Ver. 1.0</ion-label>
       </ion-item-divider>
       <ion-item-divider>
-        <ion-label item-start>Version HW</ion-label>
+        <ion-label item-start>{{ 'CONFIG_VER_HW' | translate }}</ion-label>
         <ion-label item-end style="color:black">Ver. 1.0</ion-label>
       </ion-item-divider>
       <ion-item-divider>
-        <ion-label item-start>Derechos</ion-label>
+        <ion-label item-start>{{ 'CONFIG_RIGHTS' | translate }}</ion-label>
         <ion-label item-end style="color:black">CleanVoltage ®</ion-label>
       </ion-item-divider>
     </ion-list>

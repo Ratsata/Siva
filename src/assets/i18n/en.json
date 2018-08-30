@@ -7,8 +7,9 @@
   "DONE_BUTTON_TEXT": "Accept",
   "ADD_BUTTON_TEXT": "Add",
   "DELETE_BUTTON_TEXT": "Delete",
+  "SAVE_BUTTON_TEXT": "Save",
 
-  "LABEL_CONEXION": "Connection",
+  "LABEL_CONEXION": "Connections",
   "LABEL_ONLINE": "OnLine",
 
   "NAME": "Name",
@@ -31,7 +32,32 @@
   "TAB_CONFIGURACION": "Configuration",
 
   "LIST_CAMERA_TITLE": "Registred Cameras",
+  "LIST_CAMERA_SUBTITLE": "List of cameras",
+
   "ALARM_TITLE": "Alarm",
+  "ALARM_SUBTITLE": "Security Alarm",
+  "ALARM_DESCRIPTION": "Select one of the predefined alarms and press the next button to activate an audible alarm on the SIVA device.",
+  "ALARM_ACTIVATE_TEXT": "Activated!",
+  "ALARM_DESACTIVATE_TEXT": "Desactivated",
+  "ALARM_OPTION1": "Theft",
+  "ALARM_OPTION2": "Fire",
+  "ALARM_OPTION3": "Emergency (other)",
+  "ALARM_STATUS": "Alarm status:",
+
+  "CONFIG_TITLE": "Configuration",
+  "CONFIG_HEADER1": "Internationalization",
+  "CONFIG_LANGUAJE": "Language",
+  "CONFIG_LANGUAJE_VAL1": "Spanish",
+  "CONFIG_LANGUAJE_VAL2": "English",
+  "CONFIG_HEADER2": "Interface",
+  "CONFIG_THEME": "Theme",
+  "CONFIG_THEME_VAL1": "Light",
+  "CONFIG_THEME_VAL2": "Dark",
+  "CONFIG_HEADER3": "About",
+  "CONFIG_MODEL": "Model Number",
+  "CONFIG_VER_SW": "Software Ver.",
+  "CONFIG_VER_HW": "Hardware Ver.",
+  "CONFIG_RIGHTS": "Rights",
 
   "CAMERA_ADD_TITLE": "Add Camera",
   "CAMERA_UPDATE_TITLE": "Update camera",

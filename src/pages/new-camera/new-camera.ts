@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
 
 import { DataServiceProvider } from '../../providers/data-service/data-service';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { FCM } from '@ionic-native/fcm';
@@ -25,9 +25,16 @@ export class NewCameraPage {
   camara : any = [];
   id: string;
 
+  /* Translate */
+  textIpFail: string;
+  textInsertSuccess: string;
+  textUpdateSuccess: string;
+  textQrPermission: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder,
-    private sqlite: SQLite, private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController, private fcm: FCM,
-    private httpadvance: HTTP, private DataService: DataServiceProvider) {
+    private toast: Toast, private qrScanner: QRScanner, private toastCtrl: ToastController, private fcm: FCM,
+    private httpadvance: HTTP, private DataService: DataServiceProvider, private translateService: TranslateService) {
+    this.initTranslate();
     this.form = formBuilder.group({
       ds_nombre: ['', Validators.required],
       ds_id: ['', Validators.required],
@@ -52,6 +59,23 @@ export class NewCameraPage {
     });
   }
 
+  initTranslate(){
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translateService.get('LABEL_IP_FAIL').subscribe(value => {
+        this.textIpFail = value;
+      });
+      this.translateService.get('LABEL_INSERT_SUCCESS').subscribe(value => {
+        this.textInsertSuccess = value;
+      });
+      this.translateService.get('LABEL_UPDATE_SUCCESS').subscribe(value => {
+        this.textUpdateSuccess = value;
+      });
+      this.translateService.get('LABEL_QR_PERMISSION').subscribe(value => {
+        this.textQrPermission = value;
+      });
+    });
+  }
+
   validateIP(ipaddress) {  
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
       return (true)  
@@ -73,7 +97,7 @@ export class NewCameraPage {
   saveData() {
     if (!this.form.valid) { return; }
     if (!this.validateIP(this.form.value.ds_ip)){
-      this.toast.show('IP Incorrecta, ingrese una valida', '5000', 'center').subscribe(toast => { 
+      this.toast.show(this.textIpFail, '5000', 'center').subscribe(toast => { 
         console.log("ERROR IP"); 
       });
       return;
@@ -86,7 +110,7 @@ export class NewCameraPage {
       }).catch(error => {
         console.log("ERROR POST");
       });
-      this.toast.show('Creación Exitosa!', '5000', 'center').subscribe(toast => {
+      this.toast.show(this.textInsertSuccess, '5000', 'center').subscribe(toast => {
         this.viewCtrl.dismiss(this.form.value);
       });
     }).catch(e => {
@@ -100,14 +124,14 @@ export class NewCameraPage {
   updateData(id){
     if (!this.form.valid) { return; }
     if (!this.validateIP(this.form.value.ds_ip)){
-      this.toast.show('IP Incorrecta, ingrese una valida', '5000', 'center').subscribe(
+      this.toast.show(this.textIpFail, '5000', 'center').subscribe(
         toast => { console.log("ERROR IP"); }
       );
       return;
     }
     this.DataService.updateCamara(id,this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash,)
     .then(res => {
-      this.toast.show('Guardado exitoso!', '5000', 'center').subscribe(toast => {
+      this.toast.show(this.textUpdateSuccess, '5000', 'center').subscribe(toast => {
         this.viewCtrl.dismiss(this.form.value);
       });
     }).catch(e => {
@@ -139,7 +163,7 @@ export class NewCameraPage {
         });
       } else if (status.denied) {
         let toast = this.toastCtrl.create({
-          message: 'Otorgue los permisos necesarios para escanear el código QR',
+          message: this.textQrPermission,
           duration: 5000,
           position: 'bottom'
         });

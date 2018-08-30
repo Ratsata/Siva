@@ -10,7 +10,7 @@ import { ConfigPage } from '../pages/config/config';
 import { DataServiceProvider } from '../providers/data-service/data-service';
 import { SettingsProvider } from './../providers/settings/settings';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
 import { Toast } from '@ionic-native/toast';
@@ -29,17 +29,20 @@ export class MyApp {
   current: any;
   public counter=0;
 
+  /* Translate */
+  textDashboard: string = "Inicio";
+  textCamera: string = "Camaras";
+  textAlarm: string = "Alarma";
+  textConfiguration: string = "Configuración";
+
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider, public settings: SettingsProvider) {
-    this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
-    
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Inicio', component: HomePage },
-      { title: 'Camaras', component: ListCameraPage },
-      { title: 'Alarma', component: AlarmPage },
-      { title: 'Configuración', component: ConfigPage }
+      { title: this.textDashboard, component: HomePage },
+      { title: this.textCamera, component: ListCameraPage },
+      { title: this.textAlarm, component: AlarmPage },
+      { title: this.textConfiguration, component: ConfigPage }
     ];
 
     this.initTranslate();
@@ -47,7 +50,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-
+      console.log("despues");
       //Notifications
       this.fcm.subscribeToTopic('all');
       this.fcm.onNotification().subscribe(data=>{
@@ -100,19 +103,32 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.current = this.nav.getActive();
       this.splashScreen.hide();
+      this.translate2();
     });
   }
 
   initTranslate() {
-    // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('es');
-    const browserLang = this.translate.getBrowserLang();
+    this.DataService.selectConfig().then(data => {
+      this.translate.use(data[0].ds_idioma);
+    });
+  }
 
-    if (browserLang) {
-      this.translate.use(this.translate.getBrowserLang());
-    } else {
-      this.translate.use('es');
-    }
+  translate2(){
+      this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        this.translate.get('TAB_INICIO').subscribe(value => {
+          this.textDashboard = value;
+        });
+        this.translate.get('TAB_CAMARAS').subscribe(value => {
+          this.textCamera = value;
+        });
+        this.translate.get('TAB_ALARMA').subscribe(value => {
+          this.textAlarm = value;
+        });
+        this.translate.get('TAB_CONFIGURACION').subscribe(value => {
+          this.textConfiguration = value;
+        });
+      });
   }
 
   presentToast() {

@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
 import { HTTP } from '@ionic-native/http';
-
-/**
- * Generated class for the AlarmPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -21,7 +14,14 @@ export class AlarmPage {
   status : boolean = false;
   tipo : string = "robo";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP) {
+    /* Translate */
+  textEncendido: string = "Encendido";
+  textApagado: string = "Apagado";
+  alarm_on: string;
+  alarm_off: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService) {
+    this.initTranslate();
     this.http.post("http://192.168.0.192/upload/upload.php?action=get", {}, {}).then(data => {
       this.alarmStatus = data["data"] ? true : false;
       this.changeStatus(this.alarmStatus);
@@ -29,14 +29,27 @@ export class AlarmPage {
       this.alarmStatus = false;
       this.changeStatus(false);
     });
+    console.log("Data: Final");
+  }
+
+  initTranslate(){
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translateService.get('LABEL_STATUS_ON').subscribe(value => {
+        this.textEncendido = value;
+        console.log("Value: "+this.textEncendido);
+      });
+      this.translateService.get('LABEL_STATUS_OFF').subscribe(value => {
+        this.textApagado = value;
+      });
+    });
   }
 
   alarmButton(){
     if(!this.alarmStatus){
-      this.labelStatus = "Encendido";
+      this.labelStatus = this.textEncendido;
       this.startAlarm();
     }else{
-      this.labelStatus = "Apagado";
+      this.labelStatus = this.textApagado;
       this.stopAlarm();
     }
     this.alarmStatus = !this.alarmStatus;
@@ -44,9 +57,9 @@ export class AlarmPage {
 
   changeStatus(value){
     if(value){
-      this.labelStatus = "Encendido";
+      this.labelStatus = this.textEncendido;
     }else{
-      this.labelStatus = "Apagado";
+      this.labelStatus = this.textApagado;
     }
   }
 

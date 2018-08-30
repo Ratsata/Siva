@@ -6,6 +6,7 @@ import { IonicPage,
         AlertController } from 'ionic-angular';
 
 import { DataServiceProvider } from '../../providers/data-service/data-service';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
@@ -20,9 +21,38 @@ import { LoadingController } from 'ionic-angular';
 
 export class ListCameraPage {
   private camara : any;
+
+  /* Translate */
+  textLoading: string;
+  textDeleteCamera: string;
+  textRemoveCamera: string;
+  textCancel: string;
+  textDelete: string;
+  textRemoveCameraText: string;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP, public loadingCtrl: LoadingController, private DataService: DataServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, private fcm: FCM, private httpadvance: HTTP, public loadingCtrl: LoadingController, private DataService: DataServiceProvider, private translateService: TranslateService) {
+    this.initTranslate();
     this.camara = [];
+  }
+
+  initTranslate(){
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translateService.get('LABEL_LOADING').subscribe(value => {
+        this.textLoading = value;
+      });
+      this.translateService.get('LABEL_REMOVE_CAMERA_2').subscribe(value => {
+        this.textRemoveCamera = value;
+      });
+      this.translateService.get('LABEL_REMOVE_CAMERA_TEXT').subscribe(value => {
+        this.textRemoveCameraText = value;
+      });
+      this.translateService.get('CANCEL_BUTTON_TEXT').subscribe(value => {
+        this.textCancel = value;
+      });
+      this.translateService.get('DELETE_BUTTON_TEXT').subscribe(value => {
+        this.textDelete = value;
+      });
+    });
   }
 
   ionViewDidLoad() {
@@ -39,7 +69,7 @@ export class ListCameraPage {
 
   cameraModal(id="new") {
     const loader = this.loadingCtrl.create({
-      content: "Cargando...",
+      content: this.textLoading,
       duration: 500
     });
     loader.present();
@@ -56,15 +86,15 @@ export class ListCameraPage {
 
   deleteConfirm(id,nombre,ip) {
     const confirm = this.alertCtrl.create({
-      title: 'Eliminar camara',
-      message: 'Esta seguro que desea eliminar la camara: '+nombre+'?',
+      title: this.textRemoveCamera,
+      message: this.textRemoveCameraText+nombre+'?',
       buttons: [{
-        text: 'Cancelar',
+        text: this.textCancel,
         handler: () => {
           return;
         }
       },{
-        text: 'Eliminar',
+        text: this.textDelete,
         handler: () => {
           this.DataService.deleteCamara(id).then(res => {
             this.fcm.unsubscribeFromTopic(id);

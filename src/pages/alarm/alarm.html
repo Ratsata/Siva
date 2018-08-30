@@ -12,25 +12,25 @@
 
 <ion-content padding style="vertical-align: center"  class="main">
 
-  <h2>Alarma de seguridad</h2>
-  <span>Seleccione una las alarmas predefinidas y presione el siguiente bot&oacute;n para activar una alarma sonora en el dispositivo SIVA.</span>
+  <h2>{{ 'ALARM_SUBTITLE' | translate }}</h2>
+  <span>{{ 'ALARM_DESCRIPTION' | translate }}</span>
   <ion-grid>
     <ion-row center>
       <input id="alarmButton" class="tgl tgl-skewed" id="cb3" type="checkbox" (click)="alarmButton()" [(ngModel)]="alarmStatus"/>
-      <label class="tgl-btn" data-tg-off="Desactivada" data-tg-on="Activada!" for="cb3"></label>
+      <label class="tgl-btn" data-tg-off="des" data-tg-on="act" for="cb3"></label>
     </ion-row>
   </ion-grid>
   <ion-list radio-group [(ngModel)]="tipo" style="margin-top: 15%">
     <ion-item>
-      <ion-label>Robo</ion-label>
+      <ion-label>{{ 'ALARM_OPTION1' | translate }}</ion-label>
       <ion-radio value="robo" [disabled]="alarmStatus"></ion-radio>
     </ion-item>
     <ion-item>
-      <ion-label>Incendio</ion-label>
+      <ion-label>{{ 'ALARM_OPTION2' | translate }}</ion-label>
       <ion-radio value="incendio" [disabled]="alarmStatus"></ion-radio>
     </ion-item>
     <ion-item>
-      <ion-label>Emergencia (otro)</ion-label>
+      <ion-label>{{ 'ALARM_OPTION3' | translate }}</ion-label>
       <ion-radio value="emergencia" [disabled]="alarmStatus"></ion-radio>
     </ion-item>
   </ion-list>
@@ -38,7 +38,7 @@
 
 <ion-footer>
   <ion-item>
-    <b item-start>Estado alarma:</b>
+    <b item-start>{{ 'ALARM_STATUS' | translate }}</b>
     <ion-badge item-end>{{labelStatus}}</ion-badge>
   </ion-item>
     

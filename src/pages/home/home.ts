@@ -18,6 +18,7 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 import { NativeAudio } from '@ionic-native/native-audio';
 import { Toast } from '@ionic-native/toast';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-home',
@@ -47,8 +48,19 @@ export class HomePage {
 	conexion: number;
 	enLinea: number;
 
+	/* Translate */
+	textTitleAlert: string = "";
+	textCancel: string = "";
+	textAccept: string = "";
+	textConnect: string = "";
+	textOffline: string = "";
+	textOffline2: string = "";
+	textRemove: string = "";
+	textDelete: string = "";
+	textRemoveTitle: string = "";
 
-	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController) {
+	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService) {
+		this.initTranslate();
 		this.camara = [];
 		this.dashboard = [];
 		this.toolbarActive = 'mic';
@@ -81,9 +93,41 @@ export class HomePage {
 		})
 	}
 
+	initTranslate(){
+		this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+			this.translateService.get('LABEL_TITLE_ALERT').subscribe(value => {
+				this.textTitleAlert = value;
+			});
+			this.translateService.get('CANCEL_BUTTON_TEXT').subscribe(value => {
+				this.textCancel = value;
+			});
+			this.translateService.get('DONE_BUTTON_TEXT').subscribe(value => {
+				this.textAccept = value;
+			});
+			this.translateService.get('LABEL_CONNECT').subscribe(value => {
+				this.textConnect = value;
+			});
+			this.translateService.get('LABEL_OFFLINE').subscribe(value => {
+				this.textOffline = value;
+			});
+			this.translateService.get('LABEL_OFFLINE2').subscribe(value => {
+				this.textOffline2 = value;
+			});
+			this.translateService.get('LABEL_REMOVE_CAMERA_TITLE').subscribe(value => {
+				this.textRemoveTitle = value;
+			});
+			this.translateService.get('LABEL_REMOVE_CAMERA').subscribe(value => {
+				this.textRemove = value;
+			});
+			this.translateService.get('DELETE_BUTTON_TEXT').subscribe(value => {
+				this.textDelete = value;
+			});
+		});
+	}
+
 	alertCameras(id){
 		let alert = this.alertCtrl.create();
-		alert.setTitle('Seleccione una camara');
+		alert.setTitle(this.textTitleAlert);
 		for (let x = 0; x < this.camara.length; x++) {
 			let check = (x==0)?true:false;
 			alert.addInput({
@@ -93,9 +137,9 @@ export class HomePage {
 				checked: check
 			});
 		}
-		alert.addButton('Cancelar');
+		alert.addButton(this.textCancel);
 		alert.addButton({
-			text: 'Aceptar',
+			text: this.textAccept,
 			handler: data => {
 				this.DataService.insertDashboard(id, this.camara[data].id_camara)
 					.then(res => console.log(JSON.stringify(res)));
@@ -110,14 +154,14 @@ export class HomePage {
 		if (index_cam!=null){
 			const loader = this.loadingCtrl.create({
 				spinner: "dots",
-				content: "Conectando"
+				content: this.textConnect
 			});
 			loader.present();
 			this.ping(this.camara[index_cam].ds_ip,2).then((res) =>{
 				if(res["status"]=="nok"){
 					this.ping(this.camara[index_cam].ds_ipDynamic,2).then((res) =>{
 						if(res["status"]=="nok"){
-							this.toast.showLongBottom("La camara "+this.camara[index_cam].ds_nombre+" no se encuentra en linea").subscribe(
+							this.toast.showLongBottom(this.textOffline+this.camara[index_cam].ds_nombre+this.textOffline2).subscribe(
 								toast => { console.log("ERROR IP"); loader.dismiss();}
 							);
 						}else{
@@ -261,15 +305,15 @@ export class HomePage {
 
 	deleteButtonToolbar(){
 		const confirm = this.alertCtrl.create({
-			title: 'Quitar camara',
-			message: 'Esta seguro que desea quitar la camara de la lista?',
+			title: this.textRemoveTitle,
+			message: this.textRemove,
 			buttons: [{
-				text: 'Cancelar',
+				text: this.textCancel,
 				handler: () => {
 					return;
 				}
 			},{
-				text: 'Eliminar',
+				text: this.textDelete,
 				handler: () => {
 					this.DataService.deleteDashboard(this.visible)
 						.then(res => console.log(res));

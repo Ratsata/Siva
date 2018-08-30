@@ -18,11 +18,9 @@
 
 <ion-content padding>
   <div class="inviseable">
-  <!-- <h2>Lista de camaras</h2>
-  <ion-list> -->
     <ion-card>
       <ion-list>
-        <ion-list-header>Lista de camaras</ion-list-header>
+        <ion-list-header>{{ 'LIST_CAMERA_SUBTITLE' | translate }}</ion-list-header>
         <ion-item-sliding *ngFor="let item of camara; let i=index">
           <ion-item nopadding>
             <ion-icon name="videocam" item-start></ion-icon>

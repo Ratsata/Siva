@@ -1,21 +1,54 @@
 {
+  "HOME_TITLE": "SIVA",
+  
   "BACK_BUTTON_TEXT": "Back",
   "NEXT_BUTTON_TEXT": "Next",
+  "CANCEL_BUTTON_TEXT": "Cancel",
+  "DONE_BUTTON_TEXT": "Accept",
+  "ADD_BUTTON_TEXT": "Add",
+  "DELETE_BUTTON_TEXT": "Delete",
+
+  "LABEL_CONEXION": "Connection",
+  "LABEL_ONLINE": "OnLine",
 
   "NAME": "Name",
+  "ID": "Serial N.",
   "IP": "IP",
+  "PORT": "Port",
+  "USER": "User",
+  "PASSWORD": "Password",
 
-  "TAB1_TITLE": "Items",
-  "TAB2_TITLE": "Search",
-  "TAB3_TITLE": "Settings",
+  "NAME_PLACEHOLDER": "Camera 1",
+  "ID_PLACEHOLDER": "svxxxxx",
+  "IP_PLACEHOLDER": "192.168.1.108",
+  "PORT_PLACEHOLDER": "554",
+  "USER_PLACEHOLDER": "user",
+  "PASSWORD_PLACEHOLDER": "password",
 
-  "SETTINGS_TITLE": "Settings",
-  "SETTINGS_OPTION1": "Option 1",
-  "SETTINGS_OPTION2": "Option 2",
-  "SETTINGS_OPTION3": "Option 3",
-  "SETTINGS_OPTION4": "Option 4",
+  "TAB_INICIO": "Dashboard",
+  "TAB_CAMARAS": "Cameras",
+  "TAB_ALARMA": "Alarm",
+  "TAB_CONFIGURACION": "Configuration",
 
-  "LIST_MASTER_TITLE": "Items",
+  "LIST_CAMERA_TITLE": "Registred Cameras",
+  "ALARM_TITLE": "Alarm",
 
-  "CAMERA_ADD_TITLE": "Add Camera"
+  "CAMERA_ADD_TITLE": "Add Camera",
+  "CAMERA_UPDATE_TITLE": "Update camera",
+
+  "LABEL_STATUS_ON": "POWER ON",
+  "LABEL_STATUS_OFF": "POWER OFF",
+  "LABEL_TITLE_ALERT": "Select a camera",
+  "LABEL_CONNECT": "Connecting",
+  "LABEL_OFFLINE": "The camera ",
+  "LABEL_OFFLINE2": " is offline",
+  "LABEL_REMOVE_CAMERA_TITLE": "Remove Camera",
+  "LABEL_REMOVE_CAMERA": "Are you sure you want to remove the camera from the list?",
+  "LABEL_LOADING": "Loading...",
+  "LABEL_REMOVE_CAMERA_2": "Remove camera",
+  "LABEL_REMOVE_CAMERA_TEXT": "Are you sure you want to delete the camera: ",
+  "LABEL_IP_FAIL": "Incorrect IP, enter a valid",
+  "LABEL_INSERT_SUCCESS": "Success!",
+  "LABEL_UPDATE_SUCCESS": "Success!",
+  "LABEL_QR_PERMISSION": "Grant the necessary permissions to scan the QR code"
 }

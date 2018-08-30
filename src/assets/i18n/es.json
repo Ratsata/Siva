@@ -6,6 +6,7 @@
   "CANCEL_BUTTON_TEXT": "Cancelar",
   "DONE_BUTTON_TEXT": "Aceptar",
   "ADD_BUTTON_TEXT": "Añadir",
+  "DELETE_BUTTON_TEXT": "Eliminar",
 
   "LABEL_CONEXION": "Conexiones",
   "LABEL_ONLINE": "En línea",
@@ -24,19 +25,30 @@
   "USER_PLACEHOLDER": "user",
   "PASSWORD_PLACEHOLDER": "password",
 
-  "TAB1_TITLE": "Items",
-  "TAB2_TITLE": "Buscar",
-  "TAB3_TITLE": "Ajustes",
-
-  "SETTINGS_TITLE": "Ajustes",
-  "SETTINGS_OPTION1": "Opción 1",
-  "SETTINGS_OPTION2": "Opción 2",
-  "SETTINGS_OPTION3": "Opción 3",
-  "SETTINGS_OPTION4": "Opción 4",
+  "TAB_INICIO": "Inicio",
+  "TAB_CAMARAS": "Camaras",
+  "TAB_ALARMA": "Alarma",
+  "TAB_CONFIGURACIÓN": "Configuración",
 
   "LIST_CAMERA_TITLE": "Camaras registradas",
   "ALARM_TITLE": "Alarma",
 
   "CAMERA_ADD_TITLE": "Agregar camara",
-  "CAMERA_UPDATE_TITLE": "Modificar camara"
+  "CAMERA_UPDATE_TITLE": "Modificar camara",
+
+  "LABEL_STATUS_ON": "ENCENDIDO",
+  "LABEL_STATUS_OFF": "APAGADO",
+  "LABEL_TITLE_ALERT": "Seleccione una camara",
+  "LABEL_CONNECT": "Conectando",
+  "LABEL_OFFLINE": "La camara  ",
+  "LABEL_OFFLINE2": " no se encuentra en linea",
+  "LABEL_REMOVE_CAMERA_TITLE": "Remove Camera",
+  "LABEL_REMOVE_CAMERA": "Esta seguro que desea quitar la camara de la lista?",
+  "LABEL_LOADING": "Cargando...",
+  "LABEL_REMOVE_CAMERA_2": "Eliminar camara",
+  "LABEL_REMOVE_CAMERA_TEXT": "Esta seguro que desea eliminar la camara: ",
+  "LABEL_IP_FAIL": "IP Incorrecta, ingrese una valida",
+  "LABEL_INSERT_SUCCESS": "Creación Exitosa!",
+  "LABEL_UPDATE_SUCCESS": "Guardado exitoso!",
+  "LABEL_QR_PERMISSION": "Otorgue los permisos necesarios para escanear el código QR"
 }

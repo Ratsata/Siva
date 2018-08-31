@@ -267,11 +267,11 @@ export class HomePage {
 
 	stopRecord() {
 		if (this.recording){
-		this.audio.stopRecord();
-		console.log("stopRecording");
-		this.recording = false;
-		this.sendRecord();
-		this.toggleClass();
+			this.audio.stopRecord();
+			console.log("stopRecording");
+			this.recording = false;
+			this.sendRecord();
+			this.toggleClass();
 		}else{
 			this.startRecord();
 		}

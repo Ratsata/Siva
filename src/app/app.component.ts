@@ -54,30 +54,9 @@ export class MyApp {
         }else{
           console.log("Notification"+JSON.stringify(data));
         }
-        if(data.wasTapped){ 
-          //console.log("Received in background");
-          //console.log(JSON.stringify(data));
-        } else {
-          //console.log("Received in foreground");
-          //console.log(JSON.stringify(data));
-        };
       })
       this.fcm.onTokenRefresh().subscribe(token=>{
         console.log(token);
-      });
-
-      let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-        console.log('network was disconnected :-(');
-      });
-      let connectSubscription = this.network.onConnect().subscribe(() => {
-        console.log('network connected!');
-        setTimeout(() => {
-          if (this.network.type === 'wifi') {
-            console.log('wifi');
-          }else{
-            console.log('not wifi - 3g');
-          }
-        }, 3000);
       });
 
       this.platform.registerBackButtonAction(() => {

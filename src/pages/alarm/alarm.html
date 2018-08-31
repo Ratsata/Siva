@@ -16,8 +16,8 @@
   <span>{{ 'ALARM_DESCRIPTION' | translate }}</span>
   <ion-grid>
     <ion-row center>
-      <input id="alarmButton" class="tgl tgl-skewed" id="cb3" type="checkbox" (click)="alarmButton()" [(ngModel)]="alarmStatus"/>
-      <label class="tgl-btn" data-tg-off="des" data-tg-on="act" for="cb3"></label>
+      <input id="alarmButton" class="tgl tgl-skewed" type="checkbox" (click)="alarmButton()" [(ngModel)]="alarmStatus"/>
+      <label id ="alarmSwitch" class="tgl-btn" data-tgOff="des" data-tgOn='act' for="alarmButton">qwe</label>
     </ion-row>
   </ion-grid>
   <ion-list radio-group [(ngModel)]="tipo" style="margin-top: 15%">

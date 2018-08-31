@@ -29,7 +29,7 @@
   "TAB_INICIO": "Inicio",
   "TAB_CAMARAS": "Camaras",
   "TAB_ALARMA": "Alarma",
-  "TAB_CONFIGURACIÓN": "Configuración",
+  "TAB_CONFIGURACION": "Configuración",
 
   "LIST_CAMERA_TITLE": "Camaras registradas",
   "LIST_CAMERA_SUBTITLE": "Lista de camaras",
@@ -57,13 +57,15 @@
   "CONFIG_MODEL": "Numero Modelo",
   "CONFIG_VER_SW": "Version SW",
   "CONFIG_VER_HW": "Version HW",
-  "CONFIG_RIGHTS": "Rights",
+  "CONFIG_RIGHTS": "Derechos",
 
   "CAMERA_ADD_TITLE": "Agregar camara",
   "CAMERA_UPDATE_TITLE": "Modificar camara",
 
   "LABEL_STATUS_ON": "ENCENDIDO",
   "LABEL_STATUS_OFF": "APAGADO",
+  "LABEL_ACTIVATED": "Activada!",
+  "LABEL_DESACTIVATED": "Desactivada",
   "LABEL_TITLE_ALERT": "Seleccione una camara",
   "LABEL_CONNECT": "Conectando",
   "LABEL_OFFLINE": "La camara  ",

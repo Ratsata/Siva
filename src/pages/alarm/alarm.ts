@@ -22,6 +22,9 @@ export class AlarmPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService) {
     this.initTranslate();
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.initTranslate();
+    });
     this.http.post("http://192.168.0.192/upload/upload.php?action=get", {}, {}).then(data => {
       this.alarmStatus = data["data"] ? true : false;
       this.changeStatus(this.alarmStatus);
@@ -29,18 +32,25 @@ export class AlarmPage {
       this.alarmStatus = false;
       this.changeStatus(false);
     });
-    console.log("Data: Final");
+  }
+
+  ionViewDidLoad(){
+    document.getElementById('alarmSwitch').dataset.tgon = this.alarm_on;
+    document.getElementById('alarmSwitch').dataset.tgoff = this.alarm_off;
   }
 
   initTranslate(){
-    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.translateService.get('LABEL_STATUS_ON').subscribe(value => {
-        this.textEncendido = value;
-        console.log("Value: "+this.textEncendido);
-      });
-      this.translateService.get('LABEL_STATUS_OFF').subscribe(value => {
-        this.textApagado = value;
-      });
+    this.translateService.get('LABEL_STATUS_ON').subscribe(value => {
+      this.textEncendido = value;
+    });
+    this.translateService.get('LABEL_STATUS_OFF').subscribe(value => {
+      this.textApagado = value;
+    });
+    this.translateService.get('LABEL_ACTIVATED').subscribe(value => {
+      this.alarm_on = value;
+    });
+    this.translateService.get('LABEL_DESACTIVATED').subscribe(value => {
+      this.alarm_off = value;
     });
   }
 

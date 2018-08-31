@@ -29,28 +29,21 @@ export class MyApp {
   current: any;
   public counter=0;
 
-  /* Translate */
-  textDashboard: string = "Inicio";
-  textCamera: string = "Camaras";
-  textAlarm: string = "Alarma";
-  textConfiguration: string = "Configuración";
-
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider, public settings: SettingsProvider) {
     this.initializeApp();
 
     this.pages = [
-      { title: this.textDashboard, component: HomePage },
-      { title: this.textCamera, component: ListCameraPage },
-      { title: this.textAlarm, component: AlarmPage },
-      { title: this.textConfiguration, component: ConfigPage }
+      { title: "Inicio", component: HomePage },
+      { title: "Camaras", component: ListCameraPage },
+      { title: "Alarma", component: AlarmPage },
+      { title: "Configuración", component: ConfigPage }
     ];
-
+    
     this.initTranslate();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      console.log("despues");
       //Notifications
       this.fcm.subscribeToTopic('all');
       this.fcm.onNotification().subscribe(data=>{
@@ -103,7 +96,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.current = this.nav.getActive();
       this.splashScreen.hide();
-      this.translate2();
     });
   }
 
@@ -111,24 +103,26 @@ export class MyApp {
     this.translate.setDefaultLang('es');
     this.DataService.selectConfig().then(data => {
       this.translate.use(data[0].ds_idioma);
+      this.translateData();
+      this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        this.translateData();
+      });
     });
   }
 
-  translate2(){
-      this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        this.translate.get('TAB_INICIO').subscribe(value => {
-          this.textDashboard = value;
-        });
-        this.translate.get('TAB_CAMARAS').subscribe(value => {
-          this.textCamera = value;
-        });
-        this.translate.get('TAB_ALARMA').subscribe(value => {
-          this.textAlarm = value;
-        });
-        this.translate.get('TAB_CONFIGURACION').subscribe(value => {
-          this.textConfiguration = value;
-        });
-      });
+  translateData(){
+    this.translate.get('TAB_INICIO').subscribe(value => {
+      this.pages[0].title = value;
+    });
+    this.translate.get('TAB_CAMARAS').subscribe(value => {
+      this.pages[1].title = value;
+    });
+    this.translate.get('TAB_ALARMA').subscribe(value => {
+      this.pages[2].title = value;
+    });
+    this.translate.get('TAB_CONFIGURACION').subscribe(value => {
+      this.pages[3].title = value;
+    });
   }
 
   presentToast() {

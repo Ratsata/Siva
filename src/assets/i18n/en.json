@@ -64,6 +64,8 @@
 
   "LABEL_STATUS_ON": "POWER ON",
   "LABEL_STATUS_OFF": "POWER OFF",
+  "LABEL_ACTIVATED": "Activated!",
+  "LABEL_DESACTIVATED": "Desactivated",
   "LABEL_TITLE_ALERT": "Select a camera",
   "LABEL_CONNECT": "Connecting",
   "LABEL_OFFLINE": "The camera ",

@@ -11,9 +11,6 @@ export class MediaPlayerService
 
   loadMedia(media, isAutoPlay) 
   {
-    console.log("Called");
-    console.log(media.Title,media.id,media.url);
-
     var cfg = {
       "autostart": true,
       "controls" : false, //P

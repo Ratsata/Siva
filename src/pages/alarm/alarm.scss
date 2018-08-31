@@ -76,12 +76,12 @@ page-alarm {
       
       &:after {
         left: 100%;
-        content: attr(data-tg-on);
+        content: attr(data-tgOn);
       }
       
       &:before {
         left: 0;
-        content: attr(data-tg-off);
+        content: attr(data-tgOff);
       }
       
       &:active {

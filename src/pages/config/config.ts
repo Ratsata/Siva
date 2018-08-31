@@ -21,9 +21,8 @@ export class ConfigPage {
 
   saveState() {
     this.DataService.updateConfig(this.selectedLang,this.selectedTheme);
-
-    this.settings.setActiveTheme(this.selectedTheme);
     this.translate.use(this.selectedLang);
+    this.settings.setActiveTheme(this.selectedTheme);
   }
   
 }

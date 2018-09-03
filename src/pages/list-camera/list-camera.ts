@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,
-        NavController,
+import { NavController,
         NavParams,
         ModalController,
         AlertController } from 'ionic-angular';
@@ -12,7 +11,7 @@ import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
 import { LoadingController } from 'ionic-angular';
 
-@IonicPage()
+
 @Component({
   selector: 'page-list-camera',
   templateUrl: 'list-camera.html',

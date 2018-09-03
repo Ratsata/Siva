@@ -15,7 +15,6 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { FCM } from '@ionic-native/fcm';
 import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
-import { Network } from '@ionic-native/network';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +28,7 @@ export class MyApp {
   current: any;
   public counter=0;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, private network: Network, public DataService: DataServiceProvider, public settings: SettingsProvider) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private translate: TranslateService, private fcm: FCM, public toast: Toast, public toastCtrl: ToastController, public DataService: DataServiceProvider, public settings: SettingsProvider) {
     this.initializeApp();
 
     this.pages = [
@@ -81,7 +80,10 @@ export class MyApp {
   initTranslate() {
     this.translate.setDefaultLang('es');
     this.DataService.selectConfig().then(data => {
+      console.log("init1");
+      console.log(JSON.stringify(data));
       this.translate.use(data[0].ds_idioma);
+      console.log("init2");
       this.translateData();
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.translateData();

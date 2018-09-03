@@ -10,9 +10,10 @@ export class SettingsProvider {
   
   constructor(public http: HttpClient, private DataService: DataServiceProvider) {
     this.theme = new BehaviorSubject('light-theme');
-    /* this.DataService.selectConfig().then(data =>{
+    this.DataService.selectConfig().then(data =>{
       this.setActiveTheme(data[0].ds_tema);
-    }); */
+      console.log("THEME:"+data[0].ds_tema);
+    });
   }
  
   setActiveTheme(val) {

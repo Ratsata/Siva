@@ -14,6 +14,7 @@ export class ConfigPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public settings: SettingsProvider, private DataService: DataServiceProvider, private translate: TranslateService) {
     this.DataService.selectConfig().then(data => {
+      console.log("DATA:!!!"+JSON.stringify(data));
       this.selectedLang = data[0].ds_idioma;
       this.selectedTheme = data[0].ds_tema;
     });

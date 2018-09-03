@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
@@ -12,7 +12,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
 
-@IonicPage()
+
 @Component({
   selector: 'page-new-camera',
   templateUrl: 'new-camera.html',

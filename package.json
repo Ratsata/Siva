@@ -90,6 +90,8 @@
       "cordova-plugin-fcm": {},
       "cordova-plugin-network-information": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
-@IonicPage()
+
 @Component({
   selector: 'page-alarm',
   templateUrl: 'alarm.html',

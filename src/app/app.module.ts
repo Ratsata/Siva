@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListCameraPage } from '../pages/list-camera/list-camera';
+import { NewCameraPage } from '../pages/new-camera/new-camera';
 import { AlarmPage } from '../pages/alarm/alarm';
 import { ConfigPage } from '../pages/config/config';
 
@@ -41,6 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
+    NewCameraPage,
     AlarmPage,
     ConfigPage
   ],
@@ -61,6 +63,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     ListCameraPage,
+    NewCameraPage,
     AlarmPage,
     ConfigPage
   ],

@@ -6,13 +6,12 @@ import { SQLite } from '@ionic-native/sqlite';
 export class DataServiceProvider {
 
   constructor(public http: HttpClient,private sqlite: SQLite) {
+    console.log("CONSTRUCTOR");
     this.open().then((db) => {
       //db.executeSql('DROP TABLE SV_CAMARA', {});
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT)', []);
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT, ds_ipDynamic TEXT)', []);
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_DASHBOARD(id_dashboard INTEGER PRIMARY KEY, id_cuadro INTEGER, id_camara INTEGER)', []);
-      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT)', []).then(res =>{
-        db.executeSql('INSERT INTO SV_CONFIG(id_config,ds_idioma,ds_tema) VALUES (1,"esp","dark_theme")');
-      });
     });
   }
 
@@ -171,18 +170,32 @@ export class DataServiceProvider {
 
   /* CONFIG */
   selectConfig(){
+    console.log("SELECCONFIG");
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
         db.executeSql("SELECT * FROM SV_CONFIG", [])
           .then((data) => {
             let retorno = [];
-            for(var i =0; i< data.rows.length;i++){
-              retorno.push({id_config:data.rows.item(i).id_config,
-                ds_idioma:data.rows.item(i).ds_idioma,
-                ds_tema:data.rows.item(i).ds_tema
-              });
+            if(data.rows.length == 0){
+              db.executeSql("INSERT INTO SV_CONFIG(ds_idioma,ds_tema) VALUES ('esp','dark_theme')", [])
+              .then((data) => {
+                console.log("insercion de datos");
+                retorno.push({id_config:"1",
+                  ds_idioma:"esp",
+                  ds_tema:"dark_theme"
+                });
+                resolve(retorno);
+              }).catch(e => console.log("ERROR"+JSON.stringify(e)));
+            }else{
+              console.log("only select de datos");
+              for(var i =0; i< data.rows.length;i++){
+                retorno.push({id_config:data.rows.item(i).id_config,
+                  ds_idioma:data.rows.item(i).ds_idioma,
+                  ds_tema:data.rows.item(i).ds_tema
+                });
+              }
+              resolve(retorno);
             }
-            resolve(retorno);
           });
       });
     });

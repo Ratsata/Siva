@@ -4,9 +4,9 @@ import { SQLite } from '@ionic-native/sqlite';
 
 @Injectable()
 export class DataServiceProvider {
+  intoConfigInsert: boolean = false;
 
   constructor(public http: HttpClient,private sqlite: SQLite) {
-    console.log("CONSTRUCTOR");
     this.open().then((db) => {
       //db.executeSql('DROP TABLE SV_CAMARA', {});
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT)', []);
@@ -170,24 +170,22 @@ export class DataServiceProvider {
 
   /* CONFIG */
   selectConfig(){
-    console.log("SELECCONFIG");
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
         db.executeSql("SELECT * FROM SV_CONFIG", [])
           .then((data) => {
             let retorno = [];
-            if(data.rows.length == 0){
-              db.executeSql("INSERT INTO SV_CONFIG(ds_idioma,ds_tema) VALUES ('esp','dark_theme')", [])
+            if(data.rows.length == 0 && !this.intoConfigInsert){
+              this.intoConfigInsert = true;
+              db.executeSql("INSERT INTO SV_CONFIG(ds_idioma,ds_tema) VALUES ('es','dark-theme')", [])
               .then((data) => {
-                console.log("insercion de datos");
                 retorno.push({id_config:"1",
                   ds_idioma:"esp",
                   ds_tema:"dark_theme"
                 });
                 resolve(retorno);
-              }).catch(e => console.log("ERROR"+JSON.stringify(e)));
+              }).catch(e => console.log(JSON.stringify(e)));
             }else{
-              console.log("only select de datos");
               for(var i =0; i< data.rows.length;i++){
                 retorno.push({id_config:data.rows.item(i).id_config,
                   ds_idioma:data.rows.item(i).ds_idioma,

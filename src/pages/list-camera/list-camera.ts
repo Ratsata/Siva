@@ -3,9 +3,10 @@ import { NavController,
         NavParams,
         ModalController,
         AlertController } from 'ionic-angular';
+import { NewCameraPage } from '../../pages/new-camera/new-camera';
 
 import { DataServiceProvider } from '../../providers/data-service/data-service';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FCM } from '@ionic-native/fcm';
 import { HTTP } from '@ionic-native/http';
@@ -34,32 +35,30 @@ export class ListCameraPage {
     this.camara = [];
   }
 
-  initTranslate(){
-    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.translateService.get('LABEL_LOADING').subscribe(value => {
-        this.textLoading = value;
-      });
-      this.translateService.get('LABEL_REMOVE_CAMERA_2').subscribe(value => {
-        this.textRemoveCamera = value;
-      });
-      this.translateService.get('LABEL_REMOVE_CAMERA_TEXT').subscribe(value => {
-        this.textRemoveCameraText = value;
-      });
-      this.translateService.get('CANCEL_BUTTON_TEXT').subscribe(value => {
-        this.textCancel = value;
-      });
-      this.translateService.get('DELETE_BUTTON_TEXT').subscribe(value => {
-        this.textDelete = value;
-      });
-    });
-  }
-
   ionViewDidLoad() {
     this.getData();
   }
-  
+
   ionViewWillEnter() {
     this.getData();
+  }
+
+  initTranslate(){
+    this.translateService.get('LABEL_LOADING').subscribe(value => {
+      this.textLoading = value;
+    });
+    this.translateService.get('LABEL_REMOVE_CAMERA_2').subscribe(value => {
+      this.textRemoveCamera = value;
+    });
+    this.translateService.get('LABEL_REMOVE_CAMERA_TEXT').subscribe(value => {
+      this.textRemoveCameraText = value;
+    });
+    this.translateService.get('CANCEL_BUTTON_TEXT').subscribe(value => {
+      this.textCancel = value;
+    });
+    this.translateService.get('DELETE_BUTTON_TEXT').subscribe(value => {
+      this.textDelete = value;
+    });
   }
   
   getData() {
@@ -72,7 +71,7 @@ export class ListCameraPage {
       duration: 500
     });
     loader.present();
-    let addModal = this.modalCtrl.create('NewCameraPage', { id: id });
+    let addModal = this.modalCtrl.create(NewCameraPage, { id: id });
     loader.onWillDismiss(item => {
       addModal.present();
       (window.document.querySelector('.inviseable') as HTMLElement).classList.add('invisib');

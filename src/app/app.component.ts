@@ -37,12 +37,13 @@ export class MyApp {
       { title: "Alarma", component: AlarmPage },
       { title: "Configuración", component: ConfigPage }
     ];
-    
-    this.initTranslate();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+      this.initTranslate();
+
       //Notifications
       this.fcm.subscribeToTopic('all');
       this.fcm.onNotification().subscribe(data=>{
@@ -80,10 +81,9 @@ export class MyApp {
   initTranslate() {
     this.translate.setDefaultLang('es');
     this.DataService.selectConfig().then(data => {
-      console.log("init1");
-      console.log(JSON.stringify(data));
+      this.settings.setActiveTheme(data[0].ds_tema);
       this.translate.use(data[0].ds_idioma);
-      console.log("init2");
+      console.log("USETRANSLATE");
       this.translateData();
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.translateData();

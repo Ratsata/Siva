@@ -6,7 +6,7 @@ import { Toast } from '@ionic-native/toast';
 import { ToastController } from 'ionic-angular';
 
 import { DataServiceProvider } from '../../providers/data-service/data-service';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { FCM } from '@ionic-native/fcm';
@@ -60,19 +60,17 @@ export class NewCameraPage {
   }
 
   initTranslate(){
-    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.translateService.get('LABEL_IP_FAIL').subscribe(value => {
-        this.textIpFail = value;
-      });
-      this.translateService.get('LABEL_INSERT_SUCCESS').subscribe(value => {
-        this.textInsertSuccess = value;
-      });
-      this.translateService.get('LABEL_UPDATE_SUCCESS').subscribe(value => {
-        this.textUpdateSuccess = value;
-      });
-      this.translateService.get('LABEL_QR_PERMISSION').subscribe(value => {
-        this.textQrPermission = value;
-      });
+    this.translateService.get('LABEL_IP_FAIL').subscribe(value => {
+      this.textIpFail = value;
+    });
+    this.translateService.get('LABEL_INSERT_SUCCESS').subscribe(value => {
+      this.textInsertSuccess = value;
+    });
+    this.translateService.get('LABEL_UPDATE_SUCCESS').subscribe(value => {
+      this.textUpdateSuccess = value;
+    });
+    this.translateService.get('LABEL_QR_PERMISSION').subscribe(value => {
+      this.textQrPermission = value;
     });
   }
 
@@ -104,6 +102,7 @@ export class NewCameraPage {
     }
     this.DataService.insertCamara(this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash).
     then(res => {
+      console.log(JSON.stringify(res));
       this.fcm.subscribeToTopic(this.form.value.ds_id);
       this.httpadvance.post('http://'+this.form.value.ds_ip+'/upload/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
         console.log("POST");

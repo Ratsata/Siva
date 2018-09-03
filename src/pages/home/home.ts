@@ -27,7 +27,6 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 
 export class HomePage {
-	
 	private columnaCamera : string  = 'col6';
 	private selected : number = 1;
 	private buttonActive : boolean = false;
@@ -60,7 +59,12 @@ export class HomePage {
 	textRemoveTitle: string = "";
 
 	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService) {
-		this.initTranslate();
+		console.log("initConstruct");
+		setInterval( () => {
+			this.initTranslate();
+		this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+			this.initTranslate();
+		});
 		this.camara = [];
 		this.dashboard = [];
 		this.toolbarActive = 'mic';
@@ -71,6 +75,8 @@ export class HomePage {
 		}, function (e){
 			console.log(JSON.stringify(e));
 		});
+	   }, 10000);
+	   console.log("endConstruct");
 	}
 
 	ionViewDidEnter() {
@@ -94,7 +100,6 @@ export class HomePage {
 	}
 
 	initTranslate(){
-		this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
 			this.translateService.get('LABEL_TITLE_ALERT').subscribe(value => {
 				this.textTitleAlert = value;
 			});
@@ -122,7 +127,6 @@ export class HomePage {
 			this.translateService.get('DELETE_BUTTON_TEXT').subscribe(value => {
 				this.textDelete = value;
 			});
-		});
 	}
 
 	alertCameras(id){
@@ -316,7 +320,7 @@ export class HomePage {
 				text: this.textDelete,
 				handler: () => {
 					this.DataService.deleteDashboard(this.visible)
-						.then(res => console.log(res));
+						.then(res => console.log(JSON.stringify(res)));
 					document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
 					this.camResize(this.visible);
 					switch (this.visible) {

@@ -57,25 +57,26 @@ export class HomePage {
 	textRemove: string = "";
 	textDelete: string = "";
 	textRemoveTitle: string = "";
+	textTitleNoCameras: string = "";
 
 	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService) {
 		console.log("initConstruct");
-		setInterval( () => {
+		setTimeout(() => {
 			this.initTranslate();
-		this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-			this.initTranslate();
-		});
-		this.camara = [];
-		this.dashboard = [];
-		this.toolbarActive = 'mic';
-		this.conexion = 0;
-		this.enLinea = 0;
-		this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
-			console.log(JSON.stringify(e));
-		}, function (e){
-			console.log(JSON.stringify(e));
-		});
-	   }, 10000);
+			this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+				this.initTranslate();
+			});
+			this.camara = [];
+			this.dashboard = [];
+			this.toolbarActive = 'mic';
+			this.conexion = 0;
+			this.enLinea = 0;
+			this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/rec-sound.wav').then(function (e){
+				console.log(JSON.stringify(e));
+			}, function (e){
+				console.log(JSON.stringify(e));
+			});
+		}, 1000);
 	   console.log("endConstruct");
 	}
 
@@ -97,11 +98,15 @@ export class HomePage {
 				}
 			});
 		})
+		console.log("ionViewDidEnter");
 	}
 
 	initTranslate(){
 			this.translateService.get('LABEL_TITLE_ALERT').subscribe(value => {
 				this.textTitleAlert = value;
+			});
+			this.translateService.get('LABEL_TITLE_NO_CAMERA').subscribe(value => {
+				this.textTitleNoCameras = value;
 			});
 			this.translateService.get('CANCEL_BUTTON_TEXT').subscribe(value => {
 				this.textCancel = value;
@@ -131,25 +136,30 @@ export class HomePage {
 
 	alertCameras(id){
 		let alert = this.alertCtrl.create();
-		alert.setTitle(this.textTitleAlert);
-		for (let x = 0; x < this.camara.length; x++) {
-			let check = (x==0)?true:false;
-			alert.addInput({
-				type: 'radio',
-				label: this.camara[x].ds_nombre,
-				value: x.toString(),
-				checked: check
-			});
-		}
-		alert.addButton(this.textCancel);
-		alert.addButton({
-			text: this.textAccept,
-			handler: data => {
-				this.DataService.insertDashboard(id, this.camara[data].id_camara)
-					.then(res => console.log(JSON.stringify(res)));
-				this.assignCameras(id,data);
+		if(this.camara.length>0){
+			alert.setTitle(this.textTitleAlert);
+			for (let x = 0; x < this.camara.length; x++) {
+				let check = (x==0)?true:false;
+				alert.addInput({
+					type: 'radio',
+					label: this.camara[x].ds_nombre,
+					value: x.toString(),
+					checked: check
+				});
 			}
-		});
+			alert.addButton(this.textCancel);
+			alert.addButton({
+				text: this.textAccept,
+				handler: data => {
+					this.DataService.insertDashboard(id, this.camara[data].id_camara)
+						.then(res => console.log(JSON.stringify(res)));
+					this.assignCameras(id,data);
+				}
+			});
+		}else{
+			alert.setTitle(this.textTitleNoCameras);
+			alert.addButton(this.textAccept);
+		}
 		alert.present();
 	}
 

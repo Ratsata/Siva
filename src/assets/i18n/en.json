@@ -67,6 +67,7 @@
   "LABEL_ACTIVATED": "Activated!",
   "LABEL_DESACTIVATED": "Desactivated",
   "LABEL_TITLE_ALERT": "Select a camera",
+  "LABEL_TITLE_NO_CAMERA": "No cameras registered",
   "LABEL_CONNECT": "Connecting",
   "LABEL_OFFLINE": "The camera ",
   "LABEL_OFFLINE2": " is offline",

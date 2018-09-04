@@ -49,23 +49,23 @@ Se edito el siguiente archivo para la funcionalidad de FCM
 > -   platforms/android/google-services.json
 > -   platforms/android/app/google-services.json
 
-##Notas Raspberry Pi
+## Notas Raspberry Pi
 
-###Programas
-**ffmpeg**: Encargado de la conversion de RTSP a RTMP
-**Nginx**: Servidor que aloja el streaming RTMP
-**LAMP**:  Servidor Rest-API escrito en php
-**Python 2.7**: Lenguaje para ejecutar las tareas programadas
-**cVlc**: Reproduccion de alarmas
-**mplayer**: Reproduccion de audios
+### Programas
+**ffmpeg**: *Encargado de la conversion de RTSP a RTMP*  
+**Nginx**: *Servidor que aloja el streaming RTMP*  
+**LAMP**: *Servidor Rest-API escrito en php*  
+**Python 2.7**: *Lenguaje para ejecutar las tareas programadas*  
+**cVlc**: *Reproduccion de alarmas*  
+**mplayer**: *Reproduccion de audios*  
 
-###Rutas
-    /var/www/html/upload/assets : Programas a ejecutar
+### Rutas
+    /var/www/html/upload/assets : Programas a ejecutar  
 	/home/pi/launcher.sh : Script que se lanza al iniciar' 
 
-###Otras
+### Otras
 **Red**: 
->Wifi Estatica
+>Wifi Estatica  
 >Ethernet Estatico Default 192.168.1.1
 
 **Conversion RTMP**:

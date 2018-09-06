@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DataServiceProvider } from '../../providers/data-service/data-service';
 
 
 @Component({
@@ -13,24 +14,37 @@ export class AlarmPage {
   alarmStatus : boolean;
   status : boolean = false;
   tipo : string = "robo";
+  camara: any;
 
-    /* Translate */
+  /* Translate */
   textEncendido: string = "Encendido";
   textApagado: string = "Apagado";
   alarm_on: string;
   alarm_off: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService, private DataService: DataServiceProvider) {
     this.initTranslate();
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.initTranslate();
     });
-    this.http.post("http://192.168.0.192/upload/upload.php?action=get", {}, {}).then(data => {
-      this.alarmStatus = data["data"] ? true : false;
-      this.changeStatus(this.alarmStatus);
-    }).catch(error => {
-      this.alarmStatus = false;
-      this.changeStatus(false);
+
+    this.camara = [];
+  }
+
+  ionViewDidEnter(){
+    this.DataService.selectCamaras().then((data_camara) =>{
+      this.camara = data_camara;
+      if(this.camara.length > 0){
+        for (let i = 0; i < this.camara.length; i++) {
+          this.http.post(this.camara["ds_nombre"], {}, {}).then(data => {
+            this.alarmStatus = data["data"] ? true : false;
+            this.changeStatus(this.alarmStatus);
+          });
+        }
+      }else{
+        this.alarmStatus = false;
+        this.changeStatus(false);
+      }
     });
   }
 

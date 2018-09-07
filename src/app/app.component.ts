@@ -83,7 +83,6 @@ export class MyApp {
     this.DataService.selectConfig().then(data => {
       this.settings.setActiveTheme(data[0].ds_tema);
       this.translate.use(data[0].ds_idioma);
-      console.log("USETRANSLATE");
       this.translateData();
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.translateData();

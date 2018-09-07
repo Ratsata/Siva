@@ -46,6 +46,7 @@ export class HomePage {
 	dataSel: any = "del";
 	conexion: number;
 	enLinea: number;
+	loading: boolean = true;
 
 	/* Translate */
 	textTitleAlert: string = "";
@@ -60,7 +61,6 @@ export class HomePage {
 	textTitleNoCameras: string = "";
 
 	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService) {
-		console.log("initConstruct");
 		setTimeout(() => {
 			this.initTranslate();
 			this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -76,18 +76,22 @@ export class HomePage {
 			}, function (e){
 				console.log(JSON.stringify(e));
 			});
+			this.prepareComponents();
 		}, 1000);
-	   console.log("endConstruct");
 	}
 
-	ionViewDidEnter() {
+	ionViewDidEnter(){
+		if(!this.loading) this.prepareComponents();
+	}
+
+	prepareComponents() {
 		this.conexion = 0;
 		this.enLinea = 0;
 		this.DataService.selectDashboard().then(data_dashboard => {
 			this.dashboard = data_dashboard;
 			this.DataService.selectCamaras().then((data_camara) =>{
 				this.camara = data_camara;
-				
+				this.loading = false;
 				for (let x = 0; x < this.dashboard.length; x++) {
 					for (let i = 0; i < this.camara.length; i++) {
 						if(this.dashboard[x].id_camara == this.camara[i].id_camara){
@@ -97,8 +101,7 @@ export class HomePage {
 					}
 				}
 			});
-		})
-		console.log("ionViewDidEnter");
+		});
 	}
 
 	initTranslate(){
@@ -135,32 +138,45 @@ export class HomePage {
 	}
 
 	alertCameras(id){
-		let alert = this.alertCtrl.create();
-		if(this.camara.length>0){
-			alert.setTitle(this.textTitleAlert);
-			for (let x = 0; x < this.camara.length; x++) {
-				let check = (x==0)?true:false;
-				alert.addInput({
-					type: 'radio',
-					label: this.camara[x].ds_nombre,
-					value: x.toString(),
-					checked: check
-				});
-			}
-			alert.addButton(this.textCancel);
-			alert.addButton({
-				text: this.textAccept,
-				handler: data => {
-					this.DataService.insertDashboard(id, this.camara[data].id_camara)
-						.then(res => console.log(JSON.stringify(res)));
-					this.assignCameras(id,data);
-				}
-			});
-		}else{
-			alert.setTitle(this.textTitleNoCameras);
-			alert.addButton(this.textAccept);
+		let timeout = 200;
+		const loader = this.loadingCtrl.create({
+			spinner: "dots",
+			content: this.textConnect
+		});
+		console.log(this.loading);
+		if(this.loading){
+			timeout = 1000;
 		}
-		alert.present();
+		loader.present();
+		setTimeout(() => {
+			loader.dismiss();
+			let alert = this.alertCtrl.create();
+			if(this.camara.length>0){
+				alert.setTitle(this.textTitleAlert);
+				for (let x = 0; x < this.camara.length; x++) {
+					let check = (x==0)?true:false;
+					alert.addInput({
+						type: 'radio',
+						label: this.camara[x].ds_nombre,
+						value: x.toString(),
+						checked: check
+					});
+				}
+				alert.addButton(this.textCancel);
+				alert.addButton({
+					text: this.textAccept,
+					handler: data => {
+						this.DataService.insertDashboard(id, this.camara[data].id_camara)
+							.then(res => console.log(JSON.stringify(res)));
+						this.assignCameras(id,data);
+					}
+				});
+			}else{
+				alert.setTitle(this.textTitleNoCameras);
+				alert.addButton(this.textAccept);
+			}
+			alert.present();
+		}, timeout);
 	}
 
 	assignCameras(id_cuadro,index_cam){
@@ -191,58 +207,59 @@ export class HomePage {
 					loader.dismiss();
 					this.enLinea++;
 				}
+			
+				if (id_cuadro==1){
+					this.videoActive1 = true;
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+				}else if (id_cuadro==2){
+					this.videoActive2 = true;
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+				}else if (id_cuadro==3){
+					this.videoActive3 = true;
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+				}else if (id_cuadro==4){
+					this.videoActive4 = true;
+					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+				}
 			});
-			if (id_cuadro==1){
-				this.videoActive1 = true;
-				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
-			}else if (id_cuadro==2){
-				this.videoActive2 = true;
-				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
-			}else if (id_cuadro==3){
-				this.videoActive3 = true;
-				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
-			}else if (id_cuadro==4){
-				this.videoActive4 = true;
-				this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
-			}
 		}
 	}
 
 	pressUp(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
 	}
 	pressDown(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
 	}
 	pressLeft(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
 	}
 	pressRight(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
 	}
 
 	clickUp(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
 	clickDown(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
 	}
 	clickLeft(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
 	}
 	clickRight(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=1000&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=1000&arg3=0');
 	}
 
 	pressZoom(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
 	}
 	pressWide(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
 	}
 
 	dontpress(){
-		this.callHTTP('http://192.168.1.108','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
+		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
 	}
 
 
@@ -292,7 +309,7 @@ export class HomePage {
 	}
 
 	sendRecord() {
-		let url = "http://192.168.0.142/upload/upload.php?action=voice";
+		let url = "http://192.168.0.117/upload/upload.php?action=voice";
 		this.fileName = 'voiceTemp.mp3';
 		let targetPath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
  
@@ -347,6 +364,7 @@ export class HomePage {
 							this.videoActive4 = !this.videoActive4;
 							break;
 					}
+					this.conexion--;
 				}
 			}]
 		});

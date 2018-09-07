@@ -79,5 +79,6 @@
   "LABEL_IP_FAIL": "Incorrect IP, enter a valid",
   "LABEL_INSERT_SUCCESS": "Success!",
   "LABEL_UPDATE_SUCCESS": "Success!",
-  "LABEL_QR_PERMISSION": "Grant the necessary permissions to scan the QR code"
+  "LABEL_QR_PERMISSION": "Grant the necessary permissions to scan the QR code",
+  "LABEL_ERROR_CONNECTION": "It has not been possible to communicate with the cameras"
 }

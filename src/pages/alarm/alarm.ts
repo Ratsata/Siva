@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DataServiceProvider } from '../../providers/data-service/data-service';
+import { Toast } from '@ionic-native/toast';
 
 
 @Component({
@@ -21,8 +22,9 @@ export class AlarmPage {
   textApagado: string = "Apagado";
   alarm_on: string;
   alarm_off: string;
+  error_connection: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService, private DataService: DataServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HTTP, private translateService: TranslateService, private DataService: DataServiceProvider, private toast: Toast) {
     this.initTranslate();
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.initTranslate();
@@ -36,9 +38,16 @@ export class AlarmPage {
       this.camara = data_camara;
       if(this.camara.length > 0){
         for (let i = 0; i < this.camara.length; i++) {
-          this.http.post(this.camara["ds_nombre"], {}, {}).then(data => {
+          let url = "http://"+ this.camara[i].ds_ip +"/upload/upload.php?action=getpid";
+          this.http.post(url, {}, {}).then(data => {
             this.alarmStatus = data["data"] ? true : false;
             this.changeStatus(this.alarmStatus);
+          }).catch(e=>{
+            let url = "http://"+ this.camara[i].ds_ipDynamic +"/upload/upload.php?action=getpid";
+            this.http.post(url, {}, {}).then(data => {
+              this.alarmStatus = data["data"] ? true : false;
+              this.changeStatus(this.alarmStatus);
+            }).catch(e=> console.log(JSON.stringify(e)));
           });
         }
       }else{
@@ -66,6 +75,9 @@ export class AlarmPage {
     this.translateService.get('LABEL_DESACTIVATED').subscribe(value => {
       this.alarm_off = value;
     });
+    this.translateService.get('LABEL_ERROR_CONNECTION').subscribe(value => {
+      this.error_connection = value;
+    });
   }
 
   alarmButton(){
@@ -88,20 +100,39 @@ export class AlarmPage {
   }
 
   startAlarm(){
-    this.callHTTP("http://192.168.0.192/upload/upload.php?action=alarm&tipo="+this.tipo);
+    this.callHTTP("alarm");
   }
 
   stopAlarm(){
-    this.callHTTP("http://192.168.0.192/upload/upload.php?action=stop");
-    
+    this.callHTTP("stop");
   }
 
-  callHTTP(url){
-    this.http.post(url, {}, {}).then(data => {
-      return data;
-    }).catch(error => {
-      return "NOK";
-    });
+  callHTTP(action="alarm"){
+    let swChange = false;
+    if(this.camara.length > 0){
+      for (let i = 0; i < this.camara.length; i++) {
+        let url = "http://"+ this.camara[i].ds_ip +"/upload/upload.php?action="+action+"&tipo="+this.tipo;
+        this.http.post(url, {}, {}).then(data => {
+          console.log(JSON.stringify(data));
+          swChange = true;
+        }).catch(error => {
+          let url = "http://"+ this.camara[i].ds_ipDynamic +"/upload/upload.php?action="+action+"&tipo="+this.tipo;
+          this.http.post(url, {}, {}).then(data => {
+            console.log(JSON.stringify(data));
+            swChange = true;
+          }).catch(e=> {
+            console.log(JSON.stringify(e));
+            if(this.camara.length-1 == i && !swChange){
+              this.toast.showLongCenter(this.error_connection).subscribe(toast => {
+                console.log(JSON.stringify(toast));
+              });
+            }
+            this.alarmStatus = false;
+            this.changeStatus(false);
+          });
+        });
+      }
+    }
   }
 
 }

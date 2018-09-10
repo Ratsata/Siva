@@ -9,8 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'config.html'
 })
 export class ConfigPage {
-  selectedTheme: string = "es";
-  selectedLang: string = "dark-theme";
+  selectedTheme: string;
+  selectedLang: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public settings: SettingsProvider, private DataService: DataServiceProvider, private translate: TranslateService) {
     this.DataService.selectConfig().then(data => {

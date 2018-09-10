@@ -15,8 +15,8 @@
       <ion-item>
         <ion-label>{{ 'CONFIG_LANGUAJE' | translate }}</ion-label>
         <ion-select [(ngModel)]="selectedLang" (ionChange)="saveState()">
-          <ion-option value="es">{{ 'CONFIG_LANGUAJE_VAL1' | translate }}</ion-option>
-          <ion-option value="en">{{ 'CONFIG_LANGUAJE_VAL2' | translate }}</ion-option>
+          <ion-option value="es" translate="CONFIG_LANGUAJE_VAL1"></ion-option>
+          <ion-option value="en" translate="CONFIG_LANGUAJE_VAL2"></ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -27,9 +27,10 @@
       <ion-list-header>{{ 'CONFIG_HEADER2' | translate }}</ion-list-header>
       <ion-item>
         <ion-label>{{ 'CONFIG_THEME' | translate }}</ion-label>
-        <ion-select [(ngModel)]="selectedTheme" (ionChange)="saveState()">
-          <ion-option value="light-theme">{{ 'CONFIG_THEME_VAL1' | translate }}</ion-option>
-          <ion-option value="dark-theme">{{ 'CONFIG_THEME_VAL2' | translate }}</ion-option>
+        <ion-select [(ngModel)]="selectedTheme" (ionChange)="saveState()" [selectedText]="'CONFIG_THEME_VAL1' | translate">
+          <!-- <ion-option *ngFor="let tema of dataTema" [value] = "tema.code" [(translate)]="tema.text"></ion-option> -->
+          <ion-option value="light-theme" translate="CONFIG_THEME_VAL1"></ion-option>
+          <ion-option value="dark-theme" translate="CONFIG_THEME_VAL2"></ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

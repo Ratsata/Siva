@@ -56,6 +56,7 @@ export class HomePage {
 	interval2: number;
 	interval3: number;
 	interval4: number;
+	ipActive: any;
 
 	/* Translate */
 	textTitleAlert: string = "";
@@ -77,6 +78,7 @@ export class HomePage {
 			});
 			this.camara = [];
 			this.dashboard = [];
+			this.ipActive = [];
 			this.toolbarActive = 'mic';
 			this.conexion = 0;
 			this.enLinea = 0;
@@ -222,28 +224,24 @@ export class HomePage {
 					loader.dismiss();
 					this.enLinea++;
 				}
-			
+				this.ipActive[id_cuadro] = ip;
 				if (id_cuadro==1){
 					this.videoActive1 = true;
-					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
 					this.interval1 = setInterval(() => { 
 						this.url001 = this.reloadIMG(ip);
-					}, 50);
+					}, 250);
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
-					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
 					this.interval2 = setInterval(() => { 
 						this.url002 = this.reloadIMG(ip);
 					}, 250);
 				}else if (id_cuadro==3){
 					this.videoActive3 = true;
-					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
 					this.interval3 = setInterval(() => { 
 						this.url003 = this.reloadIMG(ip);
 					}, 250);
 				}else if (id_cuadro==4){
 					this.videoActive4 = true;
-					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
 					this.interval4 = setInterval(() => { 
 						this.url004 = this.reloadIMG(ip);
 					}, 250);
@@ -253,40 +251,40 @@ export class HomePage {
 	}
 
 	pressUp(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
 	}
 	pressDown(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
 	}
 	pressLeft(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
 	}
 	pressRight(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
 	}
 
 	clickUp(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
 	}
 	clickDown(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
 	clickLeft(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
 	}
 	clickRight(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
 	}
 
 	pressZoom(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
 	}
 	pressWide(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
 	}
 
 	dontpress(){
-		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
 	}
 
 
@@ -336,25 +334,34 @@ export class HomePage {
 	}
 
 	sendRecord() {
-		let url = "http://192.168.0.117/upload/upload.php?action=voice";
 		this.fileName = 'voiceTemp.mp3';
 		let targetPath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
  
   		let options = {
-    		fileKey: "file",
+    		fileKey: 'file',
     		fileName: this.fileName,
     		chunkedMode: false,
-    		mimeType: "multipart/form-data",
+    		mimeType: 'multipart/form-data',
     		params : {'fileName': this.fileName}
   		};
  
   		const fileTransfer: TransferObject = this.transfer.create();
-		  
-  		fileTransfer.upload(targetPath, url, options).then(data => {
-			console.log("SUCCESS:"+JSON.stringify(data));
-  		}, err => {
-			console.log(JSON.stringify(err));
-  		});
+		if(this.columnaCamera == 'col12'){
+			let url = this.ipActive[this.visible]+'/upload/upload.php?action=voice';
+			fileTransfer.upload(targetPath, url, options).then(data => {
+				console.log("SUCCESS:"+JSON.stringify(data));
+			}, err => {
+				console.log(JSON.stringify(err));
+			});
+		}else{
+			this.ipActive.forEach(element => {
+				fileTransfer.upload(targetPath, element, options).then(data => {
+					console.log("SUCCESS:"+JSON.stringify(data));
+				}, err => {
+					console.log(JSON.stringify(err));
+				});
+			});
+		}
 	}
 
 	toolbar(data){
@@ -375,7 +382,6 @@ export class HomePage {
 				handler: () => {
 					this.DataService.deleteDashboard(this.visible)
 						.then(res => console.log(JSON.stringify(res)));
-					//document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
 					this.camResize(this.visible);
 					switch (this.visible) {
 						case 1:

@@ -3,8 +3,7 @@ import { NavController,
 		ModalController,
 		AlertController, 
 		LoadingController} from 'ionic-angular';
-
-import { MediaPlayerService } from '../services/MediaPlayerService';
+		
 import { DataServiceProvider } from '../../providers/data-service/data-service';
 
 import { HttpClient } from '@angular/common/http';
@@ -24,7 +23,7 @@ import { ImageLoader } from 'ionic-image-loader';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [MediaPlayerService, DataServiceProvider]
+  providers: [DataServiceProvider]
 })
 
 export class HomePage {
@@ -70,7 +69,7 @@ export class HomePage {
 	textRemoveTitle: string = "";
 	textTitleNoCameras: string = "";
 
-	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService, private imageLoader: ImageLoader) {
+	constructor(public navCtrl: NavController, public toast: Toast, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService, private imageLoader: ImageLoader) {
 		setTimeout(() => {
 			this.initTranslate();
 			this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -160,7 +159,6 @@ export class HomePage {
 			spinner: "dots",
 			content: this.textConnect
 		});
-		console.log(this.loading);
 		if(this.loading){
 			timeout = 1000;
 		}

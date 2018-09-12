@@ -19,6 +19,7 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { Toast } from '@ionic-native/toast';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ImageLoader } from 'ionic-image-loader';
 
 @Component({
   selector: 'page-home',
@@ -47,6 +48,14 @@ export class HomePage {
 	conexion: number;
 	enLinea: number;
 	loading: boolean = true;
+	url001: string = "#";
+	url002: string = "#";
+	url003: string = "#";
+	url004: string = "#";
+	interval1: number;
+	interval2: number;
+	interval3: number;
+	interval4: number;
 
 	/* Translate */
 	textTitleAlert: string = "";
@@ -60,7 +69,7 @@ export class HomePage {
 	textRemoveTitle: string = "";
 	textTitleNoCameras: string = "";
 
-	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService) {
+	constructor(public navCtrl: NavController, public toast: Toast, public mplayer: MediaPlayerService, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService, private imageLoader: ImageLoader) {
 		setTimeout(() => {
 			this.initTranslate();
 			this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -78,6 +87,12 @@ export class HomePage {
 			});
 			this.prepareComponents();
 		}, 1000);
+		this.imageLoader.clearCache();
+	}
+
+	reloadIMG(ip){
+		let random = "?" + Math.random();
+		return ip+'/rtsp/img/stream.jpg' + random;
 	}
 
 	ionViewDidEnter(){
@@ -210,56 +225,68 @@ export class HomePage {
 			
 				if (id_cuadro==1){
 					this.videoActive1 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv1"},true);
+					this.interval1 = setInterval(() => { 
+						this.url001 = this.reloadIMG(ip);
+					}, 50);
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv2"},true);
+					this.interval2 = setInterval(() => { 
+						this.url002 = this.reloadIMG(ip);
+					}, 250);
 				}else if (id_cuadro==3){
 					this.videoActive3 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv3"},true);
+					this.interval3 = setInterval(() => { 
+						this.url003 = this.reloadIMG(ip);
+					}, 250);
 				}else if (id_cuadro==4){
 					this.videoActive4 = true;
-					this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+					//this.mplayer.loadMedia({"url":ip+':8080/hls/stream.m3u8',"Title":"Test","id":"myMediaDiv4"},true);
+					this.interval4 = setInterval(() => { 
+						this.url004 = this.reloadIMG(ip);
+					}, 250);
 				}
 			});
 		}
 	}
 
 	pressUp(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Up&arg1=0&arg2=3&arg3=0');
 	}
 	pressDown(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Down&arg1=0&arg2=3&arg3=0');
 	}
 	pressLeft(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Left&arg1=0&arg2=3&arg3=0');
 	}
 	pressRight(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Right&arg1=0&arg2=3&arg3=0');
 	}
 
 	clickUp(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
 	}
 	clickDown(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
 	clickLeft(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
 	}
 	clickRight(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=1000&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
 	}
 
 	pressZoom(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=2');
 	}
 	pressWide(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=0&arg3=-2');
 	}
 
 	dontpress(){
-		this.callHTTP('http://192.168.0.117','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
+		this.callHTTP('http://192.168.0.117:3000/callPTZ','/cgi-bin/ptz.cgi?action=stop&channel=1&code=Up&arg1=0&arg2=0&arg3=0');
 	}
 
 
@@ -348,20 +375,24 @@ export class HomePage {
 				handler: () => {
 					this.DataService.deleteDashboard(this.visible)
 						.then(res => console.log(JSON.stringify(res)));
-					document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
+					//document.getElementById("myMediaDiv"+this.visible).innerHTML = "";
 					this.camResize(this.visible);
 					switch (this.visible) {
 						case 1:
 							this.videoActive1 = !this.videoActive1;
+							clearInterval(this.interval1);
 							break;
 						case 2:
 							this.videoActive2 = !this.videoActive2;
+							clearInterval(this.interval2);
 							break;
 						case 3:
 							this.videoActive3 = !this.videoActive3;
+							clearInterval(this.interval3);
 							break;
 						case 4:
 							this.videoActive4 = !this.videoActive4;
+							clearInterval(this.interval4);
 							break;
 					}
 					this.conexion--;
@@ -371,8 +402,14 @@ export class HomePage {
 		confirm.present();
 	}
 
-	callHTTP(ip,uri){
-		this.httpadvance.get(ip+uri, {}, {}).then(data => {
+	callHTTP(ip,uri, tiempo = 5){
+		this.httpadvance.setRequestTimeout(tiempo);
+		let data = {
+			'url' : uri,
+			'user': 'admin',
+			'pass': 'cleanvoltage2018'
+		}
+		this.httpadvance.get(ip, data, {}).then(data => {
 			return true;
 		}).catch(error => {
 			try{

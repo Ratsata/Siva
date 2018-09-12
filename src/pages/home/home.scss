@@ -62,6 +62,12 @@ page-home {
         line-height: 140px;
     }
     
+    .imgLoader{
+        display: grid;
+        padding-top: 7.5%;
+        height: 100%;
+    }
+    
     .unclick{
         pointer-events: none;
     }
@@ -110,11 +116,6 @@ page-home {
     .visibl{
         visibility: visible;
     }
-
-    .class3{
-        background-color: yellow;
-    }
-
 
     .rec{
         animation-name: pulse;

@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content class="main">
-  
   <ion-grid style="padding: 5px">
     <ion-row>
       <!-- CUADRO 1 -->
@@ -17,8 +16,7 @@
           <button style="height: 100%"  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(1);">
             <ion-icon style="font-size: 40px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv1">Cargando contenido...</div></div>
-          <!-- &nbsp; -->
+          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv1" class="imgLoader" [src]="url001" useImg></img-loader></div>
         </div>
       </ion-col>
       <!-- CUADRO 2 -->
@@ -27,8 +25,8 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv2">Cargando contenido...</div></div>
-          &nbsp;
+          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv2" class="imgLoader" [src]="url002" useImg></img-loader></div>
+          
         </div>
       </ion-col>
     </ion-row>
@@ -39,8 +37,8 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv3">Cargando contenido...</div></div>
-          &nbsp;
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv3" class="imgLoader" [src]="url003" useImg></img-loader></div>
+          
         </div>
       </ion-col>
       <!-- CUADRO 4 -->
@@ -49,7 +47,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><div id="myMediaDiv4">Cargando contenido...</div></div>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv4" class="imgLoader" [src]="url004" useImg></img-loader></div>
         </div>
       </ion-col>
     </ion-row>

@@ -32,6 +32,7 @@ import { FCM } from '@ionic-native/fcm';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { Network } from '@ionic-native/network';
 import { SettingsProvider } from '../providers/settings/settings';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,6 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    IonicImageLoader.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -56,6 +56,7 @@ export class HomePage {
 	interval3: number;
 	interval4: number;
 	ipActive: any;
+	intervalTime: number = 100;
 
 	/* Translate */
 	textTitleAlert: string = "";
@@ -96,10 +97,15 @@ export class HomePage {
 		return ip+'/rtsp/img/stream.jpg' + random;
 	}
 
+	swipe(event) {
+		if(event.direction==2) this.clickRight(4000);
+		if(event.direction==4) this.clickLeft(4000);
+	}
+
 	ionViewDidEnter(){
 		if(!this.loading) this.prepareComponents();
 	}
-
+	
 	prepareComponents() {
 		this.conexion = 0;
 		this.enLinea = 0;
@@ -227,22 +233,22 @@ export class HomePage {
 					this.videoActive1 = true;
 					this.interval1 = setInterval(() => { 
 						this.url001 = this.reloadIMG(ip);
-					}, 250);
+					}, this.intervalTime);
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
 					this.interval2 = setInterval(() => { 
 						this.url002 = this.reloadIMG(ip);
-					}, 250);
+					}, this.intervalTime);
 				}else if (id_cuadro==3){
 					this.videoActive3 = true;
 					this.interval3 = setInterval(() => { 
 						this.url003 = this.reloadIMG(ip);
-					}, 250);
+					}, this.intervalTime);
 				}else if (id_cuadro==4){
 					this.videoActive4 = true;
 					this.interval4 = setInterval(() => { 
 						this.url004 = this.reloadIMG(ip);
-					}, 250);
+					}, this.intervalTime);
 				}
 			});
 		}
@@ -267,11 +273,11 @@ export class HomePage {
 	clickDown(){
 		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
-	clickLeft(){
-		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
+	clickLeft(cant=1000){
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1='+cant+'&arg2=0&arg3=0');
 	}
-	clickRight(){
-		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+	clickRight(cant=1000){
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-'+cant+'&arg2=0&arg3=0');
 	}
 
 	pressZoom(){
@@ -341,8 +347,8 @@ export class HomePage {
     		chunkedMode: false,
     		mimeType: 'multipart/form-data',
     		params : {'fileName': this.fileName}
-  		};
- 
+		  };
+		  
   		const fileTransfer: TransferObject = this.transfer.create();
 		if(this.columnaCamera == 'col12'){
 			let url = this.ipActive[this.visible]+'/upload/upload.php?action=voice';
@@ -353,7 +359,7 @@ export class HomePage {
 			});
 		}else{
 			this.ipActive.forEach(element => {
-				fileTransfer.upload(targetPath, element, options).then(data => {
+				fileTransfer.upload(targetPath, element+'/upload/upload.php?action=voice', options).then(data => {
 					console.log("SUCCESS:"+JSON.stringify(data));
 				}, err => {
 					console.log(JSON.stringify(err));

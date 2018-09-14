@@ -16,7 +16,7 @@
           <button style="height: 100%"  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(1);">
             <ion-icon style="font-size: 40px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv1" class="imgLoader" [src]="url001" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv1" class="imgLoader" (swipe)="swipe($event);" [src]="url001" useImg></img-loader></div>
         </div>
       </ion-col>
       <!-- CUADRO 2 -->
@@ -25,7 +25,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv2" class="imgLoader" [src]="url002" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv2" class="imgLoader" (swipe)="swipe($event);" [src]="url002" useImg></img-loader></div>
           
         </div>
       </ion-col>
@@ -37,7 +37,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv3" class="imgLoader" [src]="url003" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv3" class="imgLoader" (swipe)="swipe($event);" [src]="url003" useImg></img-loader></div>
           
         </div>
       </ion-col>
@@ -47,7 +47,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv4" class="imgLoader" [src]="url004" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv4" class="imgLoader" (swipe)="swipe($event);" [src]="url004" useImg></img-loader></div>
         </div>
       </ion-col>
     </ion-row>

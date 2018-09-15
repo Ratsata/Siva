@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Sanitizer } from '@angular/core';
 import { NavController,
 		ModalController,
 		AlertController, 
@@ -19,6 +19,8 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { Toast } from '@ionic-native/toast';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ImageLoader } from 'ionic-image-loader';
+import { DomSanitizer } from '@angular/platform-browser';
+/* import * as jsmpeg from './../../assets/jsmpeg'; */
 
 @Component({
   selector: 'page-home',
@@ -47,7 +49,7 @@ export class HomePage {
 	conexion: number;
 	enLinea: number;
 	loading: boolean = true;
-	url001: string = "#";
+	url001: string = "";
 	url002: string = "#";
 	url003: string = "#";
 	url004: string = "#";
@@ -68,8 +70,9 @@ export class HomePage {
 	textDelete: string = "";
 	textRemoveTitle: string = "";
 	textTitleNoCameras: string = "";
+	sanitizer: any;
 
-	constructor(public navCtrl: NavController, public toast: Toast, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService, private imageLoader: ImageLoader) {
+	constructor(public navCtrl: NavController, public toast: Toast, public modalCtrl: ModalController,public alertCtrl: AlertController, public DataService: DataServiceProvider,public http: HttpClient, private httpadvance: HTTP, private media: Media, private file: File, private transfer: Transfer, private nativeAudio: NativeAudio, public loadingCtrl: LoadingController, private translateService: TranslateService, private imageLoader: ImageLoader, private _sanitizer: DomSanitizer) {
 		setTimeout(() => {
 			this.initTranslate();
 			this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -89,13 +92,24 @@ export class HomePage {
 			this.prepareComponents();
 		}, 1000);
 		this.imageLoader.clearCache();
+		this.sanitizer = Sanitizer;
+    	this.url001 = this.sanitizer.bypassSecurityTrustUrl("http://192.168.0..117");
 	}
 
 	reloadIMG(ip){
 		let random = "?" + Math.random();
 		return ip+'/rtsp/img/stream.jpg' + random;
 	}
+	ionViewDidLoad(){
+		/* var canvas:any = document.getElementById('videoCanvas');
+      	var ws = new WebSocket("ws://192.168.0.117:9999")
+        var player = new jsmpeg(ws, {canvas:canvas, autoplay:true,audio:false,loop: true}); */
+	}
 
+	resizeIframe(obj){
+		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+	}
+	
 	ionViewDidEnter(){
 		if(!this.loading) this.prepareComponents();
 	}
@@ -225,9 +239,10 @@ export class HomePage {
 				this.ipActive[id_cuadro] = ip;
 				if (id_cuadro==1){
 					this.videoActive1 = true;
-					this.interval1 = setInterval(() => { 
+					//this.url001 = "http://192.168.0.117/rtsp-stream"
+					/* this.interval1 = setInterval(() => { 
 						this.url001 = this.reloadIMG(ip);
-					}, 250);
+					}, 250); */
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
 					this.interval2 = setInterval(() => { 

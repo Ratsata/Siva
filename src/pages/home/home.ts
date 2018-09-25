@@ -1,4 +1,4 @@
-import { Component, Sanitizer } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController,
 		ModalController,
 		AlertController, 
@@ -19,8 +19,8 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { Toast } from '@ionic-native/toast';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ImageLoader } from 'ionic-image-loader';
-import { DomSanitizer } from '@angular/platform-browser';
-/* import * as jsmpeg from './../../assets/jsmpeg'; */
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import nipplejs from 'nipplejs';
 
 @Component({
   selector: 'page-home',
@@ -49,10 +49,10 @@ export class HomePage {
 	conexion: number;
 	enLinea: number;
 	loading: boolean = true;
-	url001: string = "";
-	url002: string = "#";
-	url003: string = "#";
-	url004: string = "#";
+	url001: SafeUrl;
+	url002: SafeUrl;
+	url003: SafeUrl;
+	url004: SafeUrl;
 	interval1: number;
 	interval2: number;
 	interval3: number;
@@ -92,18 +92,27 @@ export class HomePage {
 			this.prepareComponents();
 		}, 1000);
 		this.imageLoader.clearCache();
-		this.sanitizer = Sanitizer;
-    	this.url001 = this.sanitizer.bypassSecurityTrustUrl("http://192.168.0..117");
 	}
 
-	reloadIMG(ip){
-		let random = "?" + Math.random();
-		return ip+'/rtsp/img/stream.jpg' + random;
-	}
 	ionViewDidLoad(){
-		/* var canvas:any = document.getElementById('videoCanvas');
-      	var ws = new WebSocket("ws://192.168.0.117:9999")
-        var player = new jsmpeg(ws, {canvas:canvas, autoplay:true,audio:false,loop: true}); */
+		var options = {
+			zone: document.getElementById('zone_joystick'),
+			mode: 'static',
+			position: {left: '50%', top: '80%'},
+			color: 'transparent',
+			restOpacity: 1,
+			size: 175  
+		};
+	
+		var manager = nipplejs.create(options);
+		manager.on('move', (evt, data) => {
+			if(data.direction){
+				if(data.direction["angle"] == "up") this.clickUp();
+				if(data.direction["angle"] == "down") this.clickDown();
+				if(data.direction["angle"] == "left") this.clickLeft();
+				if(data.direction["angle"] == "right") this.clickRight();
+			}
+		});
 	}
 
 	resizeIframe(obj){
@@ -239,25 +248,16 @@ export class HomePage {
 				this.ipActive[id_cuadro] = ip;
 				if (id_cuadro==1){
 					this.videoActive1 = true;
-					//this.url001 = "http://192.168.0.117/rtsp-stream"
-					/* this.interval1 = setInterval(() => { 
-						this.url001 = this.reloadIMG(ip);
-					}, 250); */
+					this.url001 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
-					this.interval2 = setInterval(() => { 
-						this.url002 = this.reloadIMG(ip);
-					}, 250);
+					this.url002 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
 				}else if (id_cuadro==3){
 					this.videoActive3 = true;
-					this.interval3 = setInterval(() => { 
-						this.url003 = this.reloadIMG(ip);
-					}, 250);
+					this.url003 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
 				}else if (id_cuadro==4){
 					this.videoActive4 = true;
-					this.interval4 = setInterval(() => { 
-						this.url004 = this.reloadIMG(ip);
-					}, 250);
+					this.url004 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
 				}
 			});
 		}
@@ -449,11 +449,11 @@ export class HomePage {
 				};
 				this.httpadvance.get(ip+uri, {}, headers).then(data => {
 					return true;
-				}).catch(error => {
-					console.log(JSON.stringify(error));
+				}).catch(e => {
+					console.log(JSON.stringify(e));
 				});
 			}catch (e){
-				return ;
+				return e;
 			}
 		});
 	}

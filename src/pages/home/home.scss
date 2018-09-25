@@ -117,6 +117,10 @@ page-home {
         visibility: visible;
     }
 
+    .invisibl{
+        visibility: hidden;
+    }
+
     .rec{
         animation-name: pulse;
         animation-duration: 1.5s;
@@ -158,5 +162,82 @@ page-home {
         padding: 0;
         margin: 0;
       }
+  
+  $joy-size: 175px;
+  
+  #zone_joystick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: calc(50vh - $joy-size / 2);
+    
+    .nipple {
+  
+      &, .back, .front {
+        opacity: 0.99 !important;
+      }
+  
+      .front {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%), translateX(-50%);
+        padding: 10px !important;
+        box-shadow: 0 10px 20px rgba(101, 109, 120, 0.4) !important;
+        background: linear-gradient(to bottom, #fff 0%, #EBEEF3 100%) !important;
+    
+        &::before {
+          position: absolute;
+          content: '';
+          width: 100px;
+          height: 100px;
+          left: calc(50% - 50px);
+          top: calc(50% - 50px);
+          box-shadow: inset 0 0 20px rgba(#ffffff, 0.8);
+          background: radial-gradient(#5790DC, #5790DC 4px, transparent 5px), url('data:image/svg+xml;utf8,<svg width="136px" height="137px" viewBox="0 0 136 137" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.300000012"><g fill-rule="nonzero" fill="#AAB2BD"><polygon transform="translate(130.000000, 68.485714) scale(-1, 1) translate(-130.000000, -68.485714)" points="124 68.4857143 133.818182 78.7714286 136 76.4857143 128.363636 68.4857143 136 60.4857143 133.818182 58.2 125.090909 67.3428571"></polygon><polygon points="0.4 68.4857143 10.2181818 78.7714286 12.4 76.4857143 4.76363636 68.4857143 12.4 60.4857143 10.2181818 58.2 1.49090909 67.3428571"></polygon><polygon points="66.5857143 0.5 56.3 10.3181818 58.5857143 12.5 66.5857143 4.86363636 74.5857143 12.5 76.8714286 10.3181818 67.7285714 1.59090909"></polygon><polygon points="66.5857143 136.9 56.3 127.081818 58.5857143 124.9 66.5857143 132.536364 74.5857143 124.9 76.8714286 127.081818 67.7285714 135.809091"></polygon></g></g></svg>');
+          background-size: 76px 76px;
+          background-repeat: no-repeat;
+          background-position: 12px 12px;
+          border-radius: 100%;
+          z-index: 2;
+          border: 1px solid rgba(#CCD1D9, 0.3);
+        }
+  
+        &::after {
+          position: absolute;
+          content: '';
+          width: $joy-size / 2;
+          height: $joy-size / 2;
+          top: 0;
+          left: 0;
+          border-radius: 100%;
+          box-shadow: 0 2px 0 rgba(#fff, 0.6);
+          background: linear-gradient(to bottom, #e8edf4 0%, #f5f7fa 100%);
+        }
+      }
+  
+      .back {
+        position: absolute;
+        width: $joy-size;
+        height: $joy-size;
+        left: 0;
+        top: 0;
+        background: linear-gradient(to bottom, #f3f5f7 0%, #f9fafc 100%) !important;
+        padding: 6px;
+  
+        &::after {
+          position: absolute;
+          content: '';
+          width: $joy-size - 12;
+          height: $joy-size - 12;
+          border-radius: 100%;
+          box-shadow: inset 0 0 10px rgba(67, 74, 84, 0.4);
+          background: radial-gradient(ellipse at center, #fcfdff 0%, #d8dee7 100%);
+        }
+      }   
+    }
+  }
 }
-

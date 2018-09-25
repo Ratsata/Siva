@@ -97,10 +97,11 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visib':'invisib'">
+  <div id="zone_joystick" [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visibl':'invisibl'"></div>
+  <!-- <ion-grid [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visib':'invisib'">
       <ion-row justify-content-center>
-        <div id="joystick" style="width:160px;">
-          <svg width="100%" height="100%" viewBox="0 0 100 100">
+        <div id="joystick" style="width:160px;"> -->
+          <!-- <svg width="100%" height="100%" viewBox="0 0 100 100">
               <defs>
                   <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
                       <stop offset="0%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
@@ -133,10 +134,10 @@
               <a id="buttonDown"  (click)="clickDown();" (press)="pressDown();" (touchend)="dontpress();"> <path d="M50,93 60,75 40,75Z" fill="rgba(0,0,0,0.8)" /></a>
               <a id="buttonLeft"  (click)="clickLeft();" (press)="pressLeft();" (touchend)="dontpress();"> <path d="M7,50 25,60 25,40Z" fill="rgba(0,0,0,0.8)" /></a>
               <a id="buttonRight" (click)="clickRight();" (press)="pressRight();" (touchend)="dontpress();"><path d="M93,50 75,60 75,40Z" fill="rgba(0,0,0,0.8)" /></a>
-          </svg>
-      </div>
+          </svg> -->
+    <!--   </div>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
   <br>
   <!-- REC BUTTON -->
   <ion-grid [ngClass]="(columnaCamera=='col6' || toolbarActive=='mic')?'visib':'invisib'">

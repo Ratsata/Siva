@@ -3,7 +3,7 @@
     <name>Siva</name>
     <description>Project "SIVA" is a mobile app for security cameras developed by CleanVoltage.</description>
     <author email="lab-electronica@cleanvoltage.cl" href="http://cleanvoltage.cl/">Clean Voltage</author>
-    <content original-src="index.html" src="http://192.168.0.186:8105" />
+    <content original-src="index.html" src="http://192.168.0.186:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

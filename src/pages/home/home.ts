@@ -58,6 +58,8 @@ export class HomePage {
 	interval3: number;
 	interval4: number;
 	ipActive: any;
+	isMove: boolean = false;
+	timeStart: number = 0;
 
 	/* Translate */
 	textTitleAlert: string = "";
@@ -105,12 +107,15 @@ export class HomePage {
 		};
 	
 		var manager = nipplejs.create(options);
+
 		manager.on('move', (evt, data) => {
 			if(data.direction){
-				if(data.direction["angle"] == "up") this.clickUp();
-				if(data.direction["angle"] == "down") this.clickDown();
-				if(data.direction["angle"] == "left") this.clickLeft();
-				if(data.direction["angle"] == "right") this.clickRight();
+				if(!this.isMove){
+					if(data.direction["angle"] == "up") this.clickDown();
+					if(data.direction["angle"] == "down") this.clickUp();
+					if(data.direction["angle"] == "left") this.clickRight();
+					if(data.direction["angle"] == "right") this.clickLeft();
+				}
 			}
 		});
 	}
@@ -429,6 +434,7 @@ export class HomePage {
 			'pass': 'cleanvoltage2018'
 		}
 		this.httpadvance.get(ip, data, {}).then(data => {
+			console.log("success:"+data);
 			return true;
 		}).catch(error => {
 			try{

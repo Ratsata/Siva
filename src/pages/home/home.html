@@ -8,28 +8,15 @@
 </ion-header>
 
 <ion-content class="main">
-  <!-- <div><canvas id="videoCanvas" width="640" height="360"></canvas></div>
-  <canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;"></canvas>
-  <script type="text/javascript" src="../../assets/jsmpeg.js"></script>
-    <script type="text/javascript">
-      var canvas = document.getElementById('videoCanvas');
-      var ws = new WebSocket("ws://192.168.0.117:9999")
-      var player = new jsmpeg(ws, {canvas:canvas, autoplay:true,audio:false,loop: true});
-    </script> -->
-  <!-- <iframe id="newsframe" width="100%" height="100%" src="http://192.168.0.117/rtsp-stream"></iframe> -->
-  <!-- <iframe src="http://192.168.0.117/rtsp-stream"></iframe> -->
-  <!-- <div #frame style="width:100%;height:100%;overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
-      <iframe src="http://192.168.0.117/rtsp-stream" class="iframe" scrolling="yes" ></iframe>
-    </div> -->
   <ion-grid style="padding: 5px">
     <ion-row>
       <!-- CUADRO 1 -->
       <ion-col  [ngClass]="[columnaCamera,(columnaCamera=='col12' && visible!=1)?'invisib':'visib',(selected!=1)?'noselected':'selected']" (click)="camSelect(1);" (dblclick)="camResize(1)">
         <div class="camara">
-          <button  [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(1);">
-            <ion-icon style="font-size: 20px;" ios="ios-add" md="md-add" is-active="false"></ion-icon>
+          <button style="height: 100%" [ngClass]="[(videoActive1)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(1);">
+            <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><!-- <img-loader id="myMediaDiv1" class="imgLoader" [src]="url001" useImg></img-loader> --><iframe [src]="url001" class="unclick" style="width:100%;height: 100%;" frameborder="0"></iframe></div>
+          <div [ngClass]="[(!videoActive1)?'invisib':'visibl']" style="height: 100%"><iframe [src]="url001" class="unclick" style="width:100%;height: 100%;" frameborder="0"></iframe></div>
         </div>
       </ion-col>
       <!-- CUADRO 2 -->
@@ -38,7 +25,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive2)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(2);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv2" class="imgLoader" [src]="url002" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive2)?'invisib':'visibl']" style="height: 100%"><iframe [src]="url002" class="unclick" style="width:100%;height: 100%;" frameborder="0"></iframe></div>
           
         </div>
       </ion-col>
@@ -50,8 +37,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive3)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(3);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv3" class="imgLoader" [src]="url003" useImg></img-loader></div>
-          
+          <div [ngClass]="[(!videoActive3)?'invisib':'visibl']" style="height: 100%"><iframe [src]="url003" class="unclick" style="width:100%;height: 100%;" frameborder="0"></iframe></div>
         </div>
       </ion-col>
       <!-- CUADRO 4 -->
@@ -60,7 +46,7 @@
           <button style="height: 100%" [ngClass]="[(videoActive4)?'invisib':'visibl']" ion-button color="light" clear icon-only (click)="alertCameras(4);">
             <ion-icon style="font-size: 40px" ios="ios-add" md="md-add" is-active="false"></ion-icon>
           </button>
-          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><img-loader id="myMediaDiv4" class="imgLoader" [src]="url004" useImg></img-loader></div>
+          <div [ngClass]="[(!videoActive4)?'invisib':'visibl']" style="height: 100%"><iframe [src]="url004" class="unclick" style="width:100%;height: 100%;" frameborder="0"></iframe></div>
         </div>
       </ion-col>
     </ion-row>

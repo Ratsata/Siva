@@ -67,10 +67,6 @@ page-home {
         padding-top: 7.5%;
         height: 100%;
     }
-    
-    .unclick{
-        pointer-events: none;
-    }
 
     .col6 {
         width: 50%;
@@ -240,4 +236,86 @@ page-home {
       }   
     }
   }
+
+
+.anyButton{
+    display:block;
+    width:28px;
+    height:28px;
+    background-repeat:no-repeat;
+    float:left;
+    display:block;
+    width:28px;
+    height:28px;
+    margin:0 14px 14px 0;
+    background-position:0 0;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+[class^=ui-ptz-icon-]{
+    display:block;
+    width:28px;
+    height:28px;
+    background-repeat:no-repeat
+}
+.ui-ptz-icon,.ui-ptz-specail-icon{
+    float:left;
+    display:block;
+    width:28px;
+    height:28px;
+    margin:0 14px 14px 0;
+    background-position:0 0;
+    background-repeat:no-repeat;
+    cursor:pointer
+}
+.ui-ptz-specail-icon{
+    width:34px;
+    height:34px;
+    margin:-3px 11px 3px -3px;
+    background-position:0 -60px
+}
+.ui-ptz-icon:hover{
+    background-position:0 120px
+}
+.ui-ptz-specail-icon:hover{
+    background-position:0 -94px
+}
+.ui-ptz-specail-icon [class^=ui-ptz-icon-]{
+    float:left
+}
+.ui-ptz-icon-leftup{
+    background-position:0 0
+}
+.ui-ptz-icon-up{
+    background-position:0 -30px
+}
+.ui-ptz-icon-rightup{
+    background-position:0 -60px
+}
+.ui-ptz-icon-left{
+    background-position:0 -90px
+}
+.ui-ptz-icon-right{
+    background-position:0 -120px
+}
+.ui-ptz-icon-leftdown{
+    background-position:0 -150px
+}
+.ui-ptz-icon-down{
+    background-position:0 -180px
+}
+.ui-ptz-icon-rightdown{
+    background-position:0 -210px
+}
+.ui-ptz-icon-center{
+    background-position:0 -240px
+}
+
+[class^=ui-ptz-icon-]{
+    background-image:url(../../assets/imgs/icons.png);
+}
+.ui-ptz-icon,.ui-ptz-specail-icon{
+    background-image:url(../../assets/imgs/pic.png);
+}
+
 }

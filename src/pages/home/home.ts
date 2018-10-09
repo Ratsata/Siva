@@ -20,7 +20,7 @@ import { Toast } from '@ionic-native/toast';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ImageLoader } from 'ionic-image-loader';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import nipplejs from 'nipplejs';
+/* import nipplejs from 'nipplejs'; */
 
 @Component({
   selector: 'page-home',
@@ -97,7 +97,7 @@ export class HomePage {
 	}
 
 	ionViewDidLoad(){
-		var options = {
+		/* var options = {
 			zone: document.getElementById('zone_joystick'),
 			mode: 'static',
 			position: {left: '50%', top: '80%'},
@@ -117,7 +117,7 @@ export class HomePage {
 					if(data.direction["angle"] == "right") this.clickLeft();
 				}
 			}
-		});
+		}); */
 	}
 
 	resizeIframe(obj){

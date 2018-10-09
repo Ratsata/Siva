@@ -61,6 +61,11 @@ ion-icon{
 .normal{
     font-weight: normal;
 }
+
 .negrita{
     font-weight: bold;
+}
+
+.unclick{
+    pointer-events: none;
 }

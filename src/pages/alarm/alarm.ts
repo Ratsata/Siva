@@ -38,12 +38,12 @@ export class AlarmPage {
       this.camara = data_camara;
       if(this.camara.length > 0){
         for (let i = 0; i < this.camara.length; i++) {
-          let url = "http://"+ this.camara[i].ds_ip +"/upload/upload.php?action=getpid";
+          let url = "http://"+ this.camara[i].ds_ip +"/SivaAPI/upload.php?action=getpid";
           this.http.post(url, {}, {}).then(data => {
             this.alarmStatus = data["data"] ? true : false;
             this.changeStatus(this.alarmStatus);
           }).catch(e=>{
-            let url = "http://"+ this.camara[i].ds_ipDynamic +"/upload/upload.php?action=getpid";
+            let url = "http://"+ this.camara[i].ds_ipDynamic +"/SivaAPI/upload.php?action=getpid";
             this.http.post(url, {}, {}).then(data => {
               this.alarmStatus = data["data"] ? true : false;
               this.changeStatus(this.alarmStatus);
@@ -111,12 +111,12 @@ export class AlarmPage {
     let swChange = false;
     if(this.camara.length > 0){
       for (let i = 0; i < this.camara.length; i++) {
-        let url = "http://"+ this.camara[i].ds_ip +"/upload/upload.php?action="+action+"&tipo="+this.tipo;
+        let url = "http://"+ this.camara[i].ds_ip +"/SivaAPI/upload.php?action="+action+"&tipo="+this.tipo;
         this.http.post(url, {}, {}).then(data => {
           console.log(JSON.stringify(data));
           swChange = true;
         }).catch(error => {
-          let url = "http://"+ this.camara[i].ds_ipDynamic +"/upload/upload.php?action="+action+"&tipo="+this.tipo;
+          let url = "http://"+ this.camara[i].ds_ipDynamic +"/SivaAPI/upload.php?action="+action+"&tipo="+this.tipo;
           this.http.post(url, {}, {}).then(data => {
             console.log(JSON.stringify(data));
             swChange = true;

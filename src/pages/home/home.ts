@@ -282,16 +282,17 @@ export class HomePage {
 	}
 
 	clickUp(){
-		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
-	}
-	clickDown(){
 		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
+	clickDown(){
+		console.log("CLICKDOWN"+this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
+	}
 	clickLeft(){
-		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
 	}
 	clickRight(){
-		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=-1000&arg2=0&arg3=0');
+		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=1000&arg2=0&arg3=0');
 	}
 
 	pressZoom(){
@@ -365,7 +366,7 @@ export class HomePage {
  
   		const fileTransfer: TransferObject = this.transfer.create();
 		if(this.columnaCamera == 'col12'){
-			let url = this.ipActive[this.visible]+'/upload/upload.php?action=voice';
+			let url = this.ipActive[this.visible]+'/SivaAPI/upload.php?action=voice';
 			fileTransfer.upload(targetPath, url, options).then(data => {
 				console.log("SUCCESS:"+JSON.stringify(data));
 			}, err => {

@@ -104,7 +104,7 @@ export class NewCameraPage {
     then(res => {
       console.log(JSON.stringify(res));
       this.fcm.subscribeToTopic(this.form.value.ds_id);
-      this.httpadvance.post('http://'+this.form.value.ds_ip+'/upload/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
+      this.httpadvance.post('http://'+this.form.value.ds_ip+'/SivaAPI/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
         console.log("POST");
       }).catch(error => {
         console.log("ERROR POST");

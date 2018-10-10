@@ -82,32 +82,47 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- <div id="zone_joystick" [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visibl':'invisibl'"></div> -->
-  <div [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'invisibl':'visibl'">
+  
+  <hr><br>
+  <div [ngClass]="(columnaCamera=='col12' && toolbarActive=='move')?'visibl':'invisibl'">
     <ion-grid no-padding>
       <ion-row>
-        <ion-col></ion-col>
-        <ion-col style="display: flex;justify-content: center;">
-          <div><a class="ui-ptz-icon"><i class="ui-ptz-icon-up"></i></a></div>
+        <ion-col col-4></ion-col>
+        <ion-col col-4 style="display: flex;justify-content: center;">
+          <div (click)="clickUp();" (press)="pressUp();" (touchend)="dontpress();">
+            <img src="../../assets/imgs/up.png" alt="UP">
+          </div>
         </ion-col>
-        <ion-col></ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col style="display: flex;justify-content: flex-end;">
-          <div><a class="ui-ptz-icon"><i class="ui-ptz-icon-left"></i></a></div>
-        </ion-col>
-        <ion-col></ion-col>
-        <ion-col style="display: flex;justify-content: flex-start;">
-          <div><a class="ui-ptz-icon"><i class="ui-ptz-icon-right"></i></a></div>
+        <ion-col col-4 style="display: flex;justify-content: flex-end;">
+          <div padding-right (click)="pressZoom();" (press)="pressZoom();">
+            <img src="../../assets/imgs/increasing.png" alt="ZOOM">
+          </div>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col text-right></ion-col>
-        <ion-col style="display: flex;justify-content: center;">
-          <div><a class="ui-ptz-icon"><i class="ui-ptz-icon-down>"></i></a></div>
+        <ion-col col-5 style="display: flex;justify-content: flex-end;">
+            <div (click)="clickLeft();" (press)="pressLeft();" (touchend)="dontpress();">
+            <img src="../../assets/imgs/left.png" alt="LEFT">
+          </div>
         </ion-col>
-        <ion-col text-left></ion-col>
+        <ion-col col-2></ion-col>
+        <ion-col col-2 style="display: flex;justify-content: flex-start;">
+            <div (click)="clickRight();" (press)="pressRight();" (touchend)="dontpress();">
+            <img src="../../assets/imgs/right.png" alt="RIGHT">
+          </div>
+        </ion-col>
+        <ion-col col-3 style="display: flex;justify-content: flex-end;">
+          <div padding-right (click)="pressWide();" (press)="pressWide();">
+            <img src="../../assets/imgs/drecrease.png" alt="ZOOM">
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="display: flex;justify-content: center;">
+          <div (click)="clickDown();" (press)="pressDown();" (touchend)="dontpress();">
+            <img src="../../assets/imgs/down.png" alt="DOWN">
+          </div>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>
@@ -143,10 +158,6 @@
                     <text x="50%" y="68%" text-anchor="middle" stroke="#0000">-</text>
                   </a>
               </svg>
-              <a id="buttonUp"    (click)="clickUp();" (press)="pressUp();" (touchend)="dontpress();">   <path d="M50,7 60,25 40,25Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonDown"  (click)="clickDown();" (press)="pressDown();" (touchend)="dontpress();"> <path d="M50,93 60,75 40,75Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonLeft"  (click)="clickLeft();" (press)="pressLeft();" (touchend)="dontpress();"> <path d="M7,50 25,60 25,40Z" fill="rgba(0,0,0,0.8)" /></a>
-              <a id="buttonRight" (click)="clickRight();" (press)="pressRight();" (touchend)="dontpress();"><path d="M93,50 75,60 75,40Z" fill="rgba(0,0,0,0.8)" /></a>
           </svg> -->
     <!--   </div>
     </ion-row>

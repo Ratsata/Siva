@@ -96,7 +96,7 @@ export class ListCameraPage {
         handler: () => {
           this.DataService.deleteCamara(id).then(res => {
             this.fcm.unsubscribeFromTopic(id);
-            this.httpadvance.post('http://'+ip+'/upload/upload.php?action=remove&id='+id, {}, {}).then(data => {
+            this.httpadvance.post('http://'+ip+'/SivaAPI/upload.php?action=remove&id='+id, {}, {}).then(data => {
               console.log("POST");
             }).catch(error => {
               console.log("ERROR POST");

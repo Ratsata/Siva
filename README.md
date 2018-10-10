@@ -60,7 +60,9 @@ Se edito el siguiente archivo para la funcionalidad de FCM
 **mplayer**: *Reproduccion de audios*  
 
 ### Rutas
-    /var/www/html/upload/assets : Programas a ejecutar  
+    /var/www/html/SivaAPI/ : restAPI PHP para llamadas
+    /var/www/html/SivaAPI/assets : programas a ejecutar
+    /var/www/html/RTSPandMove : RTSP y Movimiento
 	/home/pi/launcher.sh : Script que se lanza al iniciar' 
 
 ### Otras

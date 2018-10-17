@@ -10,7 +10,7 @@ export class DataServiceProvider {
     this.open().then((db) => {
       //db.executeSql('DROP TABLE SV_CAMARA', {});
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_CONFIG(id_config INTEGER PRIMARY KEY, ds_idioma TEXT, ds_tema TEXT)', []);
-      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara INTEGER PRIMARY KEY, ds_nombre TEXT, ds_id TEXT, ds_ip TEXT, ds_port TEXT, ds_usuario, ds_hash, st_estado INT, ds_ipDynamic TEXT)', []);
+      db.executeSql('CREATE TABLE IF NOT EXISTS SV_CAMARA(id_camara TEXT PRIMARY KEY, ds_nombre TEXT, ds_ip TEXT, ds_usuario TEXT, ds_hash TEXT, ds_ipDynamic TEXT)', []);
       db.executeSql('CREATE TABLE IF NOT EXISTS SV_DASHBOARD(id_dashboard INTEGER PRIMARY KEY, id_cuadro INTEGER, id_camara INTEGER)', []);
     });
   }
@@ -20,21 +20,18 @@ export class DataServiceProvider {
   }
 
   /* CAMARAS */
-  selectCamara(id, estado=1){
+  selectCamara(id){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql("SELECT * FROM SV_CAMARA WHERE id_camara = ? AND st_estado = ?", [id, estado])
+        db.executeSql("SELECT * FROM SV_CAMARA WHERE id_camara = ?", [id])
           .then((data) => {
             let retorno = [];
             for(var i =0; i< data.rows.length;i++){
               retorno.push({id_camara:data.rows.item(i).id_camara,
-                ds_id:data.rows.item(i).ds_id,
                 ds_nombre:data.rows.item(i).ds_nombre,
                 ds_ip:data.rows.item(i).ds_ip,
-                ds_port:data.rows.item(i).ds_port,
                 ds_usuario:data.rows.item(i).ds_usuario,
                 ds_hash:data.rows.item(i).ds_hash,
-                st_estado:data.rows.item(i).st_estado,
                 ds_ipDynamic:data.rows.item(i).ds_ipDynamic
               });
             }
@@ -52,13 +49,10 @@ export class DataServiceProvider {
             let retorno = [];
             for(var i =0; i< data.rows.length;i++){
               retorno.push({id_camara:data.rows.item(i).id_camara,
-                ds_id:data.rows.item(i).ds_id,
                 ds_nombre:data.rows.item(i).ds_nombre,
                 ds_ip:data.rows.item(i).ds_ip,
-                ds_port:data.rows.item(i).ds_port,
                 ds_usuario:data.rows.item(i).ds_usuario,
                 ds_hash:data.rows.item(i).ds_hash,
-                st_estado:data.rows.item(i).st_estado,
                 ds_ipDynamic:data.rows.item(i).ds_ipDynamic
               });
             }
@@ -68,16 +62,14 @@ export class DataServiceProvider {
     });
   }
 
-  insertCamara(ds_nombre,ds_id,ds_ip,ds_port,ds_usuario,ds_hash,st_estado = 1){
+  insertCamara(id_camara,ds_nombre,ds_ip,ds_usuario,ds_hash){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?,NULL)',[ds_nombre,
-          ds_id,
+        db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?,NULL)',[id_camara,
+          ds_nombre,
           ds_ip,
-          ds_port,
           ds_usuario,
-          ds_hash,
-          st_estado])
+          ds_hash])
         .then((data) => {
           resolve(data);
         });
@@ -85,17 +77,15 @@ export class DataServiceProvider {
     });
   }
 
-  updateCamara(id,ds_nombre,ds_id,ds_ip,ds_port,ds_usuario,ds_hash){
+  updateCamara(id_camara,ds_nombre,ds_ip,ds_usuario,ds_hash){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql('UPDATE SV_CAMARA SET ds_nombre = ?,ds_id = ?,ds_ip = ?,ds_port = ?,ds_usuario = ?,ds_hash = ? WHERE id_camara = ?',
+        db.executeSql('UPDATE SV_CAMARA SET ds_nombre = ?,ds_ip = ?,ds_usuario = ?,ds_hash = ? WHERE id_camara = ?',
             [ds_nombre,
-            ds_id,
             ds_ip,
-            ds_port,
             ds_usuario,
             ds_hash,
-            id])
+            id_camara])
         .then((data) => {
           resolve(data);
         });
@@ -106,7 +96,7 @@ export class DataServiceProvider {
   deleteCamara(id){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql('DELETE FROM SV_CAMARA WHERE ds_id = ?',[id])
+        db.executeSql('DELETE FROM SV_CAMARA WHERE id_camara = ?',[id])
         .then((data) => {
           resolve(data);
         });
@@ -117,7 +107,7 @@ export class DataServiceProvider {
   updateIp(id, ipDynamic){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql('UPDATE SV_CAMARA SET ds_ipDynamic = ? WHERE ds_id = ?',[ipDynamic, id])
+        db.executeSql('UPDATE SV_CAMARA SET ds_ipDynamic = ? WHERE id_camara = ?',[ipDynamic, id])
         .then((data) => {
           resolve(data);
         });

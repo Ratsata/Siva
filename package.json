@@ -36,7 +36,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "arduino": "0.2.3",
-    "cordova-android": "7.0.0",
+    "cordova-android": "^7.1.1",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-audio-recorder-api": "0.0.6",

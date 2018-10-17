@@ -253,16 +253,16 @@ export class HomePage {
 				this.ipActive[id_cuadro] = ip;
 				if (id_cuadro==1){
 					this.videoActive1 = true;
-					this.url001 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
+					this.url001 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/RTSPandMove');
 				}else if (id_cuadro==2){
 					this.videoActive2 = true;
-					this.url002 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
+					this.url002 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/RTSPandMove');
 				}else if (id_cuadro==3){
 					this.videoActive3 = true;
-					this.url003 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
+					this.url003 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/RTSPandMove');
 				}else if (id_cuadro==4){
 					this.videoActive4 = true;
-					this.url004 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/rtsp-stream');
+					this.url004 = this._sanitizer.bypassSecurityTrustResourceUrl(ip+'/RTSPandMove');
 				}
 			});
 		}

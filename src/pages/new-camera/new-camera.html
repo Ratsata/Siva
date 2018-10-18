@@ -42,15 +42,11 @@
       </ion-item>
       <ion-item>
         <ion-label col-6>{{ 'ID' | translate }}</ion-label>
-        <ion-input type="text" placeholder="{{ 'ID_PLACEHOLDER' | translate }}" formControlName="ds_id" [disabled]="id!='new'"></ion-input>
+        <ion-input type="text" placeholder="{{ 'ID_PLACEHOLDER' | translate }}" formControlName="id_camara" [disabled]="id!='new'"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label col-6>{{ 'IP' | translate }}</ion-label>
         <ion-input type="tel" placeholder="{{ 'IP_PLACEHOLDER' | translate }}" formControlName="ds_ip"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label col-6>{{ 'PORT' | translate }}</ion-label>
-        <ion-input type="number" placeholder="{{ 'PORT_PLACEHOLDER' | translate }}" formControlName="ds_port"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label col-6>{{ 'USER' | translate }}</ion-label>

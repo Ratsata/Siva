@@ -65,7 +65,7 @@ export class DataServiceProvider {
   insertCamara(id_camara,ds_nombre,ds_ip,ds_usuario,ds_hash){
     return new Promise((resolve, reject) => {
       this.open().then((db) => {
-        db.executeSql('INSERT INTO SV_CAMARA VALUES(NULL,?,?,?,?,?,?,?,NULL)',[id_camara,
+        db.executeSql('INSERT INTO SV_CAMARA VALUES(?,?,?,?,?,NULL)',[id_camara,
           ds_nombre,
           ds_ip,
           ds_usuario,

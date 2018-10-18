@@ -36,13 +36,12 @@ export class NewCameraPage {
     private httpadvance: HTTP, private DataService: DataServiceProvider, private translateService: TranslateService) {
     this.initTranslate();
     this.form = formBuilder.group({
+      id_camara: ['', Validators.required],
       ds_nombre: ['', Validators.required],
-      ds_id: ['', Validators.required],
       ds_ip: ['', Validators.compose([
         Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/),
         Validators.required
       ])],
-      ds_port: ['554', Validators.required],
       ds_usuario: ['admin', Validators.required],
       ds_hash: ['cleanvoltage2018', Validators.required]
     });
@@ -83,10 +82,9 @@ export class NewCameraPage {
 
   getData(id) {
     this.DataService.selectCamara(id).then(res => {
+      this.form.get('id_camara').setValue(res[0].id_camara);
       this.form.get('ds_nombre').setValue(res[0].ds_nombre);
-      this.form.get('ds_id').setValue(res[0].ds_id);
       this.form.get('ds_ip').setValue(res[0].ds_ip);
-      this.form.get('ds_port').setValue(res[0].ds_port);
       this.form.get('ds_usuario').setValue(res[0].ds_usuario);
       this.form.get('ds_hash').setValue(res[0].ds_hash);
     }).catch(e => console.log(JSON.stringify(e)));
@@ -100,11 +98,11 @@ export class NewCameraPage {
       });
       return;
     }
-    this.DataService.insertCamara(this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash).
+    this.DataService.insertCamara(this.form.value.id_camara,this.form.value.ds_nombre,this.form.value.ds_ip,this.form.value.ds_usuario,this.form.value.ds_hash).
     then(res => {
       console.log(JSON.stringify(res));
-      this.fcm.subscribeToTopic(this.form.value.ds_id);
-      this.httpadvance.post('http://'+this.form.value.ds_ip+'/SivaAPI/upload.php?action=add&id='+this.form.value.ds_id, {}, {}).then(data => {
+      this.fcm.subscribeToTopic(this.form.value.id_camara);
+      this.httpadvance.post('http://'+this.form.value.ds_ip+'/SivaAPI/upload.php?action=add&id='+this.form.value.id_camara, {}, {}).then(data => {
         console.log("POST");
       }).catch(error => {
         console.log("ERROR POST");
@@ -128,7 +126,7 @@ export class NewCameraPage {
       );
       return;
     }
-    this.DataService.updateCamara(id,this.form.value.ds_nombre,this.form.value.ds_id,this.form.value.ds_ip,this.form.value.ds_port,this.form.value.ds_usuario,this.form.value.ds_hash,)
+    this.DataService.updateCamara(this.form.value.id_camara,this.form.value.ds_nombre,this.form.value.ds_ip,this.form.value.ds_usuario,this.form.value.ds_hash)
     .then(res => {
       this.toast.show(this.textUpdateSuccess, '5000', 'center').subscribe(toast => {
         this.viewCtrl.dismiss(this.form.value);
@@ -187,7 +185,7 @@ export class NewCameraPage {
 
   refill(data){
     let obj = JSON.parse(data);
-    this.form.get('ds_id').setValue(obj.id);
+    this.form.get('id_camara').setValue(obj.id);
     this.form.get('ds_ip').setValue(obj.ip);
     this.form.get('ds_port').setValue(obj.port);
     this.form.get('ds_usuario').setValue(obj.user);

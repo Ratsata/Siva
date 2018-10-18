@@ -285,7 +285,6 @@ export class HomePage {
 		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 	}
 	clickDown(){
-		console.log("CLICKDOWN"+this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=-1000&arg3=0');
 		this.callHTTP(this.ipActive[this.visible]+':3000/callPTZ','/cgi-bin/ptz.cgi?action=start&channel=1&code=Position&arg1=0&arg2=1000&arg3=0');
 	}
 	clickLeft(){
